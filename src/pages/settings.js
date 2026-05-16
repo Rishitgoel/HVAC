@@ -1,6 +1,6 @@
 import { renderSidebar, mountSidebar, toggleSidebar } from '../components/sidebar.js';
 import { getSettings, saveSettings } from '../utils/storage.js';
-import { isAdmin } from '../utils/auth.js';
+import { isAdmin, getErrorMessage } from '../utils/auth.js';
 import { showToast } from '../components/toast.js';
 
 export const render = () => `
@@ -175,7 +175,7 @@ export const mount = async () => {
     updateUnitLabels(settings.unitSystem || 'sqft');
 
   } catch (e) {
-    showToast("Error loading settings", "error");
+    showToast("Error loading settings: " + getErrorMessage(e), "error");
   }
 
   // Dynamic unit label update
@@ -212,7 +212,7 @@ export const mount = async () => {
         await saveSettings(newSettings);
         showToast("Settings saved successfully!");
       } catch (e) {
-        showToast("Error saving settings", "error");
+        showToast("Error saving settings: " + getErrorMessage(e), "error");
       } finally {
         saveBtn.disabled = false;
         saveBtn.innerHTML = '<span class="material-symbols-outlined text-[18px]">save</span><span class="hidden md:inline">Save Changes</span>';

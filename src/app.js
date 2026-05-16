@@ -1,4 +1,4 @@
-import { onAuthChange } from './utils/auth.js';
+import { onAuthChange, getErrorMessage } from './utils/auth.js';
 
 const routes = {
   '#login': () => import('./pages/login.js'),
@@ -75,7 +75,7 @@ const router = async () => {
     currentModule = module;
   } catch (err) {
     console.error("Routing error:", err);
-    appDiv.innerHTML = `<div class="p-8 text-error font-headline-md">Error loading page: ${err.message}</div>`;
+    appDiv.innerHTML = `<div class="p-8 text-error font-headline-md">Error loading page: ${getErrorMessage(err)}</div>`;
   }
 };
 

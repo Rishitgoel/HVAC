@@ -4,6 +4,7 @@ import { getSheet, updateSheet, getSettings } from '../utils/storage.js';
 import { calculateTotals } from '../utils/calculations.js';
 import { renderRunningEstimate } from '../components/running-estimate.js';
 import { showToast } from '../components/toast.js';
+import { getErrorMessage } from '../utils/auth.js';
 
 let currentPid = null;
 let currentSid = null;
@@ -24,7 +25,12 @@ export const render = () => `
     </div>
 
     <div class="w-full max-w-[1200px] mx-auto px-4 py-6 md:px-8 md:py-8 flex flex-col lg:flex-row gap-6 md:gap-8 relative items-start">
-      
+      <!-- Loading Overlay -->
+      <div id="step-loading-overlay" class="absolute inset-0 bg-background/80 backdrop-blur-sm z-30 flex flex-col items-center justify-center gap-3 transition-opacity duration-300">
+        <span class="material-symbols-outlined animate-spin text-[40px] text-primary">progress_activity</span>
+        <p class="text-body-md text-on-surface-variant font-medium">Loading thermodynamics data...</p>
+      </div>
+
       <div class="flex-1 w-full flex flex-col gap-6 md:gap-8">
         <div class="bg-surface-container-lowest border border-border-muted rounded-xl p-4 md:p-8 shadow-sm">
           <div class="border-b border-border-muted pb-4 mb-6 md:mb-8 flex justify-between items-end">
@@ -95,7 +101,7 @@ export const render = () => `
                 <div class="flex flex-col gap-1">
                   <label class="text-label-sm font-medium text-on-surface">Pad Width (<span class="unit-label">ft</span>)</label>
                   <div class="relative">
-                    <input type="number" id="padWidth" min="0" step="any" placeholder="0" class="w-full rounded-DEFAULT border border-outline-variant bg-surface px-4 py-2 pr-12 text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none input-trigger">
+                    <input type="number" id="padWidth" min="0" step="any" placeholder="0" class="w-full rounded-DEFAULT border border-outline-variant bg-surface px-4 py-2 text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none input-trigger">
                     <span class="absolute right-4 top-2 text-body-sm text-on-surface-variant font-data-mono unit-label">ft</span>
                   </div>
                 </div>
@@ -171,7 +177,7 @@ export const mount = async (hash) => {
       inputs.padW.value = thermo.padWidth || '';
     }
   } catch (e) {
-    showToast("Error loading data", "error");
+    showToast("Error loading data: " + getErrorMessage(e), "error");
   }
 
   const updateEstimate = () => {
@@ -198,6 +204,9 @@ export const mount = async (hash) => {
   // Initial render
   updateEstimate();
 
+  const loadingOverlay = document.getElementById('step-loading-overlay');
+  if (loadingOverlay) loadingOverlay.classList.add('hidden');
+
   const saveForm = async () => {
     const thermodynamics = {
       coilLength: parseFloat(inputs.coilL.value) || 0,
@@ -217,7 +226,7 @@ export const mount = async (hash) => {
       sheetData.thermodynamics = thermodynamics;
       return true;
     } catch (e) {
-      showToast("Failed to save draft", "error");
+      showToast("Failed to save draft: " + getErrorMessage(e), "error");
       return false;
     }
   };

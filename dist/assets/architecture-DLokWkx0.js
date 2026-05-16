@@ -1,5 +1,5 @@
-import{m as p,t as f,r as b}from"./sidebar-cBYwUFB1.js";import{r as g}from"./stepper-WTnawPLe.js";import{f as v,h as x,u as y}from"./storage-BgqC2MNh.js";import{c as h}from"./calculations-DXcxGb77.js";import{r as w}from"./running-estimate-BsR79nLY.js";import{s}from"./toast-D62CK5oX.js";import"./index-CteE1Qgu.js";let r=null,l=null,a=null,c=null;const I=()=>`
-  ${b()}
+import{m as g,t as b,s as i,r as v}from"./toast-Cssg3beC.js";import{r as x}from"./stepper-WTnawPLe.js";import{f as y,h,u as w}from"./storage-90-9ZAWB.js";import{c as E}from"./calculations-CDT-qs_O.js";import{r as L}from"./running-estimate-CZ2yY7Np.js";import{i as m}from"./index-CY1RG9_M.js";let r=null,l=null,a=null,p=null;const T=()=>`
+  ${v()}
   <main class="flex-1 flex flex-col overflow-y-auto relative bg-background w-full">
     <!-- Header & Stepper -->
     <div class="w-full bg-surface-container-lowest border-b border-border-muted sticky top-0 z-10 shadow-sm">
@@ -8,13 +8,18 @@ import{m as p,t as f,r as b}from"./sidebar-cBYwUFB1.js";import{r as g}from"./ste
           <button id="mobile-menu-btn" class="md:hidden mr-4 text-on-surface"><span class="material-symbols-outlined">menu</span></button>
           <h2 class="text-headline-sm md:text-headline-lg font-headline-lg text-on-surface truncate">Quote Configuration</h2>
         </div>
-        ${g(2)}
+        ${x(2)}
       </div>
     </div>
 
     <!-- Form Canvas -->
     <div class="w-full max-w-[1200px] mx-auto px-4 py-6 md:px-8 md:py-8 flex flex-col lg:flex-row gap-6 md:gap-8 relative items-start">
-      
+      <!-- Loading Overlay -->
+      <div id="step-loading-overlay" class="absolute inset-0 bg-background/80 backdrop-blur-sm z-30 flex flex-col items-center justify-center gap-3 transition-opacity duration-300">
+        <span class="material-symbols-outlined animate-spin text-[40px] text-primary">progress_activity</span>
+        <p class="text-body-md text-on-surface-variant font-medium">Loading architecture specifications...</p>
+      </div>
+
       <div class="flex-1 w-full flex flex-col gap-6 md:gap-8">
         <div class="bg-surface-container-lowest border border-border-muted rounded-xl p-4 md:p-8 shadow-sm">
           <div class="border-b border-border-muted pb-4 mb-6 md:mb-8 flex justify-between items-end">
@@ -126,4 +131,4 @@ import{m as p,t as f,r as b}from"./sidebar-cBYwUFB1.js";import{r as g}from"./ste
       </div>
     </div>
   </main>
-`,T=async m=>{p();const i=document.getElementById("mobile-menu-btn");i&&i.addEventListener("click",f);const n=m.split("/");r=n[1],l=n[3];const e={alum:document.getElementById("alumWeight"),puffL:document.getElementById("puffLength"),puffW:document.getElementById("puffWidth"),pulley:document.getElementById("pulleyPrice"),hardware:document.getElementById("hardwarePrice"),gi:document.getElementById("giWeight")};try{if(c=await v(),a=await x(r,l),a&&a.architecture){const t=a.architecture;e.alum.value=t.aluminumWeight||"",e.puffL.value=t.puffLength||"",e.puffW.value=t.puffWidth||"",e.pulley.value=t.pulleyPrice||"",e.hardware.value=t.hardwarePrice||"",e.gi.value=t.giWeight||""}}catch{s("Error loading data","error")}const o=()=>{const t={...a};t.architecture={aluminumWeight:parseFloat(e.alum.value)||0,puffLength:parseFloat(e.puffL.value)||0,puffWidth:parseFloat(e.puffW.value)||0,pulleyPrice:parseFloat(e.pulley.value)||0,hardwarePrice:parseFloat(e.hardware.value)||0,giWeight:parseFloat(e.gi.value)||0};const u=h(t,c);document.getElementById("estimate-container").innerHTML=w(u)};document.querySelectorAll(".input-trigger").forEach(t=>{t.addEventListener("input",o)}),o();const d=async()=>{const t={aluminumWeight:parseFloat(e.alum.value)||0,puffLength:parseFloat(e.puffL.value)||0,puffWidth:parseFloat(e.puffW.value)||0,pulleyPrice:parseFloat(e.pulley.value)||0,hardwarePrice:parseFloat(e.hardware.value)||0,giWeight:parseFloat(e.gi.value)||0};try{return await y(r,l,{architecture:t,currentStep:Math.max(a.currentStep||1,3)}),a.architecture=t,!0}catch{return s("Failed to save draft","error"),!1}};document.getElementById("save-draft-btn").addEventListener("click",async()=>{await d()&&s("Draft saved successfully")}),document.getElementById("next-btn").addEventListener("click",async()=>{await d()&&(window.location.hash=`#project/${r}/sheet/${l}/step/3`)})};export{T as mount,I as render};
+`,B=async f=>{g();const n=document.getElementById("mobile-menu-btn");n&&n.addEventListener("click",b);const o=f.split("/");r=o[1],l=o[3];const e={alum:document.getElementById("alumWeight"),puffL:document.getElementById("puffLength"),puffW:document.getElementById("puffWidth"),pulley:document.getElementById("pulleyPrice"),hardware:document.getElementById("hardwarePrice"),gi:document.getElementById("giWeight")};try{if(p=await y(),a=await h(r,l),a&&a.architecture){const t=a.architecture;e.alum.value=t.aluminumWeight||"",e.puffL.value=t.puffLength||"",e.puffW.value=t.puffWidth||"",e.pulley.value=t.pulleyPrice||"",e.hardware.value=t.hardwarePrice||"",e.gi.value=t.giWeight||""}}catch(t){i("Error loading data: "+m(t),"error")}const d=()=>{const t={...a};t.architecture={aluminumWeight:parseFloat(e.alum.value)||0,puffLength:parseFloat(e.puffL.value)||0,puffWidth:parseFloat(e.puffW.value)||0,pulleyPrice:parseFloat(e.pulley.value)||0,hardwarePrice:parseFloat(e.hardware.value)||0,giWeight:parseFloat(e.gi.value)||0};const s=E(t,p);document.getElementById("estimate-container").innerHTML=L(s)};document.querySelectorAll(".input-trigger").forEach(t=>{t.addEventListener("input",d)}),d();const u=document.getElementById("step-loading-overlay");u&&u.classList.add("hidden");const c=async()=>{const t={aluminumWeight:parseFloat(e.alum.value)||0,puffLength:parseFloat(e.puffL.value)||0,puffWidth:parseFloat(e.puffW.value)||0,pulleyPrice:parseFloat(e.pulley.value)||0,hardwarePrice:parseFloat(e.hardware.value)||0,giWeight:parseFloat(e.gi.value)||0};try{return await w(r,l,{architecture:t,currentStep:Math.max(a.currentStep||1,3)}),a.architecture=t,!0}catch(s){return i("Failed to save draft: "+m(s),"error"),!1}};document.getElementById("save-draft-btn").addEventListener("click",async()=>{await c()&&i("Draft saved successfully")}),document.getElementById("next-btn").addEventListener("click",async()=>{await c()&&(window.location.hash=`#project/${r}/sheet/${l}/step/3`)})};export{B as mount,T as render};

@@ -28,7 +28,7 @@ export const calculateTotals = (sheet, settings) => {
   if (!sheet || !settings) return totals;
 
   // 1. Architecture
-  const arch = sheet.architecture;
+  const arch = sheet.architecture || {};
   const aluminumCost = (arch.aluminumWeight || 0) * (settings.aluminumRate || 0);
   
   const puffAreaSqm = (arch.puffLength || 0) * (arch.puffWidth || 0); // L and W are in meters
@@ -45,7 +45,7 @@ export const calculateTotals = (sheet, settings) => {
   totals.architecture = aluminumCost + puffCost + hardwareCost + giCost;
 
   // 2. Air Movement
-  const air = sheet.airMovement;
+  const air = sheet.airMovement || {};
   let fansCost = 0;
   if (air.fans && Array.isArray(air.fans)) {
     air.fans.forEach(f => {
@@ -57,7 +57,7 @@ export const calculateTotals = (sheet, settings) => {
   totals.airMovement = fansCost + motorCost;
 
   // 3. Thermodynamics
-  const thermo = sheet.thermodynamics;
+  const thermo = sheet.thermodynamics || {};
   const coilAreaSqm = mmToM(thermo.coilLength || 0) * mmToM(thermo.coilBreadth || 0);
   let coilRate = settings.coilRate || 0;
   if (settings.unitSystem === 'sqft') {
@@ -75,14 +75,14 @@ export const calculateTotals = (sheet, settings) => {
   totals.thermodynamics = coilCost + padCost;
 
   // 4. Filtration
-  const filt = sheet.filtration;
+  const filt = sheet.filtration || {};
   totals.filtration = 
     (filt.preQty || 0) * (settings.preFilterPrice || 0) +
     (filt.fineQty || 0) * (settings.fineFilterPrice || 0) +
     (filt.hepaQty || 0) * (settings.hepaFilterPrice || 0);
 
   // 5. Labor & Electricity
-  const rates = sheet.rates;
+  const rates = sheet.rates || {};
   totals.labor = (rates.laborCost || 0) + (rates.electricityCost || 0);
 
   // Subtotal

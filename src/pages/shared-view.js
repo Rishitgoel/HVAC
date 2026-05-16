@@ -1,6 +1,6 @@
 import { getSheet, getProject, getSettings } from '../utils/storage.js';
 import { calculateTotals, formatCurrency } from '../utils/calculations.js';
-import { getCurrentUser } from '../utils/auth.js';
+import { getCurrentUser, getErrorMessage } from '../utils/auth.js';
 
 export const render = () => `
   <main class="flex-1 flex flex-col overflow-y-auto relative bg-background w-full min-h-screen">
@@ -165,5 +165,6 @@ export const mount = async (hash) => {
 
   } catch (e) {
     console.error(e);
+    document.getElementById('pdf-content').innerHTML = '<div class="p-8 text-center text-error font-headline-md">Error loading quote: ' + getErrorMessage(e) + '</div>';
   }
 };

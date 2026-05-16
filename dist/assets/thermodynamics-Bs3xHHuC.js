@@ -1,5 +1,5 @@
-import{m,t as f,r as b}from"./sidebar-cBYwUFB1.js";import{r as g}from"./stepper-WTnawPLe.js";import{f as v,h as x,u as y}from"./storage-BgqC2MNh.js";import{c as h}from"./calculations-DXcxGb77.js";import{r as w}from"./running-estimate-BsR79nLY.js";import{s}from"./toast-D62CK5oX.js";import"./index-CteE1Qgu.js";let o=null,r=null,l=null,d=null;const I=()=>`
-  ${b()}
+import{m as b,t as g,s,r as v}from"./toast-Cssg3beC.js";import{r as x}from"./stepper-WTnawPLe.js";import{f as y,h,u as w}from"./storage-90-9ZAWB.js";import{c as L}from"./calculations-CDT-qs_O.js";import{r as E}from"./running-estimate-CZ2yY7Np.js";import{i as m}from"./index-CY1RG9_M.js";let o=null,r=null,l=null,i=null;const I=()=>`
+  ${v()}
   <main class="flex-1 flex flex-col overflow-y-auto relative bg-background w-full">
     <div class="w-full bg-surface-container-lowest border-b border-border-muted sticky top-0 z-10 shadow-sm">
       <div class="max-w-[1200px] mx-auto px-4 py-4 md:px-8 md:py-6">
@@ -7,12 +7,17 @@ import{m,t as f,r as b}from"./sidebar-cBYwUFB1.js";import{r as g}from"./stepper-
           <button id="mobile-menu-btn" class="md:hidden mr-4 text-on-surface"><span class="material-symbols-outlined">menu</span></button>
           <h2 class="text-headline-sm md:text-headline-lg font-headline-lg text-on-surface truncate">Quote Configuration</h2>
         </div>
-        ${g(4)}
+        ${x(4)}
       </div>
     </div>
 
     <div class="w-full max-w-[1200px] mx-auto px-4 py-6 md:px-8 md:py-8 flex flex-col lg:flex-row gap-6 md:gap-8 relative items-start">
-      
+      <!-- Loading Overlay -->
+      <div id="step-loading-overlay" class="absolute inset-0 bg-background/80 backdrop-blur-sm z-30 flex flex-col items-center justify-center gap-3 transition-opacity duration-300">
+        <span class="material-symbols-outlined animate-spin text-[40px] text-primary">progress_activity</span>
+        <p class="text-body-md text-on-surface-variant font-medium">Loading thermodynamics data...</p>
+      </div>
+
       <div class="flex-1 w-full flex flex-col gap-6 md:gap-8">
         <div class="bg-surface-container-lowest border border-border-muted rounded-xl p-4 md:p-8 shadow-sm">
           <div class="border-b border-border-muted pb-4 mb-6 md:mb-8 flex justify-between items-end">
@@ -83,7 +88,7 @@ import{m,t as f,r as b}from"./sidebar-cBYwUFB1.js";import{r as g}from"./stepper-
                 <div class="flex flex-col gap-1">
                   <label class="text-label-sm font-medium text-on-surface">Pad Width (<span class="unit-label">ft</span>)</label>
                   <div class="relative">
-                    <input type="number" id="padWidth" min="0" step="any" placeholder="0" class="w-full rounded-DEFAULT border border-outline-variant bg-surface px-4 py-2 pr-12 text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none input-trigger">
+                    <input type="number" id="padWidth" min="0" step="any" placeholder="0" class="w-full rounded-DEFAULT border border-outline-variant bg-surface px-4 py-2 text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none input-trigger">
                     <span class="absolute right-4 top-2 text-body-sm text-on-surface-variant font-data-mono unit-label">ft</span>
                   </div>
                 </div>
@@ -113,4 +118,4 @@ import{m,t as f,r as b}from"./sidebar-cBYwUFB1.js";import{r as g}from"./stepper-
       <div id="estimate-container" class="w-full lg:w-[320px] flex-shrink-0"></div>
     </div>
   </main>
-`,k=async u=>{m();const i=document.getElementById("mobile-menu-btn");i&&i.addEventListener("click",f);const c=u.split("/");o=c[1],r=c[3];const e={coilL:document.getElementById("coilLength"),coilB:document.getElementById("coilBreadth"),coilR:document.getElementById("coilRows"),padType:document.getElementById("padType"),padT:document.getElementById("padThickness"),padL:document.getElementById("padLength"),padW:document.getElementById("padWidth")};try{d=await v(),l=await x(o,r);const a=document.getElementById("unit-badge");if(d.unitSystem==="sqm"?(a.textContent="Using Sq Meters",document.querySelectorAll(".unit-label").forEach(t=>t.textContent="m")):(a.textContent="Using Sq Feet",document.querySelectorAll(".unit-label").forEach(t=>t.textContent="ft")),l&&l.thermodynamics){const t=l.thermodynamics;e.coilL.value=t.coilLength||"",e.coilB.value=t.coilBreadth||"",e.coilR.value=t.coilRows||1,e.padType.value=t.padType||"brown",e.padT.value=t.padThickness||100,e.padL.value=t.padLength||"",e.padW.value=t.padWidth||""}}catch{s("Error loading data","error")}const n=()=>{const a={...l};a.thermodynamics={coilLength:parseFloat(e.coilL.value)||0,coilBreadth:parseFloat(e.coilB.value)||0,coilRows:parseInt(e.coilR.value)||1,padType:e.padType.value,padThickness:parseFloat(e.padT.value)||0,padLength:parseFloat(e.padL.value)||0,padWidth:parseFloat(e.padW.value)||0};const t=h(a,d);document.getElementById("estimate-container").innerHTML=w(t)};document.querySelectorAll(".input-trigger").forEach(a=>{a.addEventListener("input",n)}),e.padType.addEventListener("change",n),n();const p=async()=>{const a={coilLength:parseFloat(e.coilL.value)||0,coilBreadth:parseFloat(e.coilB.value)||0,coilRows:parseInt(e.coilR.value)||1,padType:e.padType.value,padThickness:parseFloat(e.padT.value)||0,padLength:parseFloat(e.padL.value)||0,padWidth:parseFloat(e.padW.value)||0};try{return await y(o,r,{thermodynamics:a,currentStep:Math.max(l.currentStep||1,5)}),l.thermodynamics=a,!0}catch{return s("Failed to save draft","error"),!1}};document.getElementById("save-draft-btn").addEventListener("click",async()=>{await p()&&s("Draft saved successfully")}),document.getElementById("next-btn").addEventListener("click",async()=>{await p()&&(window.location.hash=`#project/${o}/sheet/${r}/step/5`)})};export{k as mount,I as render};
+`,D=async f=>{b();const d=document.getElementById("mobile-menu-btn");d&&d.addEventListener("click",g);const c=f.split("/");o=c[1],r=c[3];const e={coilL:document.getElementById("coilLength"),coilB:document.getElementById("coilBreadth"),coilR:document.getElementById("coilRows"),padType:document.getElementById("padType"),padT:document.getElementById("padThickness"),padL:document.getElementById("padLength"),padW:document.getElementById("padWidth")};try{i=await y(),l=await h(o,r);const a=document.getElementById("unit-badge");if(i.unitSystem==="sqm"?(a.textContent="Using Sq Meters",document.querySelectorAll(".unit-label").forEach(t=>t.textContent="m")):(a.textContent="Using Sq Feet",document.querySelectorAll(".unit-label").forEach(t=>t.textContent="ft")),l&&l.thermodynamics){const t=l.thermodynamics;e.coilL.value=t.coilLength||"",e.coilB.value=t.coilBreadth||"",e.coilR.value=t.coilRows||1,e.padType.value=t.padType||"brown",e.padT.value=t.padThickness||100,e.padL.value=t.padLength||"",e.padW.value=t.padWidth||""}}catch(a){s("Error loading data: "+m(a),"error")}const n=()=>{const a={...l};a.thermodynamics={coilLength:parseFloat(e.coilL.value)||0,coilBreadth:parseFloat(e.coilB.value)||0,coilRows:parseInt(e.coilR.value)||1,padType:e.padType.value,padThickness:parseFloat(e.padT.value)||0,padLength:parseFloat(e.padL.value)||0,padWidth:parseFloat(e.padW.value)||0};const t=L(a,i);document.getElementById("estimate-container").innerHTML=E(t)};document.querySelectorAll(".input-trigger").forEach(a=>{a.addEventListener("input",n)}),e.padType.addEventListener("change",n),n();const p=document.getElementById("step-loading-overlay");p&&p.classList.add("hidden");const u=async()=>{const a={coilLength:parseFloat(e.coilL.value)||0,coilBreadth:parseFloat(e.coilB.value)||0,coilRows:parseInt(e.coilR.value)||1,padType:e.padType.value,padThickness:parseFloat(e.padT.value)||0,padLength:parseFloat(e.padL.value)||0,padWidth:parseFloat(e.padW.value)||0};try{return await w(o,r,{thermodynamics:a,currentStep:Math.max(l.currentStep||1,5)}),l.thermodynamics=a,!0}catch(t){return s("Failed to save draft: "+m(t),"error"),!1}};document.getElementById("save-draft-btn").addEventListener("click",async()=>{await u()&&s("Draft saved successfully")}),document.getElementById("next-btn").addEventListener("click",async()=>{await u()&&(window.location.hash=`#project/${o}/sheet/${r}/step/5`)})};export{D as mount,I as render};

@@ -2,6 +2,7 @@ import { renderSidebar, mountSidebar, toggleSidebar } from '../components/sideba
 import { renderStepper } from '../components/stepper.js';
 import { getSheet, updateSheet, getProject } from '../utils/storage.js';
 import { showToast } from '../components/toast.js';
+import { getErrorMessage } from '../utils/auth.js';
 
 let currentPid = null;
 let currentSid = null;
@@ -22,14 +23,20 @@ export const render = () => `
     </div>
 
     <!-- Form Canvas -->
-    <div class="w-full max-w-[1200px] mx-auto px-4 py-6 md:px-8 md:py-8">
+    <div class="w-full max-w-[1200px] mx-auto px-4 py-6 md:px-8 md:py-8 relative">
+      <!-- Loading Overlay -->
+      <div id="step-loading-overlay" class="absolute inset-0 bg-background/80 backdrop-blur-sm z-30 flex flex-col items-center justify-center gap-3 transition-opacity duration-300">
+        <span class="material-symbols-outlined animate-spin text-[40px] text-primary">progress_activity</span>
+        <p class="text-body-md text-on-surface-variant font-medium">Loading client & project details...</p>
+      </div>
+
       <div class="bg-surface-container-lowest border border-border-muted rounded-xl p-4 md:p-8 shadow-sm">
         <div class="border-b border-border-muted pb-4 mb-6 md:mb-8 flex justify-between items-end">
           <div>
             <h3 class="text-headline-sm md:text-headline-md font-headline-md text-on-surface">Client & Project Details</h3>
             <p class="text-body-sm text-on-surface-variant mt-1">Establish the foundational metadata for this estimation.</p>
           </div>
-          <span class="text-label-sm px-3 py-1 bg-surface-variant text-on-surface-variant rounded-full border border-border-muted hidden md:inline-block">Draft Status</span>
+          <span id="status-badge" class="text-label-sm px-3 py-1 bg-surface-variant text-on-surface-variant rounded-full border border-border-muted hidden md:inline-block">Loading...</span>
         </div>
 
         <form id="step-form" class="flex flex-col gap-6 md:gap-8">
@@ -97,9 +104,17 @@ export const mount = async (hash) => {
       sheetIdInput.value = sheetData.id;
       cfmInput.value = sheetData.clientInfo?.cfmRequirement || '';
       roomInput.value = sheetData.clientInfo?.roomName || '';
+      
+      const badge = document.getElementById('status-badge');
+      if (badge) {
+        badge.textContent = `${sheetData.status === 'published' ? 'Published' : 'Draft'} • By ${sheetData.ownerName || 'Unknown'}`;
+      }
     }
   } catch (e) {
-    showToast("Error loading data", "error");
+    showToast("Error loading data: " + getErrorMessage(e), "error");
+  } finally {
+    const loadingOverlay = document.getElementById('step-loading-overlay');
+    if (loadingOverlay) loadingOverlay.classList.add('hidden');
   }
 
   const saveForm = async () => {
@@ -120,7 +135,7 @@ export const mount = async (hash) => {
       });
       return true;
     } catch (e) {
-      showToast("Failed to save draft", "error");
+      showToast("Failed to save draft: " + getErrorMessage(e), "error");
       return false;
     }
   };

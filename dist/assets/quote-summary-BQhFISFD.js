@@ -1,5 +1,5 @@
-import{m as x,t as f,r as y}from"./sidebar-cBYwUFB1.js";import{r as h}from"./stepper-WTnawPLe.js";import{f as g,h as v,g as w,u as E}from"./storage-BgqC2MNh.js";import{c as I,f as e}from"./calculations-DXcxGb77.js";import{s as l}from"./toast-D62CK5oX.js";import{g as B}from"./pdf-generator-C8wb-e1R.js";import"./index-CteE1Qgu.js";let r=null,s=null,a=null,o=null,i=null,t=null;const A=()=>`
-  ${y()}
+import{m as f,t as y,s as l,r as h}from"./toast-Cssg3beC.js";import{r as g}from"./stepper-WTnawPLe.js";import{f as v,h as w,g as E,u as I}from"./storage-90-9ZAWB.js";import{c as B,f as a}from"./calculations-CDT-qs_O.js";import{g as C}from"./pdf-generator-DlcMt94w.js";import{i as b}from"./index-CY1RG9_M.js";let n=null,o=null,t=null,r=null,i=null,e=null;const k=()=>`
+  ${h()}
   <main class="flex-1 flex flex-col overflow-y-auto relative bg-background w-full">
     <div class="w-full bg-surface-container-lowest border-b border-border-muted sticky top-0 z-10 shadow-sm print:hidden">
       <div class="max-w-[1200px] mx-auto px-4 py-4 md:px-8 md:py-6">
@@ -7,7 +7,7 @@ import{m as x,t as f,r as y}from"./sidebar-cBYwUFB1.js";import{r as h}from"./ste
           <button id="mobile-menu-btn" class="md:hidden mr-4 text-on-surface"><span class="material-symbols-outlined">menu</span></button>
           <h2 class="text-headline-sm md:text-headline-lg font-headline-lg text-on-surface truncate">Quote Summary</h2>
         </div>
-        ${h(7)}
+        ${g(7)}
       </div>
     </div>
 
@@ -18,7 +18,10 @@ import{m as x,t as f,r as y}from"./sidebar-cBYwUFB1.js";import{r as h}from"./ste
         <!-- Logo for PDF (hidden normally, or shown styling differently) -->
         <div class="flex justify-between items-start mb-8 pb-6 border-b border-border-muted">
           <div class="flex flex-col gap-1">
-            <img src="/src/assets/logo.svg" alt="Nabhas Aircon" class="h-10 object-contain self-start mb-2">
+            <div class="flex items-center gap-3 mb-2 print:gap-2">
+              <img src="/src/assets/logo.svg" alt="Nabhas Aircon" class="h-10 object-contain self-start">
+              <span class="text-headline-md font-headline-md font-bold text-[#05412B] tracking-tight">NABHAS AIRCON</span>
+            </div>
             <h1 class="text-headline-sm font-bold text-on-surface">HVAC Quotation</h1>
             <p class="text-body-sm text-on-surface-variant" id="quote-date">Date: ...</p>
           </div>
@@ -26,6 +29,7 @@ import{m as x,t as f,r as y}from"./sidebar-cBYwUFB1.js";import{r as h}from"./ste
             <h3 class="text-label-md font-bold text-on-surface" id="client-name-display">...</h3>
             <p class="text-body-sm text-on-surface-variant max-w-[200px]" id="project-title-display">...</p>
             <p class="text-xs text-outline mt-1 font-data-mono" id="sheet-id-display">Ref: ...</p>
+            <p class="text-xs text-outline mt-1 font-data-mono" id="author-display">Prepared by: ...</p>
           </div>
         </div>
 
@@ -75,7 +79,7 @@ import{m as x,t as f,r as y}from"./sidebar-cBYwUFB1.js";import{r as h}from"./ste
 
       <!-- Action Bar -->
       <div class="mt-6 md:mt-8 flex flex-col-reverse md:flex-row justify-between items-center gap-4 bg-surface-container-lowest p-4 rounded-xl border border-border-muted shadow-sm print:hidden">
-        <a href="#project/${r}/sheet/${s}/step/6" class="w-full md:w-auto px-6 py-3 md:py-2 border border-outline text-on-surface rounded-DEFAULT font-label-md hover:bg-surface-container transition-colors text-center">
+        <a href="#project/${n}/sheet/${o}/step/6" class="w-full md:w-auto px-6 py-3 md:py-2 border border-outline text-on-surface rounded-DEFAULT font-label-md hover:bg-surface-container transition-colors text-center">
           Back to Edit
         </a>
         <div class="flex flex-col-reverse md:flex-row w-full md:w-auto gap-4">
@@ -91,25 +95,25 @@ import{m as x,t as f,r as y}from"./sidebar-cBYwUFB1.js";import{r as h}from"./ste
       </div>
     </div>
   </main>
-`,k=async b=>{var p,u;x();const c=document.getElementById("mobile-menu-btn");c&&c.addEventListener("click",f);const m=b.split("/");r=m[1],s=m[3];try{if(i=await g(),a=await v(r,s),o=await w(r),!a||!o){window.location.hash="#dashboard";return}t=I(a,i),document.getElementById("quote-date").textContent=`Date: ${new Date().toLocaleDateString("en-IN")}`,document.getElementById("client-name-display").textContent=o.clientName,document.getElementById("project-title-display").textContent=o.title,document.getElementById("sheet-id-display").textContent=`Ref: ${s.split("-")[1]||s}`,document.getElementById("cfm-display").textContent=((p=a.clientInfo)==null?void 0:p.cfmRequirement)||0,document.getElementById("room-display").textContent=((u=a.clientInfo)==null?void 0:u.roomName)||"General";const n=document.getElementById("breakdown-body");n.innerHTML=`
+`,T=async x=>{var p,u;f();const c=document.getElementById("mobile-menu-btn");c&&c.addEventListener("click",y);const m=x.split("/");n=m[1],o=m[3];try{if(i=await v(),t=await w(n,o),r=await E(n),!t||!r){window.location.hash="#dashboard";return}e=B(t,i),document.getElementById("quote-date").textContent=`Date: ${new Date().toLocaleDateString("en-IN")}`,document.getElementById("client-name-display").textContent=r.clientName,document.getElementById("project-title-display").textContent=r.title,document.getElementById("sheet-id-display").textContent=`Ref: ${o.split("-")[1]||o}`,document.getElementById("author-display").textContent=`Prepared by: ${t.ownerName||"Unknown"}`,document.getElementById("cfm-display").textContent=((p=t.clientInfo)==null?void 0:p.cfmRequirement)||0,document.getElementById("room-display").textContent=((u=t.clientInfo)==null?void 0:u.roomName)||"General";const s=document.getElementById("breakdown-body");s.innerHTML=`
       <tr class="border-b border-border-muted/50 hover:bg-surface-container-lowest transition-colors">
         <td class="py-3 px-2 text-body-md">Architecture & Casing</td>
-        <td class="py-3 px-2 text-right font-data-mono">${e(t.architecture)}</td>
+        <td class="py-3 px-2 text-right font-data-mono">${a(e.architecture)}</td>
       </tr>
       <tr class="border-b border-border-muted/50 hover:bg-surface-container-lowest transition-colors">
         <td class="py-3 px-2 text-body-md">Air Movement Systems</td>
-        <td class="py-3 px-2 text-right font-data-mono">${e(t.airMovement)}</td>
+        <td class="py-3 px-2 text-right font-data-mono">${a(e.airMovement)}</td>
       </tr>
       <tr class="border-b border-border-muted/50 hover:bg-surface-container-lowest transition-colors">
         <td class="py-3 px-2 text-body-md">Thermodynamics (Coil & Pad)</td>
-        <td class="py-3 px-2 text-right font-data-mono">${e(t.thermodynamics)}</td>
+        <td class="py-3 px-2 text-right font-data-mono">${a(e.thermodynamics)}</td>
       </tr>
       <tr class="border-b border-border-muted/50 hover:bg-surface-container-lowest transition-colors">
         <td class="py-3 px-2 text-body-md">Filtration Stages</td>
-        <td class="py-3 px-2 text-right font-data-mono">${e(t.filtration)}</td>
+        <td class="py-3 px-2 text-right font-data-mono">${a(e.filtration)}</td>
       </tr>
       <tr class="border-b border-border-muted/50 hover:bg-surface-container-lowest transition-colors">
         <td class="py-3 px-2 text-body-md">Labor & Installation</td>
-        <td class="py-3 px-2 text-right font-data-mono">${e(t.labor)}</td>
+        <td class="py-3 px-2 text-right font-data-mono">${a(e.labor)}</td>
       </tr>
-    `,document.getElementById("subtotal-display").textContent=e(t.subtotal),document.getElementById("tax-label").textContent=`Tax (${i.taxRate||18}%)`,document.getElementById("tax-display").textContent=e(t.tax),document.getElementById("total-display").textContent=e(t.total);const d=document.getElementById("publish-btn");a.status==="published"&&(d.disabled=!0,d.classList.replace("bg-primary","bg-surface-variant"),d.classList.replace("text-on-primary","text-on-surface-variant"),d.innerHTML='<span class="material-symbols-outlined text-[18px]">check_circle</span><span>Published</span>')}catch(n){l("Error generating summary","error"),console.error(n)}document.getElementById("publish-btn").addEventListener("click",async()=>{if(a.status!=="published"&&confirm("Are you sure you want to publish this quote? It will become visible to all users."))try{await E(r,s,{status:"published"}),l("Quote published successfully!"),window.location.reload()}catch{l("Failed to publish quote","error")}}),document.getElementById("download-pdf-btn").addEventListener("click",()=>{B(o,a)})};export{k as mount,A as render};
+    `,document.getElementById("subtotal-display").textContent=a(e.subtotal),document.getElementById("tax-label").textContent=`Tax (${i.taxRate||18}%)`,document.getElementById("tax-display").textContent=a(e.tax),document.getElementById("total-display").textContent=a(e.total);const d=document.getElementById("publish-btn");t.status==="published"&&(d.disabled=!0,d.classList.replace("bg-primary","bg-surface-variant"),d.classList.replace("text-on-primary","text-on-surface-variant"),d.innerHTML='<span class="material-symbols-outlined text-[18px]">check_circle</span><span>Published</span>')}catch(s){l("Error generating summary: "+b(s),"error"),console.error(s)}document.getElementById("publish-btn").addEventListener("click",async()=>{if(t.status!=="published"&&confirm("Are you sure you want to publish this quote? It will become visible to all users."))try{await I(n,o,{status:"published"}),l("Quote published successfully!"),window.location.reload()}catch(s){l("Failed to publish quote: "+b(s),"error")}}),document.getElementById("download-pdf-btn").addEventListener("click",()=>{C(r,t)})};export{T as mount,k as render};

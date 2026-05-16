@@ -4,6 +4,7 @@ import { getSheet, updateSheet, getSettings, getProject } from '../utils/storage
 import { calculateTotals, formatCurrency } from '../utils/calculations.js';
 import { showToast } from '../components/toast.js';
 import { generatePDF } from '../utils/pdf-generator.js';
+import { getErrorMessage } from '../utils/auth.js';
 
 let currentPid = null;
 let currentSid = null;
@@ -32,7 +33,10 @@ export const render = () => `
         <!-- Logo for PDF (hidden normally, or shown styling differently) -->
         <div class="flex justify-between items-start mb-8 pb-6 border-b border-border-muted">
           <div class="flex flex-col gap-1">
-            <img src="/src/assets/logo.svg" alt="Nabhas Aircon" class="h-10 object-contain self-start mb-2">
+            <div class="flex items-center gap-3 mb-2 print:gap-2">
+              <img src="/src/assets/logo.svg" alt="Nabhas Aircon" class="h-10 object-contain self-start">
+              <span class="text-headline-md font-headline-md font-bold text-[#05412B] tracking-tight">NABHAS AIRCON</span>
+            </div>
             <h1 class="text-headline-sm font-bold text-on-surface">HVAC Quotation</h1>
             <p class="text-body-sm text-on-surface-variant" id="quote-date">Date: ...</p>
           </div>
@@ -40,6 +44,7 @@ export const render = () => `
             <h3 class="text-label-md font-bold text-on-surface" id="client-name-display">...</h3>
             <p class="text-body-sm text-on-surface-variant max-w-[200px]" id="project-title-display">...</p>
             <p class="text-xs text-outline mt-1 font-data-mono" id="sheet-id-display">Ref: ...</p>
+            <p class="text-xs text-outline mt-1 font-data-mono" id="author-display">Prepared by: ...</p>
           </div>
         </div>
 
@@ -133,6 +138,7 @@ export const mount = async (hash) => {
     document.getElementById('client-name-display').textContent = projectData.clientName;
     document.getElementById('project-title-display').textContent = projectData.title;
     document.getElementById('sheet-id-display').textContent = `Ref: ${currentSid.split('-')[1] || currentSid}`;
+    document.getElementById('author-display').textContent = `Prepared by: ${sheetData.ownerName || 'Unknown'}`;
     
     document.getElementById('cfm-display').textContent = sheetData.clientInfo?.cfmRequirement || 0;
     document.getElementById('room-display').textContent = sheetData.clientInfo?.roomName || 'General';
@@ -176,7 +182,7 @@ export const mount = async (hash) => {
     }
 
   } catch (e) {
-    showToast("Error generating summary", "error");
+    showToast("Error generating summary: " + getErrorMessage(e), "error");
     console.error(e);
   }
 
@@ -189,7 +195,7 @@ export const mount = async (hash) => {
         showToast("Quote published successfully!");
         window.location.reload(); // Quick refresh to update state
       } catch (e) {
-        showToast("Failed to publish quote", "error");
+        showToast("Failed to publish quote: " + getErrorMessage(e), "error");
       }
     }
   });

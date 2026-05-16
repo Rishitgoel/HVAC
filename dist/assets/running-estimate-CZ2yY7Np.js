@@ -1,4 +1,4 @@
-import{f as t}from"./calculations-DXcxGb77.js";const a=e=>`
+import{f as t}from"./calculations-CDT-qs_O.js";const a=e=>`
     <div class="bg-surface-container-lowest border border-border-muted rounded-xl shadow-sm p-6 sticky top-[100px]">
       <h3 class="text-headline-sm font-bold text-on-surface mb-6 flex items-center gap-2">
         <span class="material-symbols-outlined text-primary">receipt_long</span>

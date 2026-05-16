@@ -1,6 +1,6 @@
 import { renderSidebar, mountSidebar, toggleSidebar } from '../components/sidebar.js';
 import { getProject, getSheets, createSheet, deleteSheet } from '../utils/storage.js';
-import { getCurrentUser, isAdmin } from '../utils/auth.js';
+import { getCurrentUser, isAdmin, getErrorMessage } from '../utils/auth.js';
 import { exportProjectToZip } from '../utils/zip-export.js';
 import { showToast } from '../components/toast.js';
 
@@ -94,6 +94,46 @@ export const mount = async (hash) => {
   let allSheets = [];
   let currentFilter = 'all';
 
+  // Modal logic
+  const modal = document.getElementById('new-sheet-modal');
+  const form = document.getElementById('new-sheet-form');
+  const cancelBtn = document.getElementById('cancel-sheet-btn');
+  const mainBtn = document.getElementById('new-sheet-btn');
+  const submitBtn = document.getElementById('create-sheet-submit');
+
+  const openModal = () => {
+    modal.classList.remove('hidden');
+    document.getElementById('sheet-title').focus();
+  };
+
+  const closeModal = () => {
+    modal.classList.add('hidden');
+    form.reset();
+  };
+
+  mainBtn.addEventListener('click', openModal);
+  cancelBtn.addEventListener('click', closeModal);
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) closeModal();
+  });
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<span class="material-symbols-outlined animate-spin text-[18px]">progress_activity</span>';
+    
+    try {
+      const title = document.getElementById('sheet-title').value;
+      const sid = await createSheet(currentPid, title, user.uid, user.name || user.email);
+      closeModal();
+      window.location.hash = `#project/${currentPid}/sheet/${sid}/step/1`;
+    } catch (error) {
+      showToast("Error creating sheet: " + getErrorMessage(error), "error");
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Create';
+    }
+  });
+
   const renderSheets = () => {
     let filtered = allSheets;
     if (currentFilter === 'published') {
@@ -162,10 +202,21 @@ export const mount = async (hash) => {
     list.querySelectorAll('.delete-sheet-btn').forEach(btn => {
       btn.addEventListener('click', async (e) => {
         e.preventDefault();
+        e.stopPropagation();
         const sid = btn.getAttribute('data-id');
         if (confirm('Are you sure you want to delete this sheet? This action cannot be undone.')) {
-          await deleteSheet(currentPid, sid);
-          await loadData();
+          try {
+            const originalHTML = btn.innerHTML;
+            btn.innerHTML = '<span class="material-symbols-outlined animate-spin text-[20px]">progress_activity</span>';
+            btn.disabled = true;
+            await deleteSheet(currentPid, sid);
+            await loadData();
+          } catch (err) {
+            console.error("Error deleting sheet:", err);
+            showToast("Failed to delete sheet: " + getErrorMessage(err), "error");
+            btn.innerHTML = '<span class="material-symbols-outlined text-[20px]">delete</span>';
+            btn.disabled = false;
+          }
         }
       });
     });
@@ -184,7 +235,7 @@ export const mount = async (hash) => {
       allSheets = await getSheets(currentPid);
       renderSheets();
     } catch (error) {
-      list.innerHTML = `<div class="text-error p-4">Error loading project: ${error.message}</div>`;
+      list.innerHTML = `<div class="text-error p-4">Error loading project: ${getErrorMessage(error)}</div>`;
     }
   };
 
@@ -204,45 +255,6 @@ export const mount = async (hash) => {
     });
   });
 
-  // Modal logic
-  const modal = document.getElementById('new-sheet-modal');
-  const form = document.getElementById('new-sheet-form');
-  const cancelBtn = document.getElementById('cancel-sheet-btn');
-  const mainBtn = document.getElementById('new-sheet-btn');
-  const submitBtn = document.getElementById('create-sheet-submit');
-
-  const openModal = () => {
-    modal.classList.remove('hidden');
-    document.getElementById('sheet-title').focus();
-  };
-
-  const closeModal = () => {
-    modal.classList.add('hidden');
-    form.reset();
-  };
-
-  mainBtn.addEventListener('click', openModal);
-  cancelBtn.addEventListener('click', closeModal);
-  modal.addEventListener('click', (e) => {
-    if (e.target === modal) closeModal();
-  });
-
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    submitBtn.disabled = true;
-    submitBtn.innerHTML = '<span class="material-symbols-outlined animate-spin text-[18px]">progress_activity</span>';
-    
-    try {
-      const title = document.getElementById('sheet-title').value;
-      const sid = await createSheet(currentPid, title, user.uid, user.name || user.email);
-      closeModal();
-      window.location.hash = `#project/${currentPid}/sheet/${sid}/step/1`;
-    } catch (error) {
-      alert("Error creating sheet: " + error.message);
-      submitBtn.disabled = false;
-      submitBtn.textContent = 'Create';
-    }
-  });
 
   // Export ZIP
   const exportBtn = document.getElementById('export-zip-btn');
@@ -254,7 +266,7 @@ export const mount = async (hash) => {
       await exportProjectToZip(currentPid);
       showToast("ZIP Export successful");
     } catch (e) {
-      showToast("Error exporting ZIP: " + e.message, "error");
+      showToast("Error exporting ZIP: " + getErrorMessage(e), "error");
     } finally {
       exportBtn.disabled = false;
       exportBtn.innerHTML = originalHTML;

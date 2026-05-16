@@ -1,5 +1,5 @@
-import{m as b,t as x,r as y}from"./sidebar-cBYwUFB1.js";import{c as g,e as v,d as h}from"./storage-BgqC2MNh.js";import{g as j}from"./index-CteE1Qgu.js";const B=()=>`
-  ${y("#dashboard")}
+import{m as g,t as v,s as b,r as h}from"./toast-Cssg3beC.js";import{c as j,e as w,d as E}from"./storage-90-9ZAWB.js";import{i as c,e as L}from"./index-CY1RG9_M.js";const C=()=>`
+  ${h("#dashboard")}
   <main class="flex-1 flex flex-col overflow-y-auto relative bg-background w-full">
     <!-- Header -->
     <div class="w-full bg-surface-container-lowest border-b border-border-muted sticky top-0 z-10 shadow-sm flex items-center px-4 py-4 md:px-8 md:py-6">
@@ -44,7 +44,7 @@ import{m as b,t as x,r as y}from"./sidebar-cBYwUFB1.js";import{c as g,e as v,d a
       </form>
     </div>
   </div>
-`,T=async()=>{b();const d=document.getElementById("mobile-menu-btn");d&&d.addEventListener("click",x);const r=document.getElementById("projects-grid"),o=j(),c=async()=>{try{const t=await v();if(t.length===0){r.innerHTML=`
+`,M=async()=>{g();const m=document.getElementById("mobile-menu-btn");m&&m.addEventListener("click",v);const r=document.getElementById("projects-grid"),o=L(),a=document.getElementById("new-project-modal"),p=document.getElementById("new-project-form"),x=document.getElementById("cancel-proj-btn"),y=document.getElementById("new-project-btn"),s=document.getElementById("create-proj-submit"),u=()=>{a.classList.remove("hidden"),document.getElementById("proj-title").focus()},i=()=>{a.classList.add("hidden"),p.reset()},f=async()=>{try{const t=await w();if(t.length===0){r.innerHTML=`
           <div class="col-span-full flex flex-col items-center justify-center py-16 text-on-surface-variant border-2 border-dashed border-border-muted rounded-xl bg-surface-container-lowest">
             <span class="material-symbols-outlined text-[48px] mb-4 opacity-50">folder_open</span>
             <h3 class="text-headline-sm font-bold mb-2">No projects yet</h3>
@@ -53,7 +53,7 @@ import{m as b,t as x,r as y}from"./sidebar-cBYwUFB1.js";import{c as g,e as v,d a
               Create Project
             </button>
           </div>
-        `;const e=r.querySelector(".new-proj-trigger");e&&e.addEventListener("click",p);return}r.innerHTML=t.map(e=>`
+        `;const e=r.querySelector(".new-proj-trigger");e&&e.addEventListener("click",u);return}r.innerHTML=t.map(e=>`
         <div class="bg-surface-container-lowest border border-border-muted rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow relative group">
           <div class="flex justify-between items-start mb-4">
             <div class="flex flex-col">
@@ -78,4 +78,4 @@ import{m as b,t as x,r as y}from"./sidebar-cBYwUFB1.js";import{c as g,e as v,d a
             </a>
           </div>
         </div>
-      `).join(""),r.querySelectorAll(".delete-proj-btn").forEach(e=>{e.addEventListener("click",async i=>{i.preventDefault();const l=e.getAttribute("data-id");confirm("Are you sure you want to delete this project? This will NOT delete its sheets automatically in this simple implementation.")&&(await h(l),c())})})}catch(t){r.innerHTML=`<div class="col-span-full text-error p-4">Error loading projects: ${t.message}</div>`}};await c();const a=document.getElementById("new-project-modal"),m=document.getElementById("new-project-form"),u=document.getElementById("cancel-proj-btn"),f=document.getElementById("new-project-btn"),s=document.getElementById("create-proj-submit"),p=()=>{a.classList.remove("hidden"),document.getElementById("proj-title").focus()},n=()=>{a.classList.add("hidden"),m.reset()};f.addEventListener("click",p),u.addEventListener("click",n),a.addEventListener("click",t=>{t.target===a&&n()}),m.addEventListener("submit",async t=>{t.preventDefault(),s.disabled=!0,s.innerHTML='<span class="material-symbols-outlined animate-spin text-[18px]">progress_activity</span>';try{const e=document.getElementById("proj-title").value,i=document.getElementById("proj-client").value,l=await g(e,i,o.uid,o.name||o.email);n(),window.location.hash=`#project/${l}`}catch(e){alert("Error creating project: "+e.message),s.disabled=!1,s.textContent="Create"}})};export{T as mount,B as render};
+      `).join(""),r.querySelectorAll(".delete-proj-btn").forEach(e=>{e.addEventListener("click",async n=>{n.preventDefault(),n.stopPropagation();const l=e.getAttribute("data-id");if(confirm("Are you sure you want to delete this project? This will NOT delete its sheets automatically in this simple implementation."))try{const d=e.innerHTML;e.innerHTML='<span class="material-symbols-outlined animate-spin text-[20px]">progress_activity</span>',e.disabled=!0,await E(l),await f()}catch(d){console.error("Error deleting project:",d),b("Failed to delete project: "+c(d),"error"),e.innerHTML='<span class="material-symbols-outlined text-[20px]">delete</span>',e.disabled=!1}})})}catch(t){r.innerHTML=`<div class="col-span-full text-error p-4">Error loading projects: ${c(t)}</div>`}};await f(),y.addEventListener("click",u),x.addEventListener("click",i),a.addEventListener("click",t=>{t.target===a&&i()}),p.addEventListener("submit",async t=>{t.preventDefault(),s.disabled=!0,s.innerHTML='<span class="material-symbols-outlined animate-spin text-[18px]">progress_activity</span>';try{const e=document.getElementById("proj-title").value,n=document.getElementById("proj-client").value,l=await j(e,n,o.uid,o.name||o.email);i(),window.location.hash=`#project/${l}`}catch(e){b("Error creating project: "+c(e),"error"),s.disabled=!1,s.textContent="Create"}})};export{M as mount,C as render};

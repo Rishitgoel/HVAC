@@ -1,6 +1,7 @@
 import { renderSidebar, mountSidebar, toggleSidebar } from '../components/sidebar.js';
 import { getProjects, createProject, deleteProject } from '../utils/storage.js';
-import { getCurrentUser } from '../utils/auth.js';
+import { getCurrentUser, getErrorMessage } from '../utils/auth.js';
+import { showToast } from '../components/toast.js';
 
 export const render = () => `
   ${renderSidebar('#dashboard')}
@@ -127,16 +128,27 @@ export const mount = async () => {
       grid.querySelectorAll('.delete-proj-btn').forEach(btn => {
         btn.addEventListener('click', async (e) => {
           e.preventDefault();
+          e.stopPropagation();
           const pid = btn.getAttribute('data-id');
           if (confirm('Are you sure you want to delete this project? This will NOT delete its sheets automatically in this simple implementation.')) {
-            await deleteProject(pid);
-            loadProjects();
+            try {
+              const originalHTML = btn.innerHTML;
+              btn.innerHTML = '<span class="material-symbols-outlined animate-spin text-[20px]">progress_activity</span>';
+              btn.disabled = true;
+              await deleteProject(pid);
+              await loadProjects();
+            } catch (err) {
+              console.error("Error deleting project:", err);
+              showToast("Failed to delete project: " + getErrorMessage(err), "error");
+              btn.innerHTML = '<span class="material-symbols-outlined text-[20px]">delete</span>';
+              btn.disabled = false;
+            }
           }
         });
       });
 
     } catch (error) {
-      grid.innerHTML = `<div class="col-span-full text-error p-4">Error loading projects: ${error.message}</div>`;
+      grid.innerHTML = `<div class="col-span-full text-error p-4">Error loading projects: ${getErrorMessage(error)}</div>`;
     }
   };
 
@@ -160,7 +172,7 @@ export const mount = async () => {
       closeModal();
       window.location.hash = `#project/${pid}`;
     } catch (error) {
-      alert("Error creating project: " + error.message);
+      showToast("Error creating project: " + getErrorMessage(error), "error");
       submitBtn.disabled = false;
       submitBtn.textContent = 'Create';
     }

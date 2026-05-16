@@ -1,4 +1,4 @@
-import { signIn, signUp } from '../utils/auth.js';
+import { signIn, signUp, getAuthErrorMessage } from '../utils/auth.js';
 
 export const render = () => `
   <div class="flex-1 flex flex-col justify-center items-center p-4 bg-background w-full h-full">
@@ -88,7 +88,7 @@ export const mount = () => {
       }
       // app.js listener will handle redirect
     } catch (error) {
-      errorDiv.textContent = error.message;
+      errorDiv.textContent = getAuthErrorMessage(error);
       errorDiv.classList.remove('hidden');
       submitBtn.disabled = false;
       submitBtn.textContent = isLoginMode ? 'Sign In' : 'Create Account';

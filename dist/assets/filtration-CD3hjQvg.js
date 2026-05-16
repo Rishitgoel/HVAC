@@ -1,5 +1,5 @@
-import{m as p,t as f,r as b}from"./sidebar-cBYwUFB1.js";import{r as x}from"./stepper-WTnawPLe.js";import{f as y,h as g,u as v}from"./storage-BgqC2MNh.js";import{c as h}from"./calculations-DXcxGb77.js";import{r as w}from"./running-estimate-BsR79nLY.js";import{s as n}from"./toast-D62CK5oX.js";import"./index-CteE1Qgu.js";let a=null,l=null,t=null,u=null;const B=()=>`
-  ${b()}
+import{m as b,t as x,s as l,r as y}from"./toast-Cssg3beC.js";import{r as g}from"./stepper-WTnawPLe.js";import{f as v,h,u as w}from"./storage-90-9ZAWB.js";import{c as E}from"./calculations-CDT-qs_O.js";import{r as Q}from"./running-estimate-CZ2yY7Np.js";import{i as m}from"./index-CY1RG9_M.js";let a=null,n=null,r=null,u=null;const D=()=>`
+  ${y()}
   <main class="flex-1 flex flex-col overflow-y-auto relative bg-background w-full">
     <div class="w-full bg-surface-container-lowest border-b border-border-muted sticky top-0 z-10 shadow-sm">
       <div class="max-w-[1200px] mx-auto px-4 py-4 md:px-8 md:py-6">
@@ -7,12 +7,17 @@ import{m as p,t as f,r as b}from"./sidebar-cBYwUFB1.js";import{r as x}from"./ste
           <button id="mobile-menu-btn" class="md:hidden mr-4 text-on-surface"><span class="material-symbols-outlined">menu</span></button>
           <h2 class="text-headline-sm md:text-headline-lg font-headline-lg text-on-surface truncate">Quote Configuration</h2>
         </div>
-        ${x(5)}
+        ${g(5)}
       </div>
     </div>
 
     <div class="w-full max-w-[1200px] mx-auto px-4 py-6 md:px-8 md:py-8 flex flex-col lg:flex-row gap-6 md:gap-8 relative items-start">
-      
+      <!-- Loading Overlay -->
+      <div id="step-loading-overlay" class="absolute inset-0 bg-background/80 backdrop-blur-sm z-30 flex flex-col items-center justify-center gap-3 transition-opacity duration-300">
+        <span class="material-symbols-outlined animate-spin text-[40px] text-primary">progress_activity</span>
+        <p class="text-body-md text-on-surface-variant font-medium">Loading filtration systems...</p>
+      </div>
+
       <div class="flex-1 w-full flex flex-col gap-6 md:gap-8">
         <div class="bg-surface-container-lowest border border-border-muted rounded-xl p-4 md:p-8 shadow-sm">
           <div class="border-b border-border-muted pb-4 mb-6 md:mb-8 flex justify-between items-end">
@@ -67,7 +72,7 @@ import{m as p,t as f,r as b}from"./sidebar-cBYwUFB1.js";import{r as x}from"./ste
 
         <!-- Action Bar -->
         <div class="flex flex-col-reverse md:flex-row justify-between items-center gap-4 bg-surface-container-lowest p-4 rounded-xl border border-border-muted shadow-sm">
-          <a href="#project/${a}/sheet/${l}/step/4" class="w-full md:w-auto px-6 py-3 md:py-2 border border-outline text-on-surface rounded-DEFAULT font-label-md hover:bg-surface-container transition-colors text-center">
+          <a href="#project/${a}/sheet/${n}/step/4" class="w-full md:w-auto px-6 py-3 md:py-2 border border-outline text-on-surface rounded-DEFAULT font-label-md hover:bg-surface-container transition-colors text-center">
             Previous
           </a>
           <div class="flex flex-col-reverse md:flex-row w-full md:w-auto gap-4">
@@ -86,4 +91,4 @@ import{m as p,t as f,r as b}from"./sidebar-cBYwUFB1.js";import{r as x}from"./ste
       <div id="estimate-container" class="w-full lg:w-[320px] flex-shrink-0"></div>
     </div>
   </main>
-`,D=async m=>{p();const s=document.getElementById("mobile-menu-btn");s&&s.addEventListener("click",f);const i=m.split("/");a=i[1],l=i[3];const e={pre:document.getElementById("preQty"),fine:document.getElementById("fineQty"),hepa:document.getElementById("hepaQty")};try{u=await y(),t=await g(a,l),t&&t.filtration&&(e.pre.value=t.filtration.preQty||"",e.fine.value=t.filtration.fineQty||"",e.hepa.value=t.filtration.hepaQty||"")}catch{n("Error loading data","error")}const o=()=>{const r={...t};r.filtration={preQty:parseInt(e.pre.value)||0,fineQty:parseInt(e.fine.value)||0,hepaQty:parseInt(e.hepa.value)||0};const c=h(r,u);document.getElementById("estimate-container").innerHTML=w(c)};document.querySelectorAll(".input-trigger").forEach(r=>{r.addEventListener("input",o)}),o();const d=async()=>{const r={preQty:parseInt(e.pre.value)||0,fineQty:parseInt(e.fine.value)||0,hepaQty:parseInt(e.hepa.value)||0};try{return await v(a,l,{filtration:r,currentStep:Math.max(t.currentStep||1,6)}),t.filtration=r,!0}catch{return n("Failed to save draft","error"),!1}};document.getElementById("save-draft-btn").addEventListener("click",async()=>{await d()&&n("Draft saved successfully")}),document.getElementById("next-btn").addEventListener("click",async()=>{await d()&&(window.location.hash=`#project/${a}/sheet/${l}/step/6`)})};export{D as mount,B as render};
+`,T=async f=>{b();const i=document.getElementById("mobile-menu-btn");i&&i.addEventListener("click",x);const o=f.split("/");a=o[1],n=o[3];const e={pre:document.getElementById("preQty"),fine:document.getElementById("fineQty"),hepa:document.getElementById("hepaQty")};try{u=await v(),r=await h(a,n),r&&r.filtration&&(e.pre.value=r.filtration.preQty||"",e.fine.value=r.filtration.fineQty||"",e.hepa.value=r.filtration.hepaQty||"")}catch(t){l("Error loading data: "+m(t),"error")}const d=()=>{const t={...r};t.filtration={preQty:parseInt(e.pre.value)||0,fineQty:parseInt(e.fine.value)||0,hepaQty:parseInt(e.hepa.value)||0};const s=E(t,u);document.getElementById("estimate-container").innerHTML=Q(s)};document.querySelectorAll(".input-trigger").forEach(t=>{t.addEventListener("input",d)}),d();const c=document.getElementById("step-loading-overlay");c&&c.classList.add("hidden");const p=async()=>{const t={preQty:parseInt(e.pre.value)||0,fineQty:parseInt(e.fine.value)||0,hepaQty:parseInt(e.hepa.value)||0};try{return await w(a,n,{filtration:t,currentStep:Math.max(r.currentStep||1,6)}),r.filtration=t,!0}catch(s){return l("Failed to save draft: "+m(s),"error"),!1}};document.getElementById("save-draft-btn").addEventListener("click",async()=>{await p()&&l("Draft saved successfully")}),document.getElementById("next-btn").addEventListener("click",async()=>{await p()&&(window.location.hash=`#project/${a}/sheet/${n}/step/6`)})};export{T as mount,D as render};

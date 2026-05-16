@@ -1,5 +1,5 @@
-import{m as b,t as x,r as v}from"./sidebar-cBYwUFB1.js";import{r as g}from"./stepper-WTnawPLe.js";import{g as y,h,u as w}from"./storage-BgqC2MNh.js";import{s as n}from"./toast-D62CK5oX.js";import"./index-CteE1Qgu.js";let a=null,o=null,e=null;const L=()=>`
-  ${v()}
+import{m as g,t as v,s,r as y}from"./toast-Cssg3beC.js";import{r as h}from"./stepper-WTnawPLe.js";import{g as w,h as E,u as I}from"./storage-90-9ZAWB.js";import{i as f}from"./index-CY1RG9_M.js";let a=null,n=null,t=null;const N=()=>`
+  ${y()}
   <main class="flex-1 flex flex-col overflow-y-auto relative bg-background w-full">
     <!-- Header & Stepper -->
     <div class="w-full bg-surface-container-lowest border-b border-border-muted sticky top-0 z-10 shadow-sm">
@@ -8,19 +8,25 @@ import{m as b,t as x,r as v}from"./sidebar-cBYwUFB1.js";import{r as g}from"./ste
           <button id="mobile-menu-btn" class="md:hidden mr-4 text-on-surface"><span class="material-symbols-outlined">menu</span></button>
           <h2 class="text-headline-sm md:text-headline-lg font-headline-lg text-on-surface truncate">Quote Configuration</h2>
         </div>
-        ${g(1)}
+        ${h(1)}
       </div>
     </div>
 
     <!-- Form Canvas -->
-    <div class="w-full max-w-[1200px] mx-auto px-4 py-6 md:px-8 md:py-8">
+    <div class="w-full max-w-[1200px] mx-auto px-4 py-6 md:px-8 md:py-8 relative">
+      <!-- Loading Overlay -->
+      <div id="step-loading-overlay" class="absolute inset-0 bg-background/80 backdrop-blur-sm z-30 flex flex-col items-center justify-center gap-3 transition-opacity duration-300">
+        <span class="material-symbols-outlined animate-spin text-[40px] text-primary">progress_activity</span>
+        <p class="text-body-md text-on-surface-variant font-medium">Loading client & project details...</p>
+      </div>
+
       <div class="bg-surface-container-lowest border border-border-muted rounded-xl p-4 md:p-8 shadow-sm">
         <div class="border-b border-border-muted pb-4 mb-6 md:mb-8 flex justify-between items-end">
           <div>
             <h3 class="text-headline-sm md:text-headline-md font-headline-md text-on-surface">Client & Project Details</h3>
             <p class="text-body-sm text-on-surface-variant mt-1">Establish the foundational metadata for this estimation.</p>
           </div>
-          <span class="text-label-sm px-3 py-1 bg-surface-variant text-on-surface-variant rounded-full border border-border-muted hidden md:inline-block">Draft Status</span>
+          <span id="status-badge" class="text-label-sm px-3 py-1 bg-surface-variant text-on-surface-variant rounded-full border border-border-muted hidden md:inline-block">Loading...</span>
         </div>
 
         <form id="step-form" class="flex flex-col gap-6 md:gap-8">
@@ -63,4 +69,4 @@ import{m as b,t as x,r as v}from"./sidebar-cBYwUFB1.js";import{r as g}from"./ste
       </div>
     </div>
   </main>
-`,j=async u=>{var c,m;b();const l=document.getElementById("mobile-menu-btn");l&&l.addEventListener("click",x);const s=u.split("/");a=s[1],o=s[3];const r=document.getElementById("cfmReq"),d=document.getElementById("roomName"),f=document.getElementById("clientName"),p=document.getElementById("sheetId");try{const t=await y(a);e=await h(a,o),t&&(f.value=t.clientName||"Unknown Client"),e&&(p.value=e.id,r.value=((c=e.clientInfo)==null?void 0:c.cfmRequirement)||"",d.value=((m=e.clientInfo)==null?void 0:m.roomName)||"")}catch{n("Error loading data","error")}const i=async()=>{if(!r.checkValidity())return r.reportValidity(),!1;const t={cfmRequirement:parseFloat(r.value)||0,roomName:d.value};try{return await w(a,o,{clientInfo:t,currentStep:Math.max(e.currentStep||1,2)}),!0}catch{return n("Failed to save draft","error"),!1}};document.getElementById("save-draft-btn").addEventListener("click",async()=>{await i()&&n("Draft saved successfully")}),document.getElementById("next-btn").addEventListener("click",async()=>{await i()&&(window.location.hash=`#project/${a}/sheet/${o}/step/2`)})};export{j as mount,L as render};
+`,j=async p=>{var m,u;g();const l=document.getElementById("mobile-menu-btn");l&&l.addEventListener("click",v);const d=p.split("/");a=d[1],n=d[3];const r=document.getElementById("cfmReq"),i=document.getElementById("roomName"),b=document.getElementById("clientName"),x=document.getElementById("sheetId");try{const e=await w(a);if(t=await E(a,n),e&&(b.value=e.clientName||"Unknown Client"),t){x.value=t.id,r.value=((m=t.clientInfo)==null?void 0:m.cfmRequirement)||"",i.value=((u=t.clientInfo)==null?void 0:u.roomName)||"";const o=document.getElementById("status-badge");o&&(o.textContent=`${t.status==="published"?"Published":"Draft"} • By ${t.ownerName||"Unknown"}`)}}catch(e){s("Error loading data: "+f(e),"error")}finally{const e=document.getElementById("step-loading-overlay");e&&e.classList.add("hidden")}const c=async()=>{if(!r.checkValidity())return r.reportValidity(),!1;const e={cfmRequirement:parseFloat(r.value)||0,roomName:i.value};try{return await I(a,n,{clientInfo:e,currentStep:Math.max(t.currentStep||1,2)}),!0}catch(o){return s("Failed to save draft: "+f(o),"error"),!1}};document.getElementById("save-draft-btn").addEventListener("click",async()=>{await c()&&s("Draft saved successfully")}),document.getElementById("next-btn").addEventListener("click",async()=>{await c()&&(window.location.hash=`#project/${a}/sheet/${n}/step/2`)})};export{j as mount,N as render};

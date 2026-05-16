@@ -4,6 +4,7 @@ import { getSheet, updateSheet, getSettings } from '../utils/storage.js';
 import { calculateTotals } from '../utils/calculations.js';
 import { renderRunningEstimate } from '../components/running-estimate.js';
 import { showToast } from '../components/toast.js';
+import { getErrorMessage } from '../utils/auth.js';
 
 let currentPid = null;
 let currentSid = null;
@@ -24,7 +25,12 @@ export const render = () => `
     </div>
 
     <div class="w-full max-w-[1200px] mx-auto px-4 py-6 md:px-8 md:py-8 flex flex-col lg:flex-row gap-6 md:gap-8 relative items-start">
-      
+      <!-- Loading Overlay -->
+      <div id="step-loading-overlay" class="absolute inset-0 bg-background/80 backdrop-blur-sm z-30 flex flex-col items-center justify-center gap-3 transition-opacity duration-300">
+        <span class="material-symbols-outlined animate-spin text-[40px] text-primary">progress_activity</span>
+        <p class="text-body-md text-on-surface-variant font-medium">Loading labor & implementation costs...</p>
+      </div>
+
       <div class="flex-1 w-full flex flex-col gap-6 md:gap-8">
         <div class="bg-surface-container-lowest border border-border-muted rounded-xl p-4 md:p-8 shadow-sm">
           <div class="border-b border-border-muted pb-4 mb-6 md:mb-8 flex justify-between items-end">
@@ -103,7 +109,7 @@ export const mount = async (hash) => {
       inputs.elec.value = sheetData.rates.electricityCost || '';
     }
   } catch (e) {
-    showToast("Error loading data", "error");
+    showToast("Error loading data: " + getErrorMessage(e), "error");
   }
 
   const updateEstimate = () => {
@@ -124,6 +130,9 @@ export const mount = async (hash) => {
   // Initial render
   updateEstimate();
 
+  const loadingOverlay = document.getElementById('step-loading-overlay');
+  if (loadingOverlay) loadingOverlay.classList.add('hidden');
+
   const saveForm = async () => {
     const rates = {
       laborCost: parseFloat(inputs.labor.value) || 0,
@@ -138,7 +147,7 @@ export const mount = async (hash) => {
       sheetData.rates = rates;
       return true;
     } catch (e) {
-      showToast("Failed to save draft", "error");
+      showToast("Failed to save draft: " + getErrorMessage(e), "error");
       return false;
     }
   };
