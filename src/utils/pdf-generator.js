@@ -1,22 +1,7 @@
-import { jsPDF } from 'jspdf';
+import html2pdf from 'html2pdf.js';
 import { calculateTotals, mmToM } from './calculations.js';
 import { getSettings } from './storage.js';
 
-// ─── PREMIUM COLOUR PALETTE (Matching Reference Design) ──────────────────────
-const C = {
-  headerBg:   [13, 13, 13],      // #0D0D0D - Deep charcoal/black header
-  headerTitle:[255, 255, 255],   // Crisp white
-  headerSub:  [160, 160, 160],   // Muted grey for subtitle
-  accentRed:  [220, 53, 34],     // #DC3522 - Striking red/orange accent (QTE-PROFORMA, Grand Total)
-  textMain:   [20, 20, 20],      // #141414 - Dark body text
-  textMuted:  [130, 130, 130],   // #828282 - Category headers / muted labels
-  lineLight:  [230, 230, 230],   // #E6E6E6 - Subtle horizontal dividers
-  lineDark:   [20, 20, 20],      // Thick black divider for grand total
-  cardBg:     [248, 248, 248],   // #F8F8F8 - OPEX card background
-  cardBorder: [220, 220, 220]    // #DCDCDC - OPEX card border
-};
-
-// ─── CURRENCY FORMATTER ───────────────────────────────────────────────────────
 const fmt = (n) => {
   if (!n || isNaN(n)) return 'Rs. 0';
   const abs = Math.round(Math.abs(n));
@@ -36,7 +21,6 @@ const fmt = (n) => {
   return `Rs. ${result}`;
 };
 
-// ─── LINE ITEM BUILDER (Structured like Reference Design) ────────────────────
 const buildSections = (sheet, settings) => {
   const sections = [];
   const us = settings.unitSystem === 'sqft' ? 'sqft' : 'm²';
@@ -101,249 +85,143 @@ const buildSections = (sheet, settings) => {
   return { sections, opexCost: ra.electricityCost || 0 };
 };
 
-// ─── THIN HORIZONTAL RULE HELPER ──────────────────────────────────────────────
-const hline = (doc, y, x1, x2, color = C.lineLight, w = 0.2) => {
-  doc.setDrawColor(...color);
-  doc.setLineWidth(w);
-  doc.line(x1, y, x2, y);
-};
-
-// ─── MAIN PDF GENERATOR ───────────────────────────────────────────────────────
 export const generatePDF = async (projectData, sheetData, returnBlob = false) => {
   const settings = await getSettings();
   const totals   = calculateTotals(sheetData, settings);
   const { sections, opexCost } = buildSections(sheetData, settings);
 
-  const doc = new jsPDF({ unit: 'mm', format: 'a4' });
-  const PW  = doc.internal.pageSize.width;   // 210mm
-  const PH  = doc.internal.pageSize.height;  // 297mm
-  const ML  = 16;       // Left margin
-  const MR  = PW - 16;  // Right margin
-  const CW  = MR - ML;  // Content width
-
-  let totalPages = 1;
-  let currentPage = 1;
-
-  // ─── PAGE MANAGEMENT HELPER (Prevents Collapsing / Overlap) ─────────────────
-  const checkPageBreak = (requiredHeight, currentY) => {
-    if (currentY + requiredHeight > PH - 22) { // Leave 22mm for footer margin
-      doc.addPage();
-      currentPage++;
-      totalPages++;
-      return 20; // New Y position at top of new page
-    }
-    return currentY;
-  };
-
-  // ─── 1. DARK MODE HEADER BANNER (Exactly matching reference) ────────────────
-  const HEADER_H = 65;
-  doc.setFillColor(...C.headerBg);
-  doc.rect(0, 0, PW, HEADER_H, 'F');
-
-  // Title: NABHAS AIRCON (Bold, clean, non-italic)
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(26);
-  doc.setTextColor(...C.headerTitle);
-  doc.text('NABHAS AIRCON', ML, 22);
-
-  // Subtitle: HVAC COMMAND SYSTEMS
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(8);
-  doc.setTextColor(...C.headerSub);
-  doc.text('HVAC COMMAND SYSTEMS  //  INDUSTRIAL INTELLIGENCE', ML, 28);
-
-  // Top Right: QTE-PROFORMA & Date
-  doc.setFont('courier', 'bold');
-  doc.setFontSize(11);
-  doc.setTextColor(...C.accentRed);
-  doc.text('QTE-PROFORMA', MR, 20, { align: 'right' });
-
+  // Generate HTML Template
   const dateStr = new Date(sheetData.updatedAt?.toDate?.() || new Date())
     .toLocaleDateString('en-IN', { day: '2-digit', month: '2-digit', year: 'numeric' });
-  doc.setFont('courier', 'normal');
-  doc.setFontSize(9);
-  doc.setTextColor(...C.headerSub);
-  doc.text(`Date: ${dateStr}`, MR, 26, { align: 'right' });
-  doc.text(`Ref: ${sheetData.id?.split('-')[1] || sheetData.id || 'N/A'}`, MR, 31, { align: 'right' });
+  const refStr = sheetData.id?.split('-')[1] || sheetData.id || 'N/A';
 
-  // Thin divider inside dark header
-  hline(doc, 36, ML, MR, [35, 35, 35], 0.3);
+  const htmlContent = `
+    <div id="pdf-export-container" style="width: 800px; font-family: 'Inter', sans-serif; color: #141414; background-color: #ffffff; padding: 0;">
+      <!-- Header -->
+      <div style="background-color: #0D0D0D; padding: 40px; display: flex; justify-content: space-between; align-items: flex-start; color: #ffffff;">
+        <div style="display: flex; align-items: center; gap: 20px;">
+          <img src="/src/assets/logo.svg" alt="Nabhas Logo" style="height: 60px; filter: brightness(0) invert(1);" />
+          <div style="transform: translateY(-10px);">
+            <h1 style="margin: 0 0 6px 0; font-family: 'Hanken Grotesk', sans-serif; font-weight: 700; font-size: 32px; letter-spacing: -0.02em; line-height: 1;">NABHAS AIRCON</h1>
+            <p style="margin: 0; color: #A0A0A0; font-size: 11px; font-weight: 600; letter-spacing: 0.05em; line-height: 1;">HVAC COMMAND SYSTEMS // INDUSTRIAL INTELLIGENCE</p>
+          </div>
+        </div>
+        <div style="text-align: right; font-family: 'Inter', monospace;">
+          <h2 style="margin: 0; color: #DC3522; font-size: 16px; font-weight: 700; letter-spacing: 0.05em;">QTE-PROFORMA</h2>
+          <p style="margin: 6px 0 0; color: #A0A0A0; font-size: 12px;">Date: ${dateStr}</p>
+          <p style="margin: 4px 0 0; color: #A0A0A0; font-size: 12px;">Ref: ${refStr}</p>
+        </div>
+      </div>
 
-  // Project Specs Block inside dark header
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(8);
-  doc.setTextColor(120, 120, 120);
-  doc.text('PROJECT SPECS', ML, 43);
+      <!-- Project Specs -->
+      <div style="padding: 20px 40px; background-color: #1A1A1A; display: flex; justify-content: space-between; border-bottom: 2px solid #333;">
+        <div>
+          <span style="color: #888; font-size: 11px; font-weight: 600; text-transform: uppercase;">Project Specs</span>
+          <p style="margin: 6px 0 0; color: #fff; font-size: 14px; font-weight: 600;">Client: ${projectData.clientName || 'N/A'}</p>
+          <p style="margin: 4px 0 0; color: #fff; font-size: 14px; font-weight: 600;">Project: ${projectData.title || 'N/A'}</p>
+        </div>
+        <div style="text-align: right;">
+          <span style="color: #1A1A1A; font-size: 11px;">&nbsp;</span>
+          <p style="margin: 6px 0 0; color: #fff; font-size: 14px; font-weight: 600;">Airflow: ${sheetData.clientInfo?.cfmRequirement || 0} CFM</p>
+          <p style="margin: 4px 0 0; color: #fff; font-size: 14px; font-weight: 600;">Environment: ${sheetData.clientInfo?.roomName || 'General'}</p>
+        </div>
+      </div>
 
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(9.5);
-  doc.setTextColor(...C.headerTitle);
-  doc.text(`Client: ${projectData.clientName || 'N/A'}`, ML, 49);
-  doc.text(`Project: ${projectData.title || 'N/A'}`, ML, 54);
-  doc.text(`Airflow: ${sheetData.clientInfo?.cfmRequirement || 0} CFM`, ML + 80, 49);
-  doc.text(`Environment: ${sheetData.clientInfo?.roomName || 'General'}`, ML + 80, 54);
+      <!-- Content -->
+      <div style="padding: 40px;">
+        <h2 style="margin: 0; font-family: 'Hanken Grotesk', sans-serif; font-size: 20px; font-weight: 700; color: #141414;">QUOTATION SUMMARY</h2>
+        <div style="width: 100%; height: 2px; background-color: #DC3522; margin: 12px 0 24px;"></div>
 
-  let y = HEADER_H + 12;
+        ${sections.map(sec => `
+          <div style="margin-bottom: 30px;">
+            <div style="display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; color: #828282; margin-bottom: 8px; font-family: 'Inter', monospace; text-transform: uppercase;">
+              <span>${sec.title}</span>
+              <span>EXT. PRICE</span>
+            </div>
+            <div style="width: 100%; height: 1px; background-color: #E6E6E6; margin-bottom: 12px;"></div>
+            
+            ${sec.rows.map(row => `
+              <div style="display: flex; justify-content: space-between; margin-bottom: 16px;">
+                <div>
+                  <div style="font-size: 10px; font-weight: 700; color: #828282; margin-bottom: 4px; text-transform: uppercase;">${row.subcat}</div>
+                  <div style="font-size: 14px; font-weight: 600; color: #141414;">${row.label}</div>
+                </div>
+                <div style="font-size: 14px; font-weight: 700; font-family: 'Inter', monospace; color: #141414; display: flex; align-items: flex-end;">
+                  ${fmt(row.amt)}
+                </div>
+              </div>
+              <div style="width: 100%; height: 1px; background-color: #F0F0F0; margin-bottom: 16px;"></div>
+            `).join('')}
+          </div>
+        `).join('')}
 
-  // ─── 1b. SECTION TITLE: QUOTATION SUMMARY ───────────────────────────────────
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(14);
-  doc.setTextColor(...C.textMain);
-  doc.text('QUOTATION SUMMARY', ML, y);
-  
-  y += 4;
-  hline(doc, y, ML, MR, C.accentRed, 0.5); // Elegant red accent line under quotation summary
-  y += 8;
+        <!-- Totals -->
+        <div style="margin-top: 40px; display: flex; justify-content: flex-end;">
+          <div style="width: 320px;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 13px;">
+              <span style="color: #828282;">Mfg. Subtotal:</span>
+              <span style="font-weight: 700; font-family: 'Inter', monospace;">${fmt(totals.subtotal)}</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 16px; font-size: 13px;">
+              <span style="color: #828282;">Taxes & Duties (${settings.taxRate || 18}%):</span>
+              <span style="font-weight: 700; font-family: 'Inter', monospace;">${fmt(totals.tax)}</span>
+            </div>
+            <div style="width: 100%; height: 3px; background-color: #141414; margin-bottom: 16px;"></div>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-family: 'Hanken Grotesk', sans-serif; font-size: 16px; font-weight: 700;">GRAND TOTAL</span>
+              <span style="font-size: 24px; font-weight: 700; color: #DC3522; font-family: 'Inter', monospace;">${fmt(totals.total)}</span>
+            </div>
+          </div>
+        </div>
 
-  // ─── 2. TABLE & LINE ITEMS ──────────────────────────────────────────────────
-  const DESC_X = ML;
-  const AMT_X  = MR;
-
-  sections.forEach((sec, sIndex) => {
-    // Check space for section header + at least one item (approx 25mm)
-    y = checkPageBreak(25, y);
-
-    // Section Header (e.g. COMPONENT ARCHITECTURE BREAKDOWN ... EXT. PRICE)
-    doc.setFont('courier', 'bold');
-    doc.setFontSize(8.5);
-    doc.setTextColor(...C.textMuted);
-    doc.text(sec.title, DESC_X, y);
-    if (sIndex === 0) {
-      doc.text('EXT. PRICE', AMT_X, y, { align: 'right' });
-    }
-
-    y += 3;
-    hline(doc, y, ML, MR, C.lineLight, 0.4);
-    y += 6;
-
-    // Items
-    sec.rows.forEach(row => {
-      // Check space for item row (approx 12mm)
-      y = checkPageBreak(12, y);
-
-      // Subcategory label (e.g. CABINET CASING FOUNDATION / INTERNAL STRUCTURE)
-      doc.setFont('helvetica', 'bold');
-      doc.setFontSize(7.5);
-      doc.setTextColor(...C.textMuted);
-      doc.text(row.subcat, DESC_X, y);
-      y += 4.5;
-
-      // Item Description & Price
-      doc.setFont('helvetica', 'bold');
-      doc.setFontSize(9.5);
-      doc.setTextColor(...C.textMain);
-      doc.text(row.label, DESC_X, y);
+        <!-- OPEX Card -->
+        <div style="margin-top: 50px; background-color: #F8F8F8; border: 1px solid #DCDCDC; border-radius: 6px; padding: 20px; position: relative; overflow: hidden;">
+          <div style="position: absolute; top: 0; left: 0; bottom: 0; width: 6px; background-color: #DC3522;"></div>
+          <h3 style="margin: 0 0 8px 12px; font-size: 12px; font-weight: 700; color: #141414; font-family: 'Inter', monospace; text-transform: uppercase;">OPEX ESTIMATION (ELECTRICITY & RUNNING COST)</h3>
+          <p style="margin: 0 0 12px 12px; font-size: 12px; color: #666; font-weight: 500;">Estimated Operational Cost: <strong>${fmt(opexCost)}</strong> per standard operational cycle.</p>
+          <p style="margin: 0 0 0 12px; font-size: 10px; color: #999; line-height: 1.4;">*Operational expenses are calculated dynamically based on system load and motor efficiency. This is a separate metric from the Capital Expenditure Grand Total above.</p>
+        </div>
+      </div>
       
-      doc.setFont('courier', 'bold');
-      doc.setFontSize(9.5);
-      doc.text(fmt(row.amt), AMT_X, y, { align: 'right' });
+      <!-- Footer -->
+      <div style="padding: 20px 40px; margin-top: auto; border-top: 1px solid #E6E6E6; display: flex; justify-content: space-between; align-items: center;">
+        <span style="font-size: 10px; font-weight: 700; color: #141414;">NABHAS AIRCON // INDUSTRIAL INTELLIGENCE</span>
+        <span style="font-size: 10px; color: #828282;">This is a system generated quotation. Rates are valid for 30 days.</span>
+      </div>
+    </div>
+  `;
 
-      y += 4;
-      hline(doc, y, ML, MR, C.lineLight, 0.2);
-      y += 5;
-    });
+  // Create temporary container
+  const container = document.createElement('div');
+  container.style.position = 'absolute';
+  container.style.left = '-9999px';
+  container.style.top = '0';
+  container.innerHTML = htmlContent;
+  document.body.appendChild(container);
 
-    y += 6; // Extra space before next major category
-  });
+  const element = document.getElementById('pdf-export-container');
 
-  // ─── 3. TOTALS SUMMARY BLOCK (Exactly matching reference) ───────────────────
-  // We need approx 45mm for the totals block + grand total
-  y = checkPageBreak(45, y);
+  // Options for html2pdf
+  const opt = {
+    margin:       [0, 0, 0, 0],
+    filename:     `Quotation_${(projectData.clientName || 'Client').replace(/\s+/g, '_')}_${(sheetData.title || 'Sheet').replace(/\s+/g, '_')}.pdf`,
+    image:        { type: 'jpeg', quality: 1 },
+    html2canvas:  { scale: 2, useCORS: true, logging: false },
+    jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+  };
 
-  const TOT_W = 85;
-  const TOT_X = MR - TOT_W;
-  const LBL_X = TOT_X + 5;
-  const VAL_X = MR;
-
-  // Mfg. Subtotal
-  doc.setFont('courier', 'normal');
-  doc.setFontSize(9);
-  doc.setTextColor(...C.textMuted);
-  doc.text('Mfg. Subtotal:', LBL_X, y);
-  doc.setFont('courier', 'bold');
-  doc.setTextColor(...C.textMain);
-  doc.text(fmt(totals.subtotal), VAL_X, y, { align: 'right' });
-  y += 6;
-
-  // Taxes
-  doc.setFont('courier', 'normal');
-  doc.setTextColor(...C.textMuted);
-  doc.text(`Taxes & Duties (${settings.taxRate || 18}%):`, LBL_X, y);
-  doc.setFont('courier', 'bold');
-  doc.setTextColor(...C.textMain);
-  doc.text(fmt(totals.tax), VAL_X, y, { align: 'right' });
-  y += 8;
-
-  // Thick black line above Grand Total
-  hline(doc, y, TOT_X, MR, C.lineDark, 0.8);
-  y += 8;
-
-  // GRAND TOTAL (Bold label + Striking Red/Orange large amount)
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(11);
-  doc.setTextColor(...C.textMain);
-  doc.text('GRAND TOTAL', TOT_X, y + 2);
-
-  doc.setFont('courier', 'bold');
-  doc.setFontSize(16);
-  doc.setTextColor(...C.accentRed);
-  doc.text(fmt(totals.total), VAL_X, y + 2, { align: 'right' });
-  y += 14;
-
-  // ─── 4. OPEX / ELECTRICITY CARD (Exactly matching reference bottom card) ────
-  // Needs approx 30mm
-  y = checkPageBreak(30, y);
-
-  const CARD_H = 24;
-  doc.setFillColor(...C.cardBg);
-  doc.setDrawColor(...C.cardBorder);
-  doc.setLineWidth(0.3);
-  doc.roundedRect(ML, y, CW, CARD_H, 2, 2, 'FD');
-
-  // Red accent bar on the left edge of the card
-  doc.setFillColor(...C.accentRed);
-  doc.roundedRect(ML, y, 3, CARD_H, 2, 2, 'F');
-  // Square off the right side of the red accent bar so it blends with the card
-  doc.rect(ML + 1.5, y, 1.5, CARD_H, 'F');
-
-  const cardY = y + 6;
-  doc.setFont('courier', 'bold');
-  doc.setFontSize(9);
-  doc.setTextColor(...C.textMain);
-  doc.text('OPEX ESTIMATION (ELECTRICITY & RUNNING COST)', ML + 7, cardY);
-
-  doc.setFont('helvetica', 'normal');
-  doc.setFontSize(8);
-  doc.setTextColor(...C.textMuted);
-  doc.text(`Estimated Operational Cost: ${fmt(opexCost)} per standard operational cycle.`, ML + 7, cardY + 6);
-  
-  doc.setFontSize(7.5);
-  doc.setTextColor(150, 150, 150);
-  const opexNote = '*Operational expenses are calculated dynamically based on system load and motor efficiency. This is a separate metric from the Capital Expenditure Grand Total above.';
-  const splitNote = doc.splitTextToSize(opexNote, CW - 12);
-  doc.text(splitNote, ML + 7, cardY + 11);
-
-  // ─── 5. DYNAMIC FOOTER ON ALL PAGES ─────────────────────────────────────────
-  const totalCreatedPages = doc.internal.getNumberOfPages();
-  for (let i = 1; i <= totalCreatedPages; i++) {
-    doc.setPage(i);
-    const footY = PH - 12;
-
-    hline(doc, footY - 4, ML, MR, C.lineLight, 0.3);
-
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(7.5);
-    doc.setTextColor(...C.textMain);
-    doc.text('NABHAS AIRCON // INDUSTRIAL INTELLIGENCE', ML, footY);
-
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(7.5);
-    doc.setTextColor(...C.textMuted);
-    doc.text(`Page ${i} of ${totalCreatedPages}`, MR, footY, { align: 'right' });
+  try {
+    if (returnBlob) {
+      const worker = html2pdf().set(opt).from(element);
+      const pdfBlob = await worker.output('blob');
+      document.body.removeChild(container);
+      return pdfBlob;
+    } else {
+      await html2pdf().set(opt).from(element).save();
+      document.body.removeChild(container);
+    }
+  } catch (error) {
+    console.error("PDF generation failed:", error);
+    document.body.removeChild(container);
   }
-
-  // ─── OUTPUT ─────────────────────────────────────────────────────────────────
-  if (returnBlob) return doc.output('blob');
-  const name = `Quotation_${(projectData.clientName || 'Client').replace(/\s+/g, '_')}_${(sheetData.title || 'Sheet').replace(/\s+/g, '_')}.pdf`;
-  doc.save(name);
 };

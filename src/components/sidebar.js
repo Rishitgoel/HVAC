@@ -39,9 +39,21 @@ export const renderSidebar = (currentHash) => {
       <div class="text-xs uppercase text-outline font-bold px-4 mb-2">Quote Steps</div>
       ${steps.map(s => {
         const isActive = s.path === hash;
+        const currentStepNum = parseInt(step) || 7;
+        const isPast = s.id < currentStepNum;
+        
+        let iconHtml;
+        if (isPast) {
+          iconHtml = `<span class="material-symbols-outlined text-[18px] text-primary">check_circle</span>`;
+        } else if (isActive) {
+          iconHtml = `<div class="w-6 h-6 rounded-full bg-primary text-on-primary flex items-center justify-center text-xs font-bold">${s.id}</div>`;
+        } else {
+          iconHtml = `<div class="w-6 h-6 rounded-full bg-surface-container-high text-on-surface-variant flex items-center justify-center text-xs border border-border-muted">${s.id}</div>`;
+        }
+
         return `
           <a class="flex items-center gap-3 px-4 py-3 font-medium transition-colors duration-200 rounded-l-DEFAULT ${isActive ? 'text-primary font-bold bg-surface-container-high border-r-4 border-primary scale-95' : 'text-on-surface-variant hover:bg-surface-container hover:text-primary'}" href="${s.path}">
-            <span class="material-symbols-outlined ${isActive ? 'filled' : ''}">${s.icon}</span>
+            ${iconHtml}
             <span class="text-label-md font-label-md">${s.label}</span>
           </a>
         `;

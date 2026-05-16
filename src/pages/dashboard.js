@@ -1,6 +1,6 @@
 import { renderSidebar, mountSidebar, toggleSidebar } from '../components/sidebar.js';
 import { getProjects, createProject, deleteProject } from '../utils/storage.js';
-import { getCurrentUser, getErrorMessage } from '../utils/auth.js';
+import { getCurrentUser, isAdmin, getErrorMessage } from '../utils/auth.js';
 import { showToast } from '../components/toast.js';
 
 export const render = () => `
@@ -59,6 +59,7 @@ export const mount = async () => {
 
   const grid = document.getElementById('projects-grid');
   const user = getCurrentUser();
+  const userIsAdmin = isAdmin();
 
   // Modal logic
   const modal = document.getElementById('new-project-modal');
@@ -104,7 +105,7 @@ export const mount = async () => {
               <h3 class="text-headline-sm font-bold text-on-surface truncate pr-8" title="${p.title}">${p.title}</h3>
               <p class="text-body-sm text-on-surface-variant">${p.clientName}</p>
             </div>
-            ${p.ownerUid === user.uid ? `
+            ${(p.ownerUid === user.uid || userIsAdmin) ? `
             <button class="delete-proj-btn text-outline hover:text-error transition-colors absolute top-6 right-6 opacity-0 group-hover:opacity-100 focus:opacity-100 p-1" data-id="${p.id}" title="Delete Project">
               <span class="material-symbols-outlined text-[20px]">delete</span>
             </button>` : ''}

@@ -1,5 +1,4 @@
 import { renderSidebar, mountSidebar, toggleSidebar } from '../components/sidebar.js';
-import { renderStepper } from '../components/stepper.js';
 import { getSheet, updateSheet, getProject } from '../utils/storage.js';
 import { showToast } from '../components/toast.js';
 import { getErrorMessage } from '../utils/auth.js';
@@ -18,7 +17,6 @@ export const render = () => `
           <button id="mobile-menu-btn" class="md:hidden mr-4 text-on-surface"><span class="material-symbols-outlined">menu</span></button>
           <h2 class="text-headline-sm md:text-headline-lg font-headline-lg text-on-surface truncate">Quote Configuration</h2>
         </div>
-        ${renderStepper(1)}
       </div>
     </div>
 

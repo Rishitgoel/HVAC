@@ -1,5 +1,5 @@
 import { renderSidebar, mountSidebar, toggleSidebar } from '../components/sidebar.js';
-import { renderStepper } from '../components/stepper.js';
+
 import { getSheet, updateSheet, getSettings, getProject } from '../utils/storage.js';
 import { calculateTotals, formatCurrency } from '../utils/calculations.js';
 import { showToast } from '../components/toast.js';
@@ -22,12 +22,18 @@ export const render = () => `
           <button id="mobile-menu-btn" class="md:hidden mr-4 text-on-surface"><span class="material-symbols-outlined">menu</span></button>
           <h2 class="text-headline-sm md:text-headline-lg font-headline-lg text-on-surface truncate">Quote Summary</h2>
         </div>
-        ${renderStepper(7)}
+
       </div>
     </div>
 
-    <div class="w-full max-w-[800px] mx-auto px-4 py-6 md:px-8 md:py-8">
+    <div class="w-full max-w-[800px] mx-auto px-4 py-6 md:px-8 md:py-8 relative">
       
+      <!-- Loading Overlay -->
+      <div id="step-loading-overlay" class="absolute inset-0 bg-background/80 backdrop-blur-sm z-30 flex flex-col items-center justify-center gap-3 transition-opacity duration-300 print:hidden">
+        <span class="material-symbols-outlined animate-spin text-[40px] text-primary">progress_activity</span>
+        <p class="text-body-md text-on-surface-variant font-medium">Loading quote summary...</p>
+      </div>
+
       <!-- Summary Card -->
       <div id="pdf-content" class="bg-surface-container-lowest border border-border-muted rounded-xl p-6 md:p-10 shadow-sm relative">
         <!-- Logo for PDF (hidden normally, or shown styling differently) -->
@@ -76,7 +82,7 @@ export const render = () => `
             <span>Subtotal</span>
             <span class="font-data-mono" id="subtotal-display">...</span>
           </div>
-          <div class="flex justify-between w-[250px] text-body-md text-on-surface-variant">
+          <div class="flex justify-between w-[250px] text-label-sm text-on-surface-variant">
             <span id="tax-label">Tax (18%)</span>
             <span class="font-data-mono" id="tax-display">...</span>
           </div>
@@ -185,6 +191,9 @@ export const mount = async (hash) => {
     showToast("Error generating summary: " + getErrorMessage(e), "error");
     console.error(e);
   }
+
+  const loadingOverlay = document.getElementById('step-loading-overlay');
+  if (loadingOverlay) loadingOverlay.classList.add('hidden');
 
   document.getElementById('publish-btn').addEventListener('click', async () => {
     if (sheetData.status === 'published') return;

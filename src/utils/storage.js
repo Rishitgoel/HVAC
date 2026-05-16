@@ -39,10 +39,16 @@ export const getProjects = async () => {
   return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 };
 
+let projectCache = {};
+
 export const getProject = async (pid) => {
+  if (projectCache[pid]) return projectCache[pid];
   const docRef = doc(db, 'projects', pid);
   const snapshot = await getDoc(docRef);
-  if (snapshot.exists()) return { id: snapshot.id, ...snapshot.data() };
+  if (snapshot.exists()) {
+    projectCache[pid] = { id: snapshot.id, ...snapshot.data() };
+    return projectCache[pid];
+  }
   return null;
 };
 
@@ -82,10 +88,18 @@ export const getSheets = async (pid) => {
   return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 };
 
+let sheetCache = {};
+
 export const getSheet = async (pid, sid) => {
+  const cacheKey = `${pid}_${sid}`;
+  if (sheetCache[cacheKey]) return sheetCache[cacheKey];
+  
   const docRef = doc(db, 'projects', pid, 'sheets', sid);
   const snapshot = await getDoc(docRef);
-  if (snapshot.exists()) return { id: snapshot.id, ...snapshot.data() };
+  if (snapshot.exists()) {
+    sheetCache[cacheKey] = { id: snapshot.id, ...snapshot.data() };
+    return sheetCache[cacheKey];
+  }
   return null;
 };
 
@@ -95,6 +109,12 @@ export const updateSheet = async (pid, sid, data) => {
     ...data,
     updatedAt: serverTimestamp()
   });
+  
+  // Update cache
+  const cacheKey = `${pid}_${sid}`;
+  if (sheetCache[cacheKey]) {
+    sheetCache[cacheKey] = { ...sheetCache[cacheKey], ...data };
+  }
 };
 
 export const deleteSheet = async (pid, sid) => {
@@ -120,12 +140,16 @@ const defaultSettings = {
   unitSystem: 'sqft'
 };
 
+let settingsCache = null;
+
 export const getSettings = async () => {
+  if (settingsCache) return settingsCache;
   try {
     const docRef = doc(db, 'settings', 'global');
     const snapshot = await getDoc(docRef);
     if (snapshot.exists()) {
-      return { ...defaultSettings, ...snapshot.data() };
+      settingsCache = { ...defaultSettings, ...snapshot.data() };
+      return settingsCache;
     }
   } catch (e) {
     console.warn("Could not load settings, using defaults", e);
@@ -136,4 +160,5 @@ export const getSettings = async () => {
 export const saveSettings = async (settings) => {
   const docRef = doc(db, 'settings', 'global');
   await setDoc(docRef, settings, { merge: true });
+  settingsCache = { ...defaultSettings, ...settings };
 };
