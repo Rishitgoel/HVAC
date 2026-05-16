@@ -1,0 +1,378 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Nabhas Aircon - Air Movement</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Hanken+Grotesk:wght@600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "background": "#f8f9ff",
+                        "on-surface": "#0f1c2d",
+                        "tertiary-container": "#00412b",
+                        "hvac-warm": "#FF9500",
+                        "surface-container-low": "#eff4ff",
+                        "error": "#ba1a1a",
+                        "outline-variant": "#c0c9c1",
+                        "inverse-on-surface": "#eaf1ff",
+                        "surface-container": "#e6eeff",
+                        "secondary": "#a43c16",
+                        "surface-dim": "#cddbf1",
+                        "on-tertiary-fixed": "#002114",
+                        "inverse-surface": "#243142",
+                        "surface-tint": "#34684f",
+                        "on-secondary": "#ffffff",
+                        "tertiary": "#00291a",
+                        "on-secondary-container": "#6d1e00",
+                        "on-secondary-fixed": "#390b00",
+                        "surface-container-high": "#dce9ff",
+                        "surface": "#f8f9ff",
+                        "tertiary-fixed-dim": "#8ad6b0",
+                        "primary-container": "#05412b",
+                        "on-primary-fixed-variant": "#1a5039",
+                        "primary-fixed": "#b7efcf",
+                        "on-tertiary": "#ffffff",
+                        "surface-variant": "#d6e3fa",
+                        "tertiary-fixed": "#a6f3cb",
+                        "primary": "#002919",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "secondary-container": "#fe7e53",
+                        "on-error-container": "#93000a",
+                        "on-background": "#0f1c2d",
+                        "error-container": "#ffdad6",
+                        "slate-surface": "#F8FAFC",
+                        "surface-container-highest": "#d6e3fa",
+                        "on-primary-fixed": "#002113",
+                        "on-surface-variant": "#404943",
+                        "on-tertiary-container": "#65b08d",
+                        "secondary-fixed-dim": "#ffb59d",
+                        "on-error": "#ffffff",
+                        "primary-fixed-dim": "#9bd3b4",
+                        "outline": "#717973",
+                        "on-primary-container": "#77ad91",
+                        "on-tertiary-fixed-variant": "#005137",
+                        "hvac-cool": "#0A84FF",
+                        "secondary-fixed": "#ffdbd0",
+                        "surface-bright": "#f8f9ff",
+                        "border-muted": "#E2E8F0",
+                        "on-secondary-fixed-variant": "#842600",
+                        "inverse-primary": "#9bd3b4"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "grid-gutter": "16px",
+                        "table-cell-padding": "12px 16px",
+                        "base": "4px",
+                        "grid-margin": "24px",
+                        "step-indicator-gap": "32px"
+                    },
+                    "fontFamily": {
+                        "body-sm": ["Inter"],
+                        "data-mono": ["Inter"],
+                        "headline-sm": ["Hanken Grotesk"],
+                        "body-lg": ["Inter"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "label-sm": ["Inter"],
+                        "headline-lg": ["Hanken Grotesk"],
+                        "label-md": ["Inter"],
+                        "body-md": ["Inter"],
+                        "display-lg": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "data-mono": ["14px", { "lineHeight": "20px", "letterSpacing": "-0.01em", "fontWeight": "500" }],
+                        "headline-sm": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "600" }],
+                        "label-md": ["14px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.fill {
+            font-variation-settings: 'FILL' 1;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md antialiased flex min-h-screen">
+<!-- SideNavBar -->
+<nav class="bg-surface-container-lowest dark:bg-inverse-surface border-r border-border-muted dark:border-outline-variant h-screen sticky top-0 left-0 w-72 flex flex-col h-full py-base gap-2 hidden md:flex z-50">
+<div class="px-6 py-4 border-b border-border-muted dark:border-outline-variant mb-4">
+<h1 class="text-headline-md font-headline-md font-bold tracking-tight text-primary dark:text-primary-fixed">Nabhas Aircon</h1>
+<p class="text-label-sm font-label-sm text-on-surface-variant dark:text-surface-variant">Estimation Engine</p>
+</div>
+<div class="px-4 mb-4">
+<button class="w-full bg-primary text-on-primary py-2 px-4 rounded font-label-md text-label-md flex items-center justify-center gap-2 hover:bg-primary-container hover:text-on-primary-container transition-colors duration-200">
+<span class="material-symbols-outlined">add</span> New Quote
+            </button>
+</div>
+<div class="flex-1 overflow-y-auto px-3 flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant dark:text-surface-variant font-medium hover:bg-surface-container dark:hover:bg-primary-container/20 hover:text-primary dark:hover:text-primary-fixed transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-label-md text-label-md">Client Info</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant dark:text-surface-variant font-medium hover:bg-surface-container dark:hover:bg-primary-container/20 hover:text-primary dark:hover:text-primary-fixed transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="architecture">architecture</span>
+<span class="font-label-md text-label-md">Architecture</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-primary dark:text-primary-fixed font-bold bg-surface-container-high dark:bg-primary-container border-r-4 border-primary dark:border-primary-fixed hover:bg-surface-container dark:hover:bg-primary-container/20 transition-colors duration-200 scale-95 transition-transform duration-100" href="#">
+<span class="material-symbols-outlined fill" data-icon="airwave" data-weight="fill">airwave</span>
+<span class="font-label-md text-label-md">Air Movement</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant dark:text-surface-variant font-medium hover:bg-surface-container dark:hover:bg-primary-container/20 hover:text-primary dark:hover:text-primary-fixed transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="thermostat">thermostat</span>
+<span class="font-label-md text-label-md">Thermodynamics</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant dark:text-surface-variant font-medium hover:bg-surface-container dark:hover:bg-primary-container/20 hover:text-primary dark:hover:text-primary-fixed transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="filter_alt">filter_alt</span>
+<span class="font-label-md text-label-md">Filtration</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant dark:text-surface-variant font-medium hover:bg-surface-container dark:hover:bg-primary-container/20 hover:text-primary dark:hover:text-primary-fixed transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+<span class="font-label-md text-label-md">Rates</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant dark:text-surface-variant font-medium hover:bg-surface-container dark:hover:bg-primary-container/20 hover:text-primary dark:hover:text-primary-fixed transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+<span class="font-label-md text-label-md">Quote Summary</span>
+</a>
+</div>
+<div class="px-3 mt-auto flex flex-col gap-1 pb-4 border-t border-border-muted dark:border-outline-variant pt-4">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant dark:text-surface-variant font-medium hover:bg-surface-container dark:hover:bg-primary-container/20 hover:text-primary dark:hover:text-primary-fixed transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant dark:text-surface-variant font-medium hover:bg-surface-container dark:hover:bg-primary-container/20 hover:text-primary dark:hover:text-primary-fixed transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+<span class="font-label-md text-label-md">Help Center</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<div class="flex-1 flex flex-col min-w-0 bg-background">
+<!-- TopAppBar -->
+<header class="bg-surface/80 backdrop-blur-md border-b border-border-muted dark:border-outline-variant docked full-width top-0 flex justify-between items-center w-full px-grid-margin h-16 sticky top-0 z-40 md:hidden">
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<span class="text-headline-md font-headline-md font-bold text-primary dark:text-primary-fixed">Nabhas Aircon</span>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed transition-colors">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed transition-colors">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+</button>
+</div>
+</header>
+<main class="flex-1 p-grid-margin overflow-y-auto">
+<!-- Header Section -->
+<div class="max-w-7xl mx-auto mb-8">
+<div class="flex items-center justify-between mb-2">
+<h2 class="text-headline-lg font-headline-lg text-on-surface">Air Movement Configuration</h2>
+<span class="bg-surface-container-high text-primary px-3 py-1 rounded-full text-label-sm font-label-sm uppercase tracking-wider">Step 3 of 7</span>
+</div>
+<p class="text-body-md font-body-md text-on-surface-variant">Specify fan types, CFM requirements, and motor parameters for optimal air circulation.</p>
+</div>
+<!-- Stepper (Visual Representation) -->
+<div class="max-w-7xl mx-auto mb-10 flex items-center gap-2 overflow-x-auto pb-4">
+<div class="flex items-center gap-2 shrink-0">
+<div class="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center font-label-md">
+<span class="material-symbols-outlined" style="font-size: 16px;">check</span>
+</div>
+<span class="text-label-md font-label-md text-primary">Client</span>
+</div>
+<div class="h-[2px] w-12 bg-primary shrink-0"></div>
+<div class="flex items-center gap-2 shrink-0">
+<div class="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center font-label-md">
+<span class="material-symbols-outlined" style="font-size: 16px;">check</span>
+</div>
+<span class="text-label-md font-label-md text-primary">Arch</span>
+</div>
+<div class="h-[2px] w-12 bg-primary shrink-0"></div>
+<div class="flex items-center gap-2 shrink-0">
+<div class="w-8 h-8 rounded-full bg-primary text-on-primary border-2 border-primary flex items-center justify-center font-label-md">3</div>
+<span class="text-label-md font-label-md text-primary font-bold">Air Move</span>
+</div>
+<div class="h-[2px] w-12 bg-outline-variant shrink-0"></div>
+<div class="flex items-center gap-2 shrink-0 opacity-50">
+<div class="w-8 h-8 rounded-full bg-surface-container-high border border-outline-variant text-on-surface-variant flex items-center justify-center font-label-md">4</div>
+<span class="text-label-md font-label-md text-on-surface-variant">Thermo</span>
+</div>
+</div>
+<!-- Main Content Grid -->
+<div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-grid-gutter">
+<!-- Form Section -->
+<div class="lg:col-span-8 space-y-6">
+<!-- Fan Configuration Card -->
+<div class="bg-slate-surface border border-border-muted rounded-xl p-6">
+<h3 class="text-headline-sm font-headline-sm text-on-surface mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">mode_fan</span>
+                            Fan Specifications
+                        </h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Fan Type -->
+<div class="flex flex-col gap-2">
+<label class="text-label-sm font-label-sm text-on-surface-variant" for="fanType">Fan Type</label>
+<select class="w-full bg-surface border border-outline-variant rounded px-3 py-2 text-body-md font-body-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary" id="fanType">
+<option disabled="" selected="" value="">Select Fan Type</option>
+<option value="centrifugal">Centrifugal (Forward Curved)</option>
+<option value="centrifugal-bc">Centrifugal (Backward Curved)</option>
+<option value="axial">Axial</option>
+<option value="mixed">Mixed Flow</option>
+</select>
+</div>
+<!-- CFM Requirements -->
+<div class="flex flex-col gap-2">
+<label class="text-label-sm font-label-sm text-on-surface-variant" for="cfm">Airflow Requirement (CFM)</label>
+<div class="relative">
+<input class="w-full bg-surface border border-outline-variant rounded px-3 py-2 text-body-md font-body-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary pr-12" id="cfm" placeholder="e.g., 5000" type="number">
+<span class="absolute right-3 top-1/2 -translate-y-1/2 text-label-sm text-on-surface-variant">CFM</span>
+</div>
+</div>
+<!-- Static Pressure -->
+<div class="flex flex-col gap-2">
+<label class="text-label-sm font-label-sm text-on-surface-variant" for="staticPressure">Static Pressure (in. W.G.)</label>
+<div class="relative">
+<input class="w-full bg-surface border border-outline-variant rounded px-3 py-2 text-body-md font-body-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary pr-16" id="staticPressure" placeholder="e.g., 1.5" step="0.1" type="number">
+<span class="absolute right-3 top-1/2 -translate-y-1/2 text-label-sm text-on-surface-variant">in WG</span>
+</div>
+</div>
+<!-- Drive Type -->
+<div class="flex flex-col gap-2">
+<label class="text-label-sm font-label-sm text-on-surface-variant" for="driveType">Drive Type</label>
+<select class="w-full bg-surface border border-outline-variant rounded px-3 py-2 text-body-md font-body-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary" id="driveType">
+<option value="belt">Belt Drive</option>
+<option value="direct">Direct Drive</option>
+</select>
+</div>
+</div>
+</div>
+<!-- Motor Configuration Card -->
+<div class="bg-slate-surface border border-border-muted rounded-xl p-6">
+<h3 class="text-headline-sm font-headline-sm text-on-surface mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">bolt</span>
+                            Motor Configuration
+                        </h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Motor Power -->
+<div class="flex flex-col gap-2">
+<label class="text-label-sm font-label-sm text-on-surface-variant" for="motorPower">Motor Power (HP)</label>
+<div class="relative">
+<input class="w-full bg-surface border border-outline-variant rounded px-3 py-2 text-body-md font-body-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary pr-12" id="motorPower" placeholder="e.g., 5.0" step="0.5" type="number">
+<span class="absolute right-3 top-1/2 -translate-y-1/2 text-label-sm text-on-surface-variant">HP</span>
+</div>
+</div>
+<!-- Efficiency Rating -->
+<div class="flex flex-col gap-2">
+<label class="text-label-sm font-label-sm text-on-surface-variant" for="efficiency">Efficiency Rating</label>
+<select class="w-full bg-surface border border-outline-variant rounded px-3 py-2 text-body-md font-body-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary" id="efficiency">
+<option value="standard">Standard Efficiency</option>
+<option value="high">High Efficiency (IE2)</option>
+<option selected="" value="premium">Premium Efficiency (IE3)</option>
+<option value="super">Super Premium (IE4)</option>
+</select>
+</div>
+<!-- Voltage Phase -->
+<div class="flex flex-col gap-2">
+<label class="text-label-sm font-label-sm text-on-surface-variant mb-1">Voltage / Phase</label>
+<div class="flex gap-4">
+<label class="flex items-center gap-2">
+<input class="text-primary focus:ring-primary h-4 w-4" name="phase" type="radio" value="1">
+<span class="text-body-sm font-body-sm">1-Phase (120/240V)</span>
+</label>
+<label class="flex items-center gap-2">
+<input checked="" class="text-primary focus:ring-primary h-4 w-4" name="phase" type="radio" value="3">
+<span class="text-body-sm font-body-sm">3-Phase (460/480V)</span>
+</label>
+</div>
+</div>
+<!-- VFD -->
+<div class="flex flex-col gap-2 justify-center mt-4">
+<label class="flex items-center gap-3 cursor-pointer">
+<input class="rounded text-primary focus:ring-primary h-5 w-5 border-outline-variant" type="checkbox">
+<span class="text-body-md font-body-md text-on-surface">Include Variable Frequency Drive (VFD)</span>
+</label>
+</div>
+</div>
+</div>
+<!-- Action Buttons -->
+<div class="flex justify-between items-center pt-4 border-t border-border-muted">
+<button class="px-6 py-2 border border-border-muted rounded text-on-surface font-label-md hover:bg-surface-container transition-colors">
+                            Back
+                        </button>
+<div class="flex gap-4">
+<button class="px-6 py-2 border border-primary text-primary rounded font-label-md hover:bg-surface-container-low transition-colors">
+                                Save Draft
+                            </button>
+<button class="px-6 py-2 bg-primary text-on-primary rounded font-label-md hover:bg-primary-container hover:text-on-primary-container transition-colors">
+                                Next Step
+                            </button>
+</div>
+</div>
+</div>
+<!-- Technical Diagram & Summary Sidebar -->
+<div class="lg:col-span-4 space-y-6">
+<!-- Diagram Placeholder -->
+<div class="bg-slate-surface border border-border-muted rounded-xl p-4 flex flex-col items-center justify-center h-64 relative overflow-hidden">
+<img alt="Technical schematic of an industrial HVAC fan system" class="absolute inset-0 w-full h-full object-cover opacity-20 mix-blend-multiply" data-alt="A highly detailed technical blueprint schematic of an industrial HVAC centrifugal fan and motor assembly. The diagram is rendered in a modern, clean light-mode aesthetic using crisp lines against a pristine white background. Accents of deep industrial green (primary color) highlight airflow direction and critical mechanical joints. The mood is precise, authoritative, and engineering-focused, emphasizing high-trust industrial modernism." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD1aDaVWNNrVXiqJyW5fl-yFHlkmCqRfEJgpn4wPH1UHq7-rAbQEf_Rv0lVZQsnJyJKL2tzuD1n7BCcN4CTfS-TpZF3VXOkUd1R-ae-tdNFarXXJhN8GlqcsU5q9zqPVe3kV4LXKoFr0qFTkxUa4i3weXV_3yOFq8TKxyCIP2yaqT66aEwCWW05keL9vIVZoxIVpvnBlzkf3d-r8uzGy7B8f4yW8SfBsnZ4BjBpHuMDHflHPhaWaQUylYdQ15h5LKgQVC8MkWwkga1d">
+<div class="z-10 text-center flex flex-col items-center">
+<span class="material-symbols-outlined text-outline" style="font-size: 48px;">engineering</span>
+<p class="mt-2 text-label-sm text-on-surface-variant font-label-sm uppercase tracking-wider">System Schematic</p>
+<p class="text-body-sm text-outline mt-1 text-center max-w-[200px]">Diagram will auto-generate based on selected fan type and drive.</p>
+</div>
+</div>
+<!-- Real-time Calculation Summary -->
+<div class="bg-surface-container-low rounded-xl p-6 border border-border-muted">
+<h4 class="text-label-md font-label-md text-on-surface uppercase tracking-wider mb-4 border-b border-border-muted pb-2">Estimated Performance</h4>
+<div class="space-y-4">
+<div class="flex justify-between items-center">
+<span class="text-body-sm font-body-sm text-on-surface-variant">Brake Horsepower (BHP)</span>
+<span class="text-data-mono font-data-mono text-on-surface">--</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-body-sm font-body-sm text-on-surface-variant">Fan RPM</span>
+<span class="text-data-mono font-data-mono text-on-surface">--</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-body-sm font-body-sm text-on-surface-variant">Estimated Noise Level</span>
+<span class="text-data-mono font-data-mono text-on-surface">-- dBA</span>
+</div>
+<div class="pt-4 border-t border-border-muted mt-4">
+<div class="flex justify-between items-center">
+<span class="text-label-md font-label-md text-on-surface">Est. Energy Cost / Yr</span>
+<span class="text-headline-sm font-headline-sm text-secondary">$--</span>
+</div>
+<p class="text-[10px] text-on-surface-variant mt-1 text-right">Based on 0.12 $/kWh average</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>
