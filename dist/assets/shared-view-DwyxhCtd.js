@@ -1,4 +1,4 @@
-import{f as b,h as u,g as f}from"./storage-BU_itUQs.js";import{c as y,f as e}from"./calculations-CDT-qs_O.js";import{e as s,i as v}from"./index-rEfxnuH0.js";const I=()=>`
+import{f as b,h as u,g as f}from"./storage-CjZL2NYH.js";import{c as y,f as e}from"./calculations-CDT-qs_O.js";import{e as s,i as v}from"./index-CDlMNROc.js";const I=()=>`
   <main class="flex-1 flex flex-col overflow-y-auto relative bg-background w-full min-h-screen">
     <!-- Read Only Header -->
     <div class="w-full bg-primary text-on-primary border-b border-border-muted sticky top-0 z-10 shadow-sm print:hidden">

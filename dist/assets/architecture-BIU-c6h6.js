@@ -1,4 +1,4 @@
-import{m as g,t as b,s as i,r as v}from"./toast-DPeVNi_n.js";import{f as x,h as y,u as h}from"./storage-BU_itUQs.js";import{c as w}from"./calculations-CDT-qs_O.js";import{r as E}from"./running-estimate-CZ2yY7Np.js";import{i as m}from"./index-rEfxnuH0.js";let r=null,l=null,a=null,p=null;const I=()=>`
+import{m as g,t as b,s as i,r as v}from"./toast-Ds53AZIo.js";import{f as x,h as y,u as h}from"./storage-CjZL2NYH.js";import{c as w}from"./calculations-CDT-qs_O.js";import{r as E}from"./running-estimate-CZ2yY7Np.js";import{i as m}from"./index-CDlMNROc.js";let r=null,l=null,a=null,p=null;const I=()=>`
   ${v()}
   <main class="flex-1 flex flex-col overflow-y-auto relative bg-background w-full">
     <!-- Header & Stepper -->
@@ -16,7 +16,7 @@ import{m as g,t as b,s as i,r as v}from"./toast-DPeVNi_n.js";import{f as x,h as 
     <div class="w-full max-w-[1200px] mx-auto px-4 py-6 md:px-8 md:py-8 flex flex-col lg:flex-row gap-6 md:gap-8 relative items-start">
       <!-- Loading Overlay -->
       <div id="step-loading-overlay" class="absolute inset-0 bg-background/80 backdrop-blur-sm z-30 flex flex-col items-center justify-center gap-3 transition-opacity duration-300">
-        <span class="material-symbols-outlined animate-spin text-[40px] text-primary">progress_activity</span>
+        <div class="spinner spinner-md text-primary"></div>
         <p class="text-body-md text-on-surface-variant font-medium">Loading architecture specifications...</p>
       </div>
 

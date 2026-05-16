@@ -1,4 +1,4 @@
-import{m as y,t as g,s as l,r as h}from"./toast-DPeVNi_n.js";import{f as v,h as w,g as E,u as I}from"./storage-BU_itUQs.js";import{c as B,f as a}from"./calculations-CDT-qs_O.js";import{g as C}from"./pdf-generator-BbvvS5bY.js";import{i as x}from"./index-rEfxnuH0.js";let r=null,o=null,t=null,n=null,i=null,e=null;const D=()=>`
+import{m as y,t as g,s as l,r as h}from"./toast-Ds53AZIo.js";import{f as v,h as w,g as E,u as I}from"./storage-CjZL2NYH.js";import{c as B,f as a}from"./calculations-CDT-qs_O.js";import{g as C}from"./pdf-generator-BNHzxg6-.js";import{i as x}from"./index-CDlMNROc.js";let r=null,o=null,t=null,n=null,i=null,e=null;const D=()=>`
   ${h()}
   <main class="flex-1 flex flex-col overflow-y-auto relative bg-background w-full">
     <div class="w-full bg-surface-container-lowest border-b border-border-muted sticky top-0 z-10 shadow-sm print:hidden">
@@ -15,7 +15,7 @@ import{m as y,t as g,s as l,r as h}from"./toast-DPeVNi_n.js";import{f as v,h as 
       
       <!-- Loading Overlay -->
       <div id="step-loading-overlay" class="absolute inset-0 bg-background/80 backdrop-blur-sm z-30 flex flex-col items-center justify-center gap-3 transition-opacity duration-300 print:hidden">
-        <span class="material-symbols-outlined animate-spin text-[40px] text-primary">progress_activity</span>
+        <div class="spinner spinner-md text-primary"></div>
         <p class="text-body-md text-on-surface-variant font-medium">Loading quote summary...</p>
       </div>
 

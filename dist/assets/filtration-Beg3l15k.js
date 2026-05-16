@@ -1,5 +1,5 @@
-import{m as b,t as x,s as l,r as y}from"./toast-DPeVNi_n.js";import{f as g,h as v,u as h}from"./storage-BU_itUQs.js";import{c as w}from"./calculations-CDT-qs_O.js";import{r as E}from"./running-estimate-CZ2yY7Np.js";import{i as m}from"./index-rEfxnuH0.js";let r=null,n=null,a=null,p=null;const A=()=>`
-  ${y()}
+import{m as b,t as x,s,r as g}from"./toast-Ds53AZIo.js";import{f as y,h as v,u as h}from"./storage-CjZL2NYH.js";import{c as w}from"./calculations-CDT-qs_O.js";import{r as E}from"./running-estimate-CZ2yY7Np.js";import{i as m}from"./index-CDlMNROc.js";let a=null,n=null,r=null,p=null;const A=()=>`
+  ${g()}
   <main class="flex-1 flex flex-col overflow-y-auto relative bg-background w-full">
     <div class="w-full bg-surface-container-lowest border-b border-border-muted sticky top-0 z-10 shadow-sm">
       <div class="max-w-[1200px] mx-auto px-4 py-4 md:px-8 md:py-6">
@@ -14,7 +14,7 @@ import{m as b,t as x,s as l,r as y}from"./toast-DPeVNi_n.js";import{f as g,h as 
     <div class="w-full max-w-[1200px] mx-auto px-4 py-6 md:px-8 md:py-8 flex flex-col lg:flex-row gap-6 md:gap-8 relative items-start">
       <!-- Loading Overlay -->
       <div id="step-loading-overlay" class="absolute inset-0 bg-background/80 backdrop-blur-sm z-30 flex flex-col items-center justify-center gap-3 transition-opacity duration-300">
-        <span class="material-symbols-outlined animate-spin text-[40px] text-primary">progress_activity</span>
+        <div class="spinner spinner-md text-primary"></div>
         <p class="text-body-md text-on-surface-variant font-medium">Loading filtration systems...</p>
       </div>
 
@@ -72,7 +72,7 @@ import{m as b,t as x,s as l,r as y}from"./toast-DPeVNi_n.js";import{f as g,h as 
 
         <!-- Action Bar -->
         <div class="flex flex-col-reverse md:flex-row justify-between items-center gap-4 bg-surface-container-lowest p-4 rounded-xl border border-border-muted shadow-sm">
-          <a href="#project/${r}/sheet/${n}/step/4" class="w-full md:w-auto px-6 py-3 md:py-2 border border-outline text-on-surface rounded-DEFAULT font-label-md hover:bg-surface-container transition-colors text-center">
+          <a href="#project/${a}/sheet/${n}/step/4" class="w-full md:w-auto px-6 py-3 md:py-2 border border-outline text-on-surface rounded-DEFAULT font-label-md hover:bg-surface-container transition-colors text-center">
             Previous
           </a>
           <div class="flex flex-col-reverse md:flex-row w-full md:w-auto gap-4">
@@ -91,4 +91,4 @@ import{m as b,t as x,s as l,r as y}from"./toast-DPeVNi_n.js";import{f as g,h as 
       <div id="estimate-container" class="w-full lg:w-[320px] flex-shrink-0"></div>
     </div>
   </main>
-`,B=async f=>{b();const i=document.getElementById("mobile-menu-btn");i&&i.addEventListener("click",x);const o=f.split("/");r=o[1],n=o[3];const e={pre:document.getElementById("preQty"),fine:document.getElementById("fineQty"),hepa:document.getElementById("hepaQty")};try{p=await g(),a=await v(r,n),a&&a.filtration&&(e.pre.value=a.filtration.preQty||"",e.fine.value=a.filtration.fineQty||"",e.hepa.value=a.filtration.hepaQty||"")}catch(t){l("Error loading data: "+m(t),"error")}const d=()=>{const t={...a};t.filtration={preQty:parseInt(e.pre.value)||0,fineQty:parseInt(e.fine.value)||0,hepaQty:parseInt(e.hepa.value)||0};const s=w(t,p);document.getElementById("estimate-container").innerHTML=E(s)};document.querySelectorAll(".input-trigger").forEach(t=>{t.addEventListener("input",d)}),d();const c=document.getElementById("step-loading-overlay");c&&c.classList.add("hidden");const u=async()=>{const t={preQty:parseInt(e.pre.value)||0,fineQty:parseInt(e.fine.value)||0,hepaQty:parseInt(e.hepa.value)||0};try{return await h(r,n,{filtration:t,currentStep:Math.max(a.currentStep||1,6)}),a.filtration=t,!0}catch(s){return l("Failed to save draft: "+m(s),"error"),!1}};document.getElementById("save-draft-btn").addEventListener("click",async()=>{await u()&&l("Draft saved successfully")}),document.getElementById("next-btn").addEventListener("click",async()=>{await u()&&(window.location.hash=`#project/${r}/sheet/${n}/step/6`)})};export{B as mount,A as render};
+`,B=async f=>{b();const i=document.getElementById("mobile-menu-btn");i&&i.addEventListener("click",x);const o=f.split("/");a=o[1],n=o[3];const e={pre:document.getElementById("preQty"),fine:document.getElementById("fineQty"),hepa:document.getElementById("hepaQty")};try{p=await y(),r=await v(a,n),r&&r.filtration&&(e.pre.value=r.filtration.preQty||"",e.fine.value=r.filtration.fineQty||"",e.hepa.value=r.filtration.hepaQty||"")}catch(t){s("Error loading data: "+m(t),"error")}const d=()=>{const t={...r};t.filtration={preQty:parseInt(e.pre.value)||0,fineQty:parseInt(e.fine.value)||0,hepaQty:parseInt(e.hepa.value)||0};const l=w(t,p);document.getElementById("estimate-container").innerHTML=E(l)};document.querySelectorAll(".input-trigger").forEach(t=>{t.addEventListener("input",d)}),d();const c=document.getElementById("step-loading-overlay");c&&c.classList.add("hidden");const u=async()=>{const t={preQty:parseInt(e.pre.value)||0,fineQty:parseInt(e.fine.value)||0,hepaQty:parseInt(e.hepa.value)||0};try{return await h(a,n,{filtration:t,currentStep:Math.max(r.currentStep||1,6)}),r.filtration=t,!0}catch(l){return s("Failed to save draft: "+m(l),"error"),!1}};document.getElementById("save-draft-btn").addEventListener("click",async()=>{await u()&&s("Draft saved successfully")}),document.getElementById("next-btn").addEventListener("click",async()=>{await u()&&(window.location.hash=`#project/${a}/sheet/${n}/step/6`)})};export{B as mount,A as render};

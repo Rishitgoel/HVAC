@@ -1,4 +1,4 @@
-import{m as g,t as v,s,r as y}from"./toast-DPeVNi_n.js";import{g as h,h as w,u as E}from"./storage-BU_itUQs.js";import{i as f}from"./index-rEfxnuH0.js";let a=null,n=null,t=null;const B=()=>`
+import{m as g,t as v,s,r as y}from"./toast-Ds53AZIo.js";import{g as h,h as w,u as E}from"./storage-CjZL2NYH.js";import{i as f}from"./index-CDlMNROc.js";let a=null,n=null,t=null;const B=()=>`
   ${y()}
   <main class="flex-1 flex flex-col overflow-y-auto relative bg-background w-full">
     <!-- Header & Stepper -->
@@ -15,7 +15,7 @@ import{m as g,t as v,s,r as y}from"./toast-DPeVNi_n.js";import{g as h,h as w,u a
     <div class="w-full max-w-[1200px] mx-auto px-4 py-6 md:px-8 md:py-8 relative">
       <!-- Loading Overlay -->
       <div id="step-loading-overlay" class="absolute inset-0 bg-background/80 backdrop-blur-sm z-30 flex flex-col items-center justify-center gap-3 transition-opacity duration-300">
-        <span class="material-symbols-outlined animate-spin text-[40px] text-primary">progress_activity</span>
+        <div class="spinner spinner-md text-primary"></div>
         <p class="text-body-md text-on-surface-variant font-medium">Loading client & project details...</p>
       </div>
 
@@ -68,4 +68,4 @@ import{m as g,t as v,s,r as y}from"./toast-DPeVNi_n.js";import{g as h,h as w,u a
       </div>
     </div>
   </main>
-`,D=async p=>{var m,u;g();const l=document.getElementById("mobile-menu-btn");l&&l.addEventListener("click",v);const d=p.split("/");a=d[1],n=d[3];const r=document.getElementById("cfmReq"),i=document.getElementById("roomName"),b=document.getElementById("clientName"),x=document.getElementById("sheetId");try{const e=await h(a);if(t=await w(a,n),e&&(b.value=e.clientName||"Unknown Client"),t){x.value=t.id,r.value=((m=t.clientInfo)==null?void 0:m.cfmRequirement)||"",i.value=((u=t.clientInfo)==null?void 0:u.roomName)||"";const o=document.getElementById("status-badge");o&&(o.textContent=`${t.status==="published"?"Published":"Draft"} • By ${t.ownerName||"Unknown"}`)}}catch(e){s("Error loading data: "+f(e),"error")}finally{const e=document.getElementById("step-loading-overlay");e&&e.classList.add("hidden")}const c=async()=>{if(!r.checkValidity())return r.reportValidity(),!1;const e={cfmRequirement:parseFloat(r.value)||0,roomName:i.value};try{return await E(a,n,{clientInfo:e,currentStep:Math.max(t.currentStep||1,2)}),!0}catch(o){return s("Failed to save draft: "+f(o),"error"),!1}};document.getElementById("save-draft-btn").addEventListener("click",async()=>{await c()&&s("Draft saved successfully")}),document.getElementById("next-btn").addEventListener("click",async()=>{await c()&&(window.location.hash=`#project/${a}/sheet/${n}/step/2`)})};export{D as mount,B as render};
+`,D=async p=>{var m,u;g();const d=document.getElementById("mobile-menu-btn");d&&d.addEventListener("click",v);const l=p.split("/");a=l[1],n=l[3];const r=document.getElementById("cfmReq"),i=document.getElementById("roomName"),b=document.getElementById("clientName"),x=document.getElementById("sheetId");try{const e=await h(a);if(t=await w(a,n),e&&(b.value=e.clientName||"Unknown Client"),t){x.value=t.id,r.value=((m=t.clientInfo)==null?void 0:m.cfmRequirement)||"",i.value=((u=t.clientInfo)==null?void 0:u.roomName)||"";const o=document.getElementById("status-badge");o&&(o.textContent=`${t.status==="published"?"Published":"Draft"} • By ${t.ownerName||"Unknown"}`)}}catch(e){s("Error loading data: "+f(e),"error")}finally{const e=document.getElementById("step-loading-overlay");e&&e.classList.add("hidden")}const c=async()=>{if(!r.checkValidity())return r.reportValidity(),!1;const e={cfmRequirement:parseFloat(r.value)||0,roomName:i.value};try{return await E(a,n,{clientInfo:e,currentStep:Math.max(t.currentStep||1,2)}),!0}catch(o){return s("Failed to save draft: "+f(o),"error"),!1}};document.getElementById("save-draft-btn").addEventListener("click",async()=>{await c()&&s("Draft saved successfully")}),document.getElementById("next-btn").addEventListener("click",async()=>{await c()&&(window.location.hash=`#project/${a}/sheet/${n}/step/2`)})};export{D as mount,B as render};
