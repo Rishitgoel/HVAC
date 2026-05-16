@@ -193,7 +193,7 @@ export const mount = async () => {
   if (admin) {
     saveBtn.addEventListener('click', async () => {
       saveBtn.disabled = true;
-      saveBtn.innerHTML = '<span class="material-symbols-outlined animate-spin text-[18px]">progress_activity</span>';
+      saveBtn.innerHTML = '<div class="spinner spinner-sm"></div>';
       
       const newSettings = {};
       const fields = [

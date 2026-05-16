@@ -21,7 +21,7 @@ let currentModule = null;
 const renderLoader = () => {
   appDiv.innerHTML = `
     <div class="flex-1 flex justify-center items-center h-full w-full bg-background">
-      <span class="material-symbols-outlined animate-spin text-[48px] text-primary">progress_activity</span>
+      <div class="spinner spinner-lg text-primary"></div>
     </div>
   `;
 };

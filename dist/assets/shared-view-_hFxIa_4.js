@@ -1,10 +1,10 @@
-import{f as b,h as u,g as f}from"./storage-BWz5GEzr.js";import{c as y,f as e}from"./calculations-CDT-qs_O.js";import{e as o,i as v}from"./index-Bp3_zzYf.js";const I=()=>`
+import{f as b,h as u,g as f}from"./storage-BU_itUQs.js";import{c as y,f as e}from"./calculations-CDT-qs_O.js";import{e as s,i as v}from"./index-rEfxnuH0.js";const I=()=>`
   <main class="flex-1 flex flex-col overflow-y-auto relative bg-background w-full min-h-screen">
     <!-- Read Only Header -->
     <div class="w-full bg-primary text-on-primary border-b border-border-muted sticky top-0 z-10 shadow-sm print:hidden">
       <div class="max-w-[1000px] mx-auto px-4 py-3 flex justify-between items-center">
         <div class="flex items-center gap-3">
-          <img src="/src/assets/logo.svg" alt="Nabhas Aircon" class="h-8 object-contain filter invert brightness-0">
+          <img src="/logo.svg" alt="Nabhas Aircon" class="h-8 object-contain filter invert brightness-0">
           <span class="font-bold text-label-md hidden md:inline">Shared Quotation Viewer</span>
         </div>
         <div class="flex items-center gap-4">
@@ -20,7 +20,7 @@ import{f as b,h as u,g as f}from"./storage-BWz5GEzr.js";import{c as y,f as e}fro
       <div id="pdf-content" class="bg-surface-container-lowest border border-border-muted rounded-xl p-6 md:p-10 shadow-sm relative">
         <div class="flex justify-between items-start mb-8 pb-6 border-b border-border-muted">
           <div class="flex flex-col gap-1">
-            <img src="/src/assets/logo.svg" alt="Nabhas Aircon" class="h-10 object-contain self-start mb-2">
+            <img src="/logo.svg" alt="Nabhas Aircon" class="h-10 object-contain self-start mb-2">
             <h1 class="text-headline-sm font-bold text-on-surface">HVAC Quotation</h1>
             <p class="text-body-sm text-on-surface-variant" id="quote-date">Date: ...</p>
           </div>
@@ -84,7 +84,7 @@ import{f as b,h as u,g as f}from"./storage-BWz5GEzr.js";import{c as y,f as e}fro
       </div>
     </div>
   </main>
-`,E=async p=>{var l,c,m;const r=p.split("/"),i=r[1],s=r[2];document.getElementById("login-btn").addEventListener("click",()=>{o()?window.location.hash="#dashboard":window.location.hash="#login"}),document.getElementById("download-pdf-btn").addEventListener("click",()=>{window.print()});try{const d=await b(),a=await u(i,s),n=await f(i);if(!a||!n){document.getElementById("pdf-content").innerHTML='<div class="p-8 text-center text-error font-headline-md">Quote not found or you do not have permission to view it.</div>';return}if(a.status!=="published"&&(!o()||a.ownerUid!==o().uid&&!isAdmin())){document.getElementById("pdf-content").innerHTML='<div class="p-8 text-center text-error font-headline-md">This quote is not public.</div>';return}const t=y(a,d);document.getElementById("quote-date").textContent=`Date: ${new Date(((l=a.updatedAt)==null?void 0:l.toDate())||new Date).toLocaleDateString("en-IN")}`,document.getElementById("client-name-display").textContent=n.clientName,document.getElementById("project-title-display").textContent=n.title,document.getElementById("sheet-id-display").textContent=`Ref: ${s.split("-")[1]||s}`,document.getElementById("cfm-display").textContent=((c=a.clientInfo)==null?void 0:c.cfmRequirement)||0,document.getElementById("room-display").textContent=((m=a.clientInfo)==null?void 0:m.roomName)||"General";const x=document.getElementById("breakdown-body");x.innerHTML=`
+`,E=async p=>{var l,c,m;const r=p.split("/"),i=r[1],n=r[2];document.getElementById("login-btn").addEventListener("click",()=>{s()?window.location.hash="#dashboard":window.location.hash="#login"}),document.getElementById("download-pdf-btn").addEventListener("click",()=>{window.print()});try{const d=await b(),a=await u(i,n),o=await f(i);if(!a||!o){document.getElementById("pdf-content").innerHTML='<div class="p-8 text-center text-error font-headline-md">Quote not found or you do not have permission to view it.</div>';return}if(a.status!=="published"&&(!s()||a.ownerUid!==s().uid&&!isAdmin())){document.getElementById("pdf-content").innerHTML='<div class="p-8 text-center text-error font-headline-md">This quote is not public.</div>';return}const t=y(a,d);document.getElementById("quote-date").textContent=`Date: ${new Date(((l=a.updatedAt)==null?void 0:l.toDate())||new Date).toLocaleDateString("en-IN")}`,document.getElementById("client-name-display").textContent=o.clientName,document.getElementById("project-title-display").textContent=o.title,document.getElementById("sheet-id-display").textContent=`Ref: ${n.split("-")[1]||n}`,document.getElementById("cfm-display").textContent=((c=a.clientInfo)==null?void 0:c.cfmRequirement)||0,document.getElementById("room-display").textContent=((m=a.clientInfo)==null?void 0:m.roomName)||"General";const x=document.getElementById("breakdown-body");x.innerHTML=`
       <tr class="border-b border-border-muted/50">
         <td class="py-3 px-2 text-body-md">Architecture & Casing</td>
         <td class="py-3 px-2 text-right font-data-mono">${e(t.architecture)}</td>

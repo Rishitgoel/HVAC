@@ -1,8 +1,8 @@
-import{l as m,n as u,g as f}from"./index-Bp3_zzYf.js";const g=()=>`
+import{l as m,n as u,g as f}from"./index-rEfxnuH0.js";const g=()=>`
   <div class="flex-1 flex flex-col justify-center items-center p-4 bg-background w-full h-full">
     <div class="w-full max-w-md bg-surface-container-lowest border border-border-muted rounded-xl p-8 shadow-sm">
       <div class="flex flex-col items-center mb-8">
-        <img src="/src/assets/logo.svg" alt="Nabhas Aircon" class="h-12 mb-4 object-contain">
+        <img src="/logo.svg" alt="Nabhas Aircon" class="h-12 mb-4 object-contain">
         <h2 class="text-headline-md font-headline-md text-primary font-bold">Nabhas Aircon</h2>
         <p class="text-body-sm text-on-surface-variant text-center">HVAC Estimation Engine</p>
       </div>

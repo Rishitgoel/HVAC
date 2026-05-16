@@ -23,7 +23,7 @@ export const render = () => `
       <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <!-- Projects loaded here -->
         <div class="col-span-full flex justify-center py-12">
-          <span class="material-symbols-outlined animate-spin text-[32px] text-primary">progress_activity</span>
+          <div class="spinner spinner-md text-primary"></div>
         </div>
       </div>
     </div>
@@ -134,7 +134,7 @@ export const mount = async () => {
           if (confirm('Are you sure you want to delete this project? This will NOT delete its sheets automatically in this simple implementation.')) {
             try {
               const originalHTML = btn.innerHTML;
-              btn.innerHTML = '<span class="material-symbols-outlined animate-spin text-[20px]">progress_activity</span>';
+              btn.innerHTML = '<div class="spinner spinner-sm"></div>';
               btn.disabled = true;
               await deleteProject(pid);
               await loadProjects();
@@ -164,7 +164,7 @@ export const mount = async () => {
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     submitBtn.disabled = true;
-    submitBtn.innerHTML = '<span class="material-symbols-outlined animate-spin text-[18px]">progress_activity</span>';
+    submitBtn.innerHTML = '<div class="spinner spinner-sm"></div>';
     
     try {
       const title = document.getElementById('proj-title').value;

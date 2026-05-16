@@ -24,7 +24,7 @@ export const render = () => `
     <div class="w-full max-w-[1200px] mx-auto px-4 py-6 md:px-8 md:py-8 relative">
       <!-- Loading Overlay -->
       <div id="step-loading-overlay" class="absolute inset-0 bg-background/80 backdrop-blur-sm z-30 flex flex-col items-center justify-center gap-3 transition-opacity duration-300">
-        <span class="material-symbols-outlined animate-spin text-[40px] text-primary">progress_activity</span>
+        <div class="spinner spinner-md text-primary"></div>
         <p class="text-body-md text-on-surface-variant font-medium">Loading client & project details...</p>
       </div>
 

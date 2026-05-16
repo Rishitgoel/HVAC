@@ -16,4 +16,35 @@
   .material-symbols-outlined.filled {
     font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
   }
+
+  /* Custom loading spinners to prevent FOUT of ligature icons */
+  .spinner {
+    display: inline-block;
+    border-radius: 50%;
+    border-style: solid;
+    border-color: currentColor;
+    border-bottom-color: transparent;
+    border-left-color: transparent;
+    animation: spinner-spin 0.8s linear infinite;
+  }
+  .spinner-lg {
+    width: 48px;
+    height: 48px;
+    border-width: 4px;
+  }
+  .spinner-md {
+    width: 36px;
+    height: 36px;
+    border-width: 3px;
+  }
+  .spinner-sm {
+    width: 18px;
+    height: 18px;
+    border-width: 2px;
+  }
+}
+
+@keyframes spinner-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }

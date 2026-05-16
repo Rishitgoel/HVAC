@@ -4,7 +4,7 @@ export const render = () => `
   <div class="flex-1 flex flex-col justify-center items-center p-4 bg-background w-full h-full">
     <div class="w-full max-w-md bg-surface-container-lowest border border-border-muted rounded-xl p-8 shadow-sm">
       <div class="flex flex-col items-center mb-8">
-        <img src="/src/assets/logo.svg" alt="Nabhas Aircon" class="h-12 mb-4 object-contain">
+        <img src="/logo.svg" alt="Nabhas Aircon" class="h-12 mb-4 object-contain">
         <h2 class="text-headline-md font-headline-md text-primary font-bold">Nabhas Aircon</h2>
         <p class="text-body-sm text-on-surface-variant text-center">HVAC Estimation Engine</p>
       </div>
@@ -74,7 +74,7 @@ export const mount = () => {
     e.preventDefault();
     errorDiv.classList.add('hidden');
     submitBtn.disabled = true;
-    submitBtn.innerHTML = '<span class="material-symbols-outlined animate-spin text-[18px]">progress_activity</span>';
+    submitBtn.innerHTML = '<div class="spinner spinner-sm"></div>';
 
     try {
       const email = document.getElementById('email').value;

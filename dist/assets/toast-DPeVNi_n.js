@@ -1,4 +1,4 @@
-import{m as v,e as y,j as $}from"./index-Bp3_zzYf.js";const j=s=>{const e=y(),a=$(),t=s||window.location.hash||"#dashboard",o=t==="#dashboard"||t==="",r=t==="#settings",m=t.startsWith("#project")&&!t.includes("/step/"),u=t.includes("/step/");let d="";if(u){const p=t.split("/"),n=p[1],i=p[3],f=p[5],x=[{id:1,label:"Client Info",icon:"person",path:`#project/${n}/sheet/${i}/step/1`},{id:2,label:"Architecture",icon:"architecture",path:`#project/${n}/sheet/${i}/step/2`},{id:3,label:"Air Movement",icon:"airwave",path:`#project/${n}/sheet/${i}/step/3`},{id:4,label:"Thermodynamics",icon:"thermostat",path:`#project/${n}/sheet/${i}/step/4`},{id:5,label:"Filtration",icon:"filter_alt",path:`#project/${n}/sheet/${i}/step/5`},{id:6,label:"Rates",icon:"payments",path:`#project/${n}/sheet/${i}/step/6`},{id:7,label:"Quote Summary",icon:"description",path:`#project/${n}/sheet/${i}/step/7`}];d=`
+import{m as v,e as y,j as $}from"./index-rEfxnuH0.js";const j=s=>{const e=y(),a=$(),t=s||window.location.hash||"#dashboard",o=t==="#dashboard"||t==="",r=t==="#settings",m=t.startsWith("#project")&&!t.includes("/step/"),u=t.includes("/step/");let d="";if(u){const p=t.split("/"),n=p[1],i=p[3],f=p[5],x=[{id:1,label:"Client Info",icon:"person",path:`#project/${n}/sheet/${i}/step/1`},{id:2,label:"Architecture",icon:"architecture",path:`#project/${n}/sheet/${i}/step/2`},{id:3,label:"Air Movement",icon:"airwave",path:`#project/${n}/sheet/${i}/step/3`},{id:4,label:"Thermodynamics",icon:"thermostat",path:`#project/${n}/sheet/${i}/step/4`},{id:5,label:"Filtration",icon:"filter_alt",path:`#project/${n}/sheet/${i}/step/5`},{id:6,label:"Rates",icon:"payments",path:`#project/${n}/sheet/${i}/step/6`},{id:7,label:"Quote Summary",icon:"description",path:`#project/${n}/sheet/${i}/step/7`}];d=`
       <a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant font-medium hover:bg-surface-container hover:text-primary transition-colors duration-200 rounded-DEFAULT mb-4" href="#project/${n}">
         <span class="material-symbols-outlined">arrow_back</span>
         <span class="text-label-md font-label-md">Back to Project</span>
@@ -20,7 +20,7 @@ import{m as v,e as y,j as $}from"./index-Bp3_zzYf.js";const j=s=>{const e=y(),a=
       <!-- Header -->
       <div class="px-6 py-4 flex flex-col gap-2">
         <div class="flex items-center justify-between">
-          <img alt="Nabhas Aircon Logo" class="h-10 w-auto object-contain self-start" src="/src/assets/logo.svg"/>
+          <img alt="Nabhas Aircon Logo" class="h-10 w-auto object-contain self-start" src="/logo.svg"/>
           <button id="close-sidebar-btn" class="md:hidden text-on-surface-variant p-2 -mr-2"><span class="material-symbols-outlined">close</span></button>
         </div>
         <div>

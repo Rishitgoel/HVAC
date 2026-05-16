@@ -1,4 +1,4 @@
-var Vu=Object.defineProperty;var Gu=(In,Xr,Xn)=>Xr in In?Vu(In,Xr,{enumerable:!0,configurable:!0,writable:!0,value:Xn}):In[Xr]=Xn;var cn=(In,Xr,Xn)=>Gu(In,typeof Xr!="symbol"?Xr+"":Xr,Xn);import{c as zu,m as Mu}from"./calculations-CDT-qs_O.js";import{f as Wu}from"./storage-BWz5GEzr.js";var Cl=typeof globalThis<"u"?globalThis:typeof window<"u"?window:typeof global<"u"?global:typeof self<"u"?self:{};function Xu(In){return In&&In.__esModule&&Object.prototype.hasOwnProperty.call(In,"default")?In.default:In}var Ku={exports:{}},Du={exports:{}};/*!
+var Vu=Object.defineProperty;var Gu=(In,Xr,Xn)=>Xr in In?Vu(In,Xr,{enumerable:!0,configurable:!0,writable:!0,value:Xn}):In[Xr]=Xn;var cn=(In,Xr,Xn)=>Gu(In,typeof Xr!="symbol"?Xr+"":Xr,Xn);import{c as zu,m as Mu}from"./calculations-CDT-qs_O.js";import{f as Wu}from"./storage-BU_itUQs.js";var Cl=typeof globalThis<"u"?globalThis:typeof window<"u"?window:typeof global<"u"?global:typeof self<"u"?self:{};function Xu(In){return In&&In.__esModule&&Object.prototype.hasOwnProperty.call(In,"default")?In.default:In}var Ku={exports:{}},Du={exports:{}};/*!
  * html2canvas 1.4.1 <https://html2canvas.hertzen.com>
  * Copyright (c) 2022 Niklas von Hertzen <https://hertzen.com>
  * Released under MIT License
@@ -242,8 +242,8 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
       <!-- Header -->
       <div style="background-color: #0D0D0D; padding: 40px; display: flex; justify-content: space-between; align-items: flex-start; color: #ffffff;">
         <div style="display: flex; align-items: center; gap: 20px;">
-          <img src="/src/assets/logo.svg" alt="Nabhas Logo" style="height: 60px; filter: brightness(0) invert(1);" />
-          <div style="transform: translateY(-4px);">
+          <img src="/logo.svg" alt="Nabhas Logo" style="height: 60px; filter: brightness(0) invert(1);" />
+          <div style="transform: translateY(-10px);">
             <h1 style="margin: 0 0 6px 0; font-family: 'Hanken Grotesk', sans-serif; font-weight: 700; font-size: 32px; letter-spacing: -0.02em; line-height: 1;">NABHAS AIRCON</h1>
             <p style="margin: 0; color: #A0A0A0; font-size: 11px; font-weight: 600; letter-spacing: 0.05em; line-height: 1;">HVAC COMMAND SYSTEMS // INDUSTRIAL INTELLIGENCE</p>
           </div>

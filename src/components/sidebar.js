@@ -74,7 +74,7 @@ export const renderSidebar = (currentHash) => {
       <!-- Header -->
       <div class="px-6 py-4 flex flex-col gap-2">
         <div class="flex items-center justify-between">
-          <img alt="Nabhas Aircon Logo" class="h-10 w-auto object-contain self-start" src="/src/assets/logo.svg"/>
+          <img alt="Nabhas Aircon Logo" class="h-10 w-auto object-contain self-start" src="/logo.svg"/>
           <button id="close-sidebar-btn" class="md:hidden text-on-surface-variant p-2 -mr-2"><span class="material-symbols-outlined">close</span></button>
         </div>
         <div>

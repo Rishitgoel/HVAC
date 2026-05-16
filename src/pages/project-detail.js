@@ -50,7 +50,7 @@ export const render = () => `
       <div id="sheets-list" class="flex flex-col gap-4">
         <!-- Sheets loaded here -->
         <div class="flex justify-center py-12">
-          <span class="material-symbols-outlined animate-spin text-[32px] text-primary">progress_activity</span>
+          <div class="spinner spinner-md text-primary"></div>
         </div>
       </div>
     </div>
@@ -120,7 +120,7 @@ export const mount = async (hash) => {
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     submitBtn.disabled = true;
-    submitBtn.innerHTML = '<span class="material-symbols-outlined animate-spin text-[18px]">progress_activity</span>';
+    submitBtn.innerHTML = '<div class="spinner spinner-sm"></div>';
     
     try {
       const title = document.getElementById('sheet-title').value;
@@ -207,7 +207,7 @@ export const mount = async (hash) => {
         if (confirm('Are you sure you want to delete this sheet? This action cannot be undone.')) {
           try {
             const originalHTML = btn.innerHTML;
-            btn.innerHTML = '<span class="material-symbols-outlined animate-spin text-[20px]">progress_activity</span>';
+            btn.innerHTML = '<div class="spinner spinner-sm"></div>';
             btn.disabled = true;
             await deleteSheet(currentPid, sid);
             await loadData();
@@ -261,7 +261,7 @@ export const mount = async (hash) => {
   exportBtn.addEventListener('click', async () => {
     exportBtn.disabled = true;
     const originalHTML = exportBtn.innerHTML;
-    exportBtn.innerHTML = '<span class="material-symbols-outlined animate-spin text-[18px]">progress_activity</span><span>Exporting...</span>';
+    exportBtn.innerHTML = '<div class="spinner spinner-sm"></div><span>Exporting...</span>';
     try {
       await exportProjectToZip(currentPid);
       showToast("ZIP Export successful");

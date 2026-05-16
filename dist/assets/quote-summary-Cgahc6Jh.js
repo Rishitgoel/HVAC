@@ -1,4 +1,4 @@
-import{m as y,t as g,s as l,r as h}from"./toast-k8OKon_N.js";import{f as v,h as w,g as E,u as I}from"./storage-BWz5GEzr.js";import{c as B,f as a}from"./calculations-CDT-qs_O.js";import{g as C}from"./pdf-generator-bNlCotB-.js";import{i as x}from"./index-Bp3_zzYf.js";let r=null,o=null,t=null,n=null,i=null,e=null;const D=()=>`
+import{m as y,t as g,s as l,r as h}from"./toast-DPeVNi_n.js";import{f as v,h as w,g as E,u as I}from"./storage-BU_itUQs.js";import{c as B,f as a}from"./calculations-CDT-qs_O.js";import{g as C}from"./pdf-generator-BbvvS5bY.js";import{i as x}from"./index-rEfxnuH0.js";let r=null,o=null,t=null,n=null,i=null,e=null;const D=()=>`
   ${h()}
   <main class="flex-1 flex flex-col overflow-y-auto relative bg-background w-full">
     <div class="w-full bg-surface-container-lowest border-b border-border-muted sticky top-0 z-10 shadow-sm print:hidden">
@@ -25,7 +25,7 @@ import{m as y,t as g,s as l,r as h}from"./toast-k8OKon_N.js";import{f as v,h as 
         <div class="flex justify-between items-start mb-8 pb-6 border-b border-border-muted">
           <div class="flex flex-col gap-1">
             <div class="flex items-center gap-3 mb-2 print:gap-2">
-              <img src="/src/assets/logo.svg" alt="Nabhas Aircon" class="h-10 object-contain self-start">
+              <img src="/logo.svg" alt="Nabhas Aircon" class="h-10 object-contain self-start">
               <span class="text-headline-md font-headline-md font-bold text-[#05412B] tracking-tight">NABHAS AIRCON</span>
             </div>
             <h1 class="text-headline-sm font-bold text-on-surface">HVAC Quotation</h1>

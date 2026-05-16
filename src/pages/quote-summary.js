@@ -30,7 +30,7 @@ export const render = () => `
       
       <!-- Loading Overlay -->
       <div id="step-loading-overlay" class="absolute inset-0 bg-background/80 backdrop-blur-sm z-30 flex flex-col items-center justify-center gap-3 transition-opacity duration-300 print:hidden">
-        <span class="material-symbols-outlined animate-spin text-[40px] text-primary">progress_activity</span>
+        <div class="spinner spinner-md text-primary"></div>
         <p class="text-body-md text-on-surface-variant font-medium">Loading quote summary...</p>
       </div>
 
@@ -40,7 +40,7 @@ export const render = () => `
         <div class="flex justify-between items-start mb-8 pb-6 border-b border-border-muted">
           <div class="flex flex-col gap-1">
             <div class="flex items-center gap-3 mb-2 print:gap-2">
-              <img src="/src/assets/logo.svg" alt="Nabhas Aircon" class="h-10 object-contain self-start">
+              <img src="/logo.svg" alt="Nabhas Aircon" class="h-10 object-contain self-start">
               <span class="text-headline-md font-headline-md font-bold text-[#05412B] tracking-tight">NABHAS AIRCON</span>
             </div>
             <h1 class="text-headline-sm font-bold text-on-surface">HVAC Quotation</h1>

@@ -8,7 +8,7 @@ export const render = () => `
     <div class="w-full bg-primary text-on-primary border-b border-border-muted sticky top-0 z-10 shadow-sm print:hidden">
       <div class="max-w-[1000px] mx-auto px-4 py-3 flex justify-between items-center">
         <div class="flex items-center gap-3">
-          <img src="/src/assets/logo.svg" alt="Nabhas Aircon" class="h-8 object-contain filter invert brightness-0">
+          <img src="/logo.svg" alt="Nabhas Aircon" class="h-8 object-contain filter invert brightness-0">
           <span class="font-bold text-label-md hidden md:inline">Shared Quotation Viewer</span>
         </div>
         <div class="flex items-center gap-4">
@@ -24,7 +24,7 @@ export const render = () => `
       <div id="pdf-content" class="bg-surface-container-lowest border border-border-muted rounded-xl p-6 md:p-10 shadow-sm relative">
         <div class="flex justify-between items-start mb-8 pb-6 border-b border-border-muted">
           <div class="flex flex-col gap-1">
-            <img src="/src/assets/logo.svg" alt="Nabhas Aircon" class="h-10 object-contain self-start mb-2">
+            <img src="/logo.svg" alt="Nabhas Aircon" class="h-10 object-contain self-start mb-2">
             <h1 class="text-headline-sm font-bold text-on-surface">HVAC Quotation</h1>
             <p class="text-body-sm text-on-surface-variant" id="quote-date">Date: ...</p>
           </div>

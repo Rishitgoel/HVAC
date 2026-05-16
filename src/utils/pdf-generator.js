@@ -100,7 +100,7 @@ export const generatePDF = async (projectData, sheetData, returnBlob = false) =>
       <!-- Header -->
       <div style="background-color: #0D0D0D; padding: 40px; display: flex; justify-content: space-between; align-items: flex-start; color: #ffffff;">
         <div style="display: flex; align-items: center; gap: 20px;">
-          <img src="/src/assets/logo.svg" alt="Nabhas Logo" style="height: 60px; filter: brightness(0) invert(1);" />
+          <img src="/logo.svg" alt="Nabhas Logo" style="height: 60px; filter: brightness(0) invert(1);" />
           <div style="transform: translateY(-10px);">
             <h1 style="margin: 0 0 6px 0; font-family: 'Hanken Grotesk', sans-serif; font-weight: 700; font-size: 32px; letter-spacing: -0.02em; line-height: 1;">NABHAS AIRCON</h1>
             <p style="margin: 0; color: #A0A0A0; font-size: 11px; font-weight: 600; letter-spacing: 0.05em; line-height: 1;">HVAC COMMAND SYSTEMS // INDUSTRIAL INTELLIGENCE</p>
