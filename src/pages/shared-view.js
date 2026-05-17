@@ -1,6 +1,8 @@
 import { getSheet, getProject, getSettings } from '../utils/storage.js';
-import { calculateTotals, formatCurrency } from '../utils/calculations.js';
-import { getCurrentUser, getErrorMessage } from '../utils/auth.js';
+import { calculateTotals } from '../utils/calculations.js';
+import { getCurrentUser, isAdmin, getErrorMessage } from '../utils/auth.js';
+import { generatePDF } from '../utils/pdf-generator.js';
+import { renderBreakdownRows, populateSummaryUI } from '../components/breakdown-table.js';
 
 export const render = () => `
   <main class="flex-1 flex flex-col overflow-y-auto relative bg-background w-full min-h-screen">
@@ -90,6 +92,9 @@ export const render = () => `
   </main>
 `;
 
+let _projectData = null;
+let _sheetData = null;
+
 export const mount = async (hash) => {
   const parts = hash.split('/');
   const currentPid = parts[1];
@@ -105,13 +110,17 @@ export const mount = async (hash) => {
   });
 
   document.getElementById('download-pdf-btn').addEventListener('click', () => {
-    window.print();
+    if (_projectData && _sheetData) {
+      generatePDF(_projectData, _sheetData);
+    }
   });
 
   try {
     const settings = await getSettings();
     const sheetData = await getSheet(currentPid, currentSid);
     const projectData = await getProject(currentPid);
+    _projectData = projectData;
+    _sheetData = sheetData;
     
     if (!sheetData || !projectData) {
       document.getElementById('pdf-content').innerHTML = '<div class="p-8 text-center text-error font-headline-md">Quote not found or you do not have permission to view it.</div>';
@@ -135,33 +144,9 @@ export const mount = async (hash) => {
     document.getElementById('room-display').textContent = sheetData.clientInfo?.roomName || 'General';
 
     const tbody = document.getElementById('breakdown-body');
-    tbody.innerHTML = `
-      <tr class="border-b border-border-muted/50">
-        <td class="py-3 px-2 text-body-md">Architecture & Casing</td>
-        <td class="py-3 px-2 text-right font-data-mono">${formatCurrency(totals.architecture)}</td>
-      </tr>
-      <tr class="border-b border-border-muted/50">
-        <td class="py-3 px-2 text-body-md">Air Movement Systems</td>
-        <td class="py-3 px-2 text-right font-data-mono">${formatCurrency(totals.airMovement)}</td>
-      </tr>
-      <tr class="border-b border-border-muted/50">
-        <td class="py-3 px-2 text-body-md">Thermodynamics (Coil & Pad)</td>
-        <td class="py-3 px-2 text-right font-data-mono">${formatCurrency(totals.thermodynamics)}</td>
-      </tr>
-      <tr class="border-b border-border-muted/50">
-        <td class="py-3 px-2 text-body-md">Filtration Stages</td>
-        <td class="py-3 px-2 text-right font-data-mono">${formatCurrency(totals.filtration)}</td>
-      </tr>
-      <tr class="border-b border-border-muted/50">
-        <td class="py-3 px-2 text-body-md">Labor & Installation</td>
-        <td class="py-3 px-2 text-right font-data-mono">${formatCurrency(totals.labor)}</td>
-      </tr>
-    `;
+    tbody.innerHTML = renderBreakdownRows(totals);
 
-    document.getElementById('subtotal-display').textContent = formatCurrency(totals.subtotal);
-    document.getElementById('tax-label').textContent = `Tax (${settings.taxRate || 18}%)`;
-    document.getElementById('tax-display').textContent = formatCurrency(totals.tax);
-    document.getElementById('total-display').textContent = formatCurrency(totals.total);
+    populateSummaryUI(totals, settings);
 
   } catch (e) {
     console.error(e);

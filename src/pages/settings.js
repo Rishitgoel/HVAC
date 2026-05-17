@@ -3,6 +3,14 @@ import { getSettings, saveSettings } from '../utils/storage.js';
 import { isAdmin, getErrorMessage } from '../utils/auth.js';
 import { showToast } from '../components/toast.js';
 
+// Single source of truth for settings field IDs
+const SETTINGS_FIELDS = [
+  'unitSystem', 'taxRate', 'aluminumRate', 'giRate', 'puffPanelRate',
+  'forwardFanPrice', 'backwardFanPrice', 'plugFanPrice', 'ecFanPrice',
+  'coilRate', 'brownPadRate', 'greenPadRate',
+  'preFilterPrice', 'fineFilterPrice', 'hepaFilterPrice'
+];
+
 export const render = () => `
   ${renderSidebar('#settings')}
   <main class="flex-1 flex flex-col overflow-y-auto relative bg-background w-full">
@@ -157,14 +165,8 @@ export const mount = async () => {
   // Load existing settings
   try {
     const settings = await getSettings();
-    const fields = [
-      'unitSystem', 'taxRate', 'aluminumRate', 'giRate', 'puffPanelRate',
-      'forwardFanPrice', 'backwardFanPrice', 'plugFanPrice', 'ecFanPrice',
-      'coilRate', 'brownPadRate', 'greenPadRate',
-      'preFilterPrice', 'fineFilterPrice', 'hepaFilterPrice'
-    ];
 
-    fields.forEach(f => {
+    SETTINGS_FIELDS.forEach(f => {
       const el = document.getElementById(f);
       if (el && settings[f] !== undefined) {
         el.value = settings[f];
@@ -196,14 +198,8 @@ export const mount = async () => {
       saveBtn.innerHTML = '<div class="spinner spinner-sm"></div>';
       
       const newSettings = {};
-      const fields = [
-        'unitSystem', 'taxRate', 'aluminumRate', 'giRate', 'puffPanelRate',
-        'forwardFanPrice', 'backwardFanPrice', 'plugFanPrice', 'ecFanPrice',
-        'coilRate', 'brownPadRate', 'greenPadRate',
-        'preFilterPrice', 'fineFilterPrice', 'hepaFilterPrice'
-      ];
 
-      fields.forEach(f => {
+      SETTINGS_FIELDS.forEach(f => {
         const val = document.getElementById(f).value;
         newSettings[f] = f === 'unitSystem' ? val : (parseFloat(val) || 0);
       });

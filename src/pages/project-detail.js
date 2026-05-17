@@ -3,6 +3,7 @@ import { getProject, getSheets, createSheet, deleteSheet } from '../utils/storag
 import { getCurrentUser, isAdmin, getErrorMessage } from '../utils/auth.js';
 import { exportProjectToZip } from '../utils/zip-export.js';
 import { showToast } from '../components/toast.js';
+import { escapeHtml } from '../utils/helpers.js';
 
 let currentPid = null;
 
@@ -174,11 +175,11 @@ export const mount = async (hash) => {
         <div class="bg-surface-container-lowest border border-border-muted rounded-xl p-4 md:p-6 shadow-sm hover:shadow-md transition-shadow relative group flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div class="flex flex-col gap-2">
             <div class="flex items-center gap-3">
-              <h3 class="text-headline-sm font-bold text-on-surface truncate"><a href="${linkTarget}" class="hover:text-primary transition-colors">${s.title}</a></h3>
-              <span class="text-[10px] uppercase font-bold px-2 py-0.5 rounded-full ${statusClass}">${s.status}</span>
+              <h3 class="text-headline-sm font-bold text-on-surface truncate"><a href="${linkTarget}" class="hover:text-primary transition-colors">${escapeHtml(s.title)}</a></h3>
+              <span class="text-[10px] uppercase font-bold px-2 py-0.5 rounded-full ${statusClass}">${escapeHtml(s.status)}</span>
             </div>
             <div class="flex items-center gap-4 text-xs text-on-surface-variant">
-              <div class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">person</span> ${s.ownerName}</div>
+              <div class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">person</span> ${escapeHtml(s.ownerName)}</div>
               <div class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">calendar_today</span> ${date}</div>
             </div>
           </div>

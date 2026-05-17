@@ -2,6 +2,7 @@ import { renderSidebar, mountSidebar, toggleSidebar } from '../components/sideba
 import { getProjects, createProject, deleteProject } from '../utils/storage.js';
 import { getCurrentUser, isAdmin, getErrorMessage } from '../utils/auth.js';
 import { showToast } from '../components/toast.js';
+import { escapeHtml } from '../utils/helpers.js';
 
 export const render = () => `
   ${renderSidebar('#dashboard')}
@@ -102,8 +103,8 @@ export const mount = async () => {
         <div class="bg-surface-container-lowest border border-border-muted rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow relative group">
           <div class="flex justify-between items-start mb-4">
             <div class="flex flex-col">
-              <h3 class="text-headline-sm font-bold text-on-surface truncate pr-8" title="${p.title}">${p.title}</h3>
-              <p class="text-body-sm text-on-surface-variant">${p.clientName}</p>
+              <h3 class="text-headline-sm font-bold text-on-surface truncate pr-8" title="${escapeHtml(p.title)}">${escapeHtml(p.title)}</h3>
+              <p class="text-body-sm text-on-surface-variant">${escapeHtml(p.clientName)}</p>
             </div>
             ${(p.ownerUid === user.uid || userIsAdmin) ? `
             <button class="delete-proj-btn text-outline hover:text-error transition-colors absolute top-6 right-6 opacity-0 group-hover:opacity-100 focus:opacity-100 p-1" data-id="${p.id}" title="Delete Project">
@@ -113,7 +114,7 @@ export const mount = async () => {
           
           <div class="flex items-center gap-2 text-xs text-on-surface-variant mb-6">
             <span class="material-symbols-outlined text-[16px]">person</span>
-            <span>Created by ${p.ownerName}</span>
+            <span>Created by ${escapeHtml(p.ownerName)}</span>
           </div>
 
           <div class="border-t border-border-muted pt-4 mt-auto">

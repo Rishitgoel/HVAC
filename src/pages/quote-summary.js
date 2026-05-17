@@ -1,5 +1,5 @@
 import { renderSidebar, mountSidebar, toggleSidebar } from '../components/sidebar.js';
-
+import { renderBreakdownRows, populateSummaryUI } from '../components/breakdown-table.js';
 import { getSheet, updateSheet, getSettings, getProject } from '../utils/storage.js';
 import { calculateTotals, formatCurrency } from '../utils/calculations.js';
 import { showToast } from '../components/toast.js';
@@ -100,7 +100,7 @@ export const render = () => `
 
       <!-- Action Bar -->
       <div class="mt-6 md:mt-8 flex flex-col-reverse md:flex-row justify-between items-center gap-4 bg-surface-container-lowest p-4 rounded-xl border border-border-muted shadow-sm print:hidden">
-        <a href="#project/${currentPid}/sheet/${currentSid}/step/6" class="w-full md:w-auto px-6 py-3 md:py-2 border border-outline text-on-surface rounded-DEFAULT font-label-md hover:bg-surface-container transition-colors text-center">
+        <a id="prev-btn" href="#" class="w-full md:w-auto px-6 py-3 md:py-2 border border-outline text-on-surface rounded-DEFAULT font-label-md hover:bg-surface-container transition-colors text-center">
           Back to Edit
         </a>
         <div class="flex flex-col-reverse md:flex-row w-full md:w-auto gap-4">
@@ -150,33 +150,9 @@ export const mount = async (hash) => {
     document.getElementById('room-display').textContent = sheetData.clientInfo?.roomName || 'General';
 
     const tbody = document.getElementById('breakdown-body');
-    tbody.innerHTML = `
-      <tr class="border-b border-border-muted/50 hover:bg-surface-container-lowest transition-colors">
-        <td class="py-3 px-2 text-body-md">Architecture & Casing</td>
-        <td class="py-3 px-2 text-right font-data-mono">${formatCurrency(totals.architecture)}</td>
-      </tr>
-      <tr class="border-b border-border-muted/50 hover:bg-surface-container-lowest transition-colors">
-        <td class="py-3 px-2 text-body-md">Air Movement Systems</td>
-        <td class="py-3 px-2 text-right font-data-mono">${formatCurrency(totals.airMovement)}</td>
-      </tr>
-      <tr class="border-b border-border-muted/50 hover:bg-surface-container-lowest transition-colors">
-        <td class="py-3 px-2 text-body-md">Thermodynamics (Coil & Pad)</td>
-        <td class="py-3 px-2 text-right font-data-mono">${formatCurrency(totals.thermodynamics)}</td>
-      </tr>
-      <tr class="border-b border-border-muted/50 hover:bg-surface-container-lowest transition-colors">
-        <td class="py-3 px-2 text-body-md">Filtration Stages</td>
-        <td class="py-3 px-2 text-right font-data-mono">${formatCurrency(totals.filtration)}</td>
-      </tr>
-      <tr class="border-b border-border-muted/50 hover:bg-surface-container-lowest transition-colors">
-        <td class="py-3 px-2 text-body-md">Labor & Installation</td>
-        <td class="py-3 px-2 text-right font-data-mono">${formatCurrency(totals.labor)}</td>
-      </tr>
-    `;
+    tbody.innerHTML = renderBreakdownRows(totals);
 
-    document.getElementById('subtotal-display').textContent = formatCurrency(totals.subtotal);
-    document.getElementById('tax-label').textContent = `Tax (${settings.taxRate || 18}%)`;
-    document.getElementById('tax-display').textContent = formatCurrency(totals.tax);
-    document.getElementById('total-display').textContent = formatCurrency(totals.total);
+    populateSummaryUI(totals, settings);
 
     // If already published, adjust UI
     const publishBtn = document.getElementById('publish-btn');
@@ -195,16 +171,31 @@ export const mount = async (hash) => {
   const loadingOverlay = document.getElementById('step-loading-overlay');
   if (loadingOverlay) loadingOverlay.classList.add('hidden');
 
-  document.getElementById('publish-btn').addEventListener('click', async () => {
+  const prevBtn = document.getElementById('prev-btn');
+  if (prevBtn) prevBtn.href = `#project/${currentPid}/sheet/${currentSid}/step/6`;
+
+  const publishBtn = document.getElementById('publish-btn');
+  publishBtn.addEventListener('click', async () => {
     if (sheetData.status === 'published') return;
     
     if (confirm('Are you sure you want to publish this quote? It will become visible to all users.')) {
+      const originalHTML = publishBtn.innerHTML;
+      publishBtn.disabled = true;
+      publishBtn.innerHTML = '<div class="spinner spinner-sm"></div><span>Publishing...</span>';
+      
       try {
         await updateSheet(currentPid, currentSid, { status: 'published' });
+        sheetData.status = 'published';
         showToast("Quote published successfully!");
-        window.location.reload(); // Quick refresh to update state
+        
+        // Update button UI in-place instead of full page reload
+        publishBtn.classList.replace('bg-primary', 'bg-surface-variant');
+        publishBtn.classList.replace('text-on-primary', 'text-on-surface-variant');
+        publishBtn.innerHTML = '<span class="material-symbols-outlined text-[18px]">check_circle</span><span>Published</span>';
       } catch (e) {
         showToast("Failed to publish quote: " + getErrorMessage(e), "error");
+        publishBtn.disabled = false;
+        publishBtn.innerHTML = originalHTML;
       }
     }
   });

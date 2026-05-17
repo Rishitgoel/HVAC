@@ -1,9 +1,5 @@
 // Unit conversions
-export const sqmToSqft = (sqm) => sqm * 10.7639;
-export const sqftToSqm = (sqft) => sqft / 10.7639;
 export const mmToM = (mm) => mm / 1000;
-export const ftToM = (ft) => ft * 0.3048;
-export const mToFt = (m) => m / 0.3048;
 
 export const formatCurrency = (amount) => {
   return new Intl.NumberFormat('en-IN', {

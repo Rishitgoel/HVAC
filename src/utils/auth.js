@@ -112,11 +112,8 @@ export const fetchUserRole = async (uid) => {
 export const getCurrentUser = () => currentUser;
 export const isAdmin = () => currentRole === 'admin';
 
-export const getErrorMessage = (error, defaultMsg = 'An error occurred') => {
-  if (!error) return defaultMsg;
-  const msg = error.message || error.toString();
-  return msg.replace(/^Firebase:\s*/i, '').replace(/\s*\(auth\/[^\)]+\)\.?$/i, '').replace(/\s*\(firestore\/[^\)]+\)\.?$/i, '');
-};
+// Re-export from helpers.js for backward compatibility
+export { getErrorMessage } from './helpers.js';
 
 export const getAuthErrorMessage = (error) => {
   const code = error?.code || '';

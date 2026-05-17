@@ -85,7 +85,7 @@ export const render = () => `
 
         <!-- Action Bar -->
         <div class="flex flex-col-reverse md:flex-row justify-between items-center gap-4 bg-surface-container-lowest p-4 rounded-xl border border-border-muted shadow-sm">
-          <a href="#project/${currentPid}/sheet/${currentSid}/step/4" class="w-full md:w-auto px-6 py-3 md:py-2 border border-outline text-on-surface rounded-DEFAULT font-label-md hover:bg-surface-container transition-colors text-center">
+          <a id="prev-btn" href="#" class="w-full md:w-auto px-6 py-3 md:py-2 border border-outline text-on-surface rounded-DEFAULT font-label-md hover:bg-surface-container transition-colors text-center">
             Previous
           </a>
           <div class="flex flex-col-reverse md:flex-row w-full md:w-auto gap-4">
@@ -155,6 +155,9 @@ export const mount = async (hash) => {
 
   const loadingOverlay = document.getElementById('step-loading-overlay');
   if (loadingOverlay) loadingOverlay.classList.add('hidden');
+
+  const prevBtn = document.getElementById('prev-btn');
+  if (prevBtn) prevBtn.href = `#project/${currentPid}/sheet/${currentSid}/step/4`;
 
   const saveForm = async () => {
     const filtration = {

@@ -53,8 +53,19 @@ export const getProject = async (pid) => {
 };
 
 export const deleteProject = async (pid) => {
+  // Delete all sheets in the project first
+  const sheetsSnapshot = await getDocs(collection(db, 'projects', pid, 'sheets'));
+  const deletePromises = sheetsSnapshot.docs.map(d => deleteDoc(d.ref));
+  await Promise.all(deletePromises);
+  
   await deleteDoc(doc(db, 'projects', pid));
-  // Note: normally you'd delete subcollections (sheets) here too using a Cloud Function or batch
+  
+  // Invalidate caches
+  delete projectCache[pid];
+  // Clear any sheet caches for this project
+  Object.keys(sheetCache).forEach(key => {
+    if (key.startsWith(`${pid}_`)) delete sheetCache[key];
+  });
 };
 
 // --- SHEETS ---
@@ -119,6 +130,16 @@ export const updateSheet = async (pid, sid, data) => {
 
 export const deleteSheet = async (pid, sid) => {
   await deleteDoc(doc(db, 'projects', pid, 'sheets', sid));
+  delete sheetCache[`${pid}_${sid}`];
+};
+
+/**
+ * Clears all in-memory caches. Call when navigating away or after bulk changes.
+ */
+export const invalidateCache = () => {
+  projectCache = {};
+  sheetCache = {};
+  settingsCache = null;
 };
 
 // --- SETTINGS ---
