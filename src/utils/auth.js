@@ -3,7 +3,10 @@ import {
   signInWithEmailAndPassword, 
   createUserWithEmailAndPassword, 
   signOut as firebaseSignOut,
-  onAuthStateChanged
+  onAuthStateChanged,
+  GoogleAuthProvider,
+  signInWithPopup,
+  linkWithCredential
 } from 'firebase/auth';
 import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore';
 
@@ -29,6 +32,58 @@ export const signUp = async (email, password, name) => {
     createdAt: serverTimestamp()
   });
   
+  await fetchUserRole(user.uid);
+  return user;
+};
+
+export const signInWithGoogle = async () => {
+  const provider = new GoogleAuthProvider();
+  try {
+    const userCredential = await signInWithPopup(auth, provider);
+    const user = userCredential.user;
+
+    // Check if user document exists in Firestore
+    const userDoc = await getDoc(doc(db, 'users', user.uid));
+    if (!userDoc.exists()) {
+      await setDoc(doc(db, 'users', user.uid), {
+        email: user.email,
+        name: user.displayName || user.email.split('@')[0],
+        role: 'user',
+        createdAt: serverTimestamp()
+      });
+    }
+
+    await fetchUserRole(user.uid);
+    return user;
+  } catch (error) {
+    if (error.code === 'auth/account-exists-with-different-credential') {
+      const pendingCred = GoogleAuthProvider.credentialFromError(error);
+      const email = error.customData?.email;
+      return {
+        needsLinking: true,
+        email,
+        pendingCred
+      };
+    }
+    throw error;
+  }
+};
+
+export const linkGoogleAccount = async (email, password, pendingCred) => {
+  const userCredential = await signInWithEmailAndPassword(auth, email, password);
+  const linkResult = await linkWithCredential(userCredential.user, pendingCred);
+  const user = linkResult.user;
+
+  const userDoc = await getDoc(doc(db, 'users', user.uid));
+  if (!userDoc.exists()) {
+    await setDoc(doc(db, 'users', user.uid), {
+      email: user.email,
+      name: user.displayName || user.email.split('@')[0],
+      role: 'user',
+      createdAt: serverTimestamp()
+    });
+  }
+
   await fetchUserRole(user.uid);
   return user;
 };
@@ -93,6 +148,15 @@ export const getAuthErrorMessage = (error) => {
   }
   if (code === 'auth/requires-recent-login' || message.includes('requires-recent-login')) {
     return 'This operation requires a recent login. Please log out and log in again.';
+  }
+  if (code === 'auth/popup-closed-by-user' || message.includes('popup-closed-by-user')) {
+    return 'Sign-in popup was closed. Please try again.';
+  }
+  if (code === 'auth/popup-blocked' || message.includes('popup-blocked')) {
+    return 'Sign-in popup was blocked by your browser. Please allow popups for this site.';
+  }
+  if (code === 'auth/cancelled-popup-request' || message.includes('cancelled-popup-request')) {
+    return 'Sign-in operation was cancelled. Please try again.';
   }
 
   if (message) {
