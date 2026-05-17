@@ -49,3 +49,6 @@ firebase-debug.log*
 *.sln
 *.sw?
 .DS_Store
+
+# Stitch artifacts
+stitch_nabhas_hvac_quote_builder/
