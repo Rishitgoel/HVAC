@@ -183,3 +183,21 @@ export const saveSettings = async (settings) => {
   await setDoc(docRef, settings, { merge: true });
   settingsCache = { ...defaultSettings, ...settings };
 };
+
+// --- USER MANAGEMENT (Admin Only) ---
+export const getAllUsers = async () => {
+  const q = query(collection(db, 'users'), orderBy('createdAt', 'desc'));
+  const snapshot = await getDocs(q);
+  return snapshot.docs.map(d => ({ uid: d.id, ...d.data() }));
+};
+
+export const updateUserStatus = async (uid, status) => {
+  const userRef = doc(db, 'users', uid);
+  await updateDoc(userRef, { status });
+};
+
+export const getPendingUserCount = async () => {
+  const q = query(collection(db, 'users'), where('status', '==', 'pending'));
+  const snapshot = await getDocs(q);
+  return snapshot.size;
+};

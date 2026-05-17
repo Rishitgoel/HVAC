@@ -1,4 +1,5 @@
 import { getCurrentUser, isAdmin, signOut } from '../utils/auth.js';
+import { getPendingUserCount } from '../utils/storage.js';
 
 export const renderSidebar = (currentHash) => {
   const user = getCurrentUser();
@@ -9,6 +10,7 @@ export const renderSidebar = (currentHash) => {
   
   const isDashboard = hash === '#dashboard' || hash === '';
   const isSettings = hash === '#settings';
+  const isUsers = hash === '#users';
   const isProject = hash.startsWith('#project') && !hash.includes('/step/');
   const isWizard = hash.includes('/step/');
 
@@ -66,6 +68,13 @@ export const renderSidebar = (currentHash) => {
         <span class="material-symbols-outlined ${isDashboard || isProject ? 'filled' : ''}">dashboard</span>
         <span class="text-label-md font-label-md">Projects</span>
       </a>
+      ${admin ? `
+      <a class="flex items-center gap-3 px-4 py-3 font-medium transition-colors duration-200 rounded-l-DEFAULT ${isUsers ? 'text-primary font-bold bg-surface-container-high border-r-4 border-primary scale-95' : 'text-on-surface-variant hover:bg-surface-container hover:text-primary'}" href="#users">
+        <span class="material-symbols-outlined ${isUsers ? 'filled' : ''}">group</span>
+        <span class="text-label-md font-label-md">User Management</span>
+        <span id="pending-badge" class="hidden ml-auto text-[10px] font-bold bg-tertiary text-on-tertiary px-1.5 py-0.5 rounded-full min-w-[18px] text-center"></span>
+      </a>
+      ` : ''}
     `;
   }
 
@@ -118,6 +127,17 @@ export const mountSidebar = () => {
       await signOut();
       window.location.hash = '#login';
     });
+  }
+
+  // Load pending badge count for admins
+  const pendingBadge = document.getElementById('pending-badge');
+  if (pendingBadge) {
+    getPendingUserCount().then(count => {
+      if (count > 0) {
+        pendingBadge.textContent = count;
+        pendingBadge.classList.remove('hidden');
+      }
+    }).catch(() => { /* silent fail for badge */ });
   }
 
   const sidebar = document.getElementById('app-sidebar');

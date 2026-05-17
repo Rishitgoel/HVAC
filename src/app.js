@@ -1,9 +1,11 @@
-import { onAuthChange, getErrorMessage } from './utils/auth.js';
+import { onAuthChange, getErrorMessage, isApproved } from './utils/auth.js';
 
 const routes = {
   '#login': () => import('./pages/login.js'),
+  '#pending': () => import('./pages/pending-approval.js'),
   '#dashboard': () => import('./pages/dashboard.js'),
   '#settings': () => import('./pages/settings.js'),
+  '#users': () => import('./pages/user-management.js'),
   '#project': () => import('./pages/project-detail.js'),
   '#step1': () => import('./pages/client-info.js'),
   '#step2': () => import('./pages/architecture.js'),
@@ -14,6 +16,9 @@ const routes = {
   '#step7': () => import('./pages/quote-summary.js'),
   '#shared': () => import('./pages/shared-view.js'),
 };
+
+// Routes that don't require approval
+const PUBLIC_ROUTES = ['#login', '#pending', '#shared'];
 
 const appDiv = document.getElementById('app');
 let currentModule = null;
@@ -44,12 +49,26 @@ const router = async () => {
 
   const user = window.currentUser;
   
+  // Not logged in → redirect to login (except shared view)
   if (!user && hash !== '#login' && !hash.startsWith('#shared')) {
     window.location.hash = '#login';
     return;
   }
   
+  // Logged in → redirect away from login
   if (user && hash === '#login') {
+    window.location.hash = isApproved() ? '#dashboard' : '#pending';
+    return;
+  }
+
+  // Logged in but NOT approved → block all protected routes
+  if (user && !isApproved() && !PUBLIC_ROUTES.some(r => hash.startsWith(r))) {
+    window.location.hash = '#pending';
+    return;
+  }
+
+  // Approved user trying to access pending page → redirect to dashboard
+  if (user && isApproved() && hash === '#pending') {
     window.location.hash = '#dashboard';
     return;
   }

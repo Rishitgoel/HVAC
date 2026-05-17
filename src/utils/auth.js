@@ -13,6 +13,7 @@ import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore';
 // Current user state
 let currentUser = null;
 let currentRole = null;
+let currentStatus = null;
 
 export const signIn = async (email, password) => {
   const userCredential = await signInWithEmailAndPassword(auth, email, password);
@@ -24,11 +25,12 @@ export const signUp = async (email, password, name) => {
   const userCredential = await createUserWithEmailAndPassword(auth, email, password);
   const user = userCredential.user;
   
-  // Create user doc in Firestore
+  // Create user doc in Firestore with pending status
   await setDoc(doc(db, 'users', user.uid), {
     email: user.email,
     name: name,
-    role: 'user', // Default role
+    role: 'user',
+    status: 'pending',
     createdAt: serverTimestamp()
   });
   
@@ -45,10 +47,12 @@ export const signInWithGoogle = async () => {
     // Check if user document exists in Firestore
     const userDoc = await getDoc(doc(db, 'users', user.uid));
     if (!userDoc.exists()) {
+      // New Google user — create with pending status
       await setDoc(doc(db, 'users', user.uid), {
         email: user.email,
         name: user.displayName || user.email.split('@')[0],
         role: 'user',
+        status: 'pending',
         createdAt: serverTimestamp()
       });
     }
@@ -80,6 +84,7 @@ export const linkGoogleAccount = async (email, password, pendingCred) => {
       email: user.email,
       name: user.displayName || user.email.split('@')[0],
       role: 'user',
+      status: 'pending',
       createdAt: serverTimestamp()
     });
   }
@@ -91,6 +96,7 @@ export const linkGoogleAccount = async (email, password, pendingCred) => {
 export const signOut = () => {
   currentUser = null;
   currentRole = null;
+  currentStatus = null;
   return firebaseSignOut(auth);
 };
 
@@ -98,19 +104,26 @@ export const fetchUserRole = async (uid) => {
   try {
     const userDoc = await getDoc(doc(db, 'users', uid));
     if (userDoc.exists()) {
-      currentRole = userDoc.data().role;
+      const data = userDoc.data();
+      currentRole = data.role;
+      // Admins are always approved. For others, read the status field.
+      currentStatus = data.role === 'admin' ? 'approved' : (data.status || 'pending');
     } else {
       currentRole = 'user';
+      currentStatus = 'pending';
     }
   } catch (error) {
     console.error("Error fetching role:", error);
     currentRole = 'user';
+    currentStatus = 'pending';
   }
   return currentRole;
 };
 
 export const getCurrentUser = () => currentUser;
 export const isAdmin = () => currentRole === 'admin';
+export const getUserStatus = () => currentStatus;
+export const isApproved = () => currentStatus === 'approved';
 
 // Re-export from helpers.js for backward compatibility
 export { getErrorMessage } from './helpers.js';
@@ -170,6 +183,7 @@ export const onAuthChange = (callback) => {
       await fetchUserRole(user.uid);
     } else {
       currentRole = null;
+      currentStatus = null;
     }
     callback(user);
   });
