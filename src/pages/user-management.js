@@ -9,7 +9,7 @@ let currentFilter = 'all';
 
 export const render = () => `
   ${renderSidebar('#users')}
-  <main class="flex-1 flex flex-col overflow-y-auto relative bg-background w-full">
+  <main class="flex-1 flex flex-col overflow-y-auto relative bg-background w-full min-w-0">
     <!-- Header -->
     <div class="w-full bg-surface-container-lowest border-b border-border-muted sticky top-0 z-10 shadow-sm flex items-center px-4 py-4 md:px-8 md:py-6">
       <button id="mobile-menu-btn" class="md:hidden mr-4 text-on-surface"><span class="material-symbols-outlined">menu</span></button>
@@ -59,7 +59,7 @@ export const render = () => `
         </div>
 
         <!-- Filter Tabs -->
-        <div class="flex gap-2 border-b border-border-muted pb-1">
+        <div class="flex gap-2 border-b border-border-muted pb-1 overflow-x-auto flex-nowrap">
           <button data-filter="all" class="filter-tab px-4 py-2 text-label-md font-medium rounded-t-lg transition-colors">All</button>
           <button data-filter="pending" class="filter-tab px-4 py-2 text-label-md font-medium rounded-t-lg transition-colors">Pending</button>
           <button data-filter="approved" class="filter-tab px-4 py-2 text-label-md font-medium rounded-t-lg transition-colors">Approved</button>

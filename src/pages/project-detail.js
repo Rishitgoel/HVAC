@@ -9,7 +9,7 @@ let currentPid = null;
 
 export const render = () => `
   ${renderSidebar('#dashboard')}
-  <main class="flex-1 flex flex-col overflow-y-auto relative bg-background w-full">
+  <main class="flex-1 flex flex-col overflow-y-auto relative bg-background w-full min-w-0">
     <!-- Header -->
     <div class="w-full bg-surface-container-lowest border-b border-border-muted sticky top-0 z-10 shadow-sm flex items-center px-4 py-4 md:px-8 md:py-6">
       <button id="mobile-menu-btn" class="md:hidden mr-4 text-on-surface"><span class="material-symbols-outlined">menu</span></button>
@@ -26,9 +26,9 @@ export const render = () => `
           <h2 id="header-proj-title" class="text-headline-md md:text-headline-lg font-headline-lg text-on-surface truncate max-w-[250px] md:max-w-none">Loading...</h2>
         </div>
         <div class="flex items-center gap-2 md:gap-3">
-          <button id="export-zip-btn" class="hidden md:flex items-center gap-2 bg-surface-container-high text-primary px-4 py-2 rounded-DEFAULT hover:bg-surface-container transition-colors shadow-sm text-sm font-label-md">
+          <button id="export-zip-btn" class="flex items-center gap-2 bg-surface-container-high text-primary px-3 md:px-4 py-2 rounded-DEFAULT hover:bg-surface-container transition-colors shadow-sm text-sm font-label-md">
             <span class="material-symbols-outlined text-[18px]">folder_zip</span>
-            <span>Export ZIP</span>
+            <span class="hidden md:inline">Export ZIP</span>
           </button>
           <button id="new-sheet-btn" class="flex items-center gap-2 bg-primary text-on-primary px-3 md:px-4 py-2 rounded-DEFAULT hover:bg-primary-container transition-colors shadow-sm text-sm font-label-md">
             <span class="material-symbols-outlined text-[18px]">add</span>

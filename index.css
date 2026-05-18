@@ -3,8 +3,11 @@
 @tailwind utilities;
 
 @layer base {
-  body {
-    @apply bg-background text-on-background font-body-md;
+  html, body {
+    @apply bg-background text-on-background font-body-md min-h-screen overflow-x-hidden;
+  }
+  #app, main {
+    min-width: 0;
   }
 }
 

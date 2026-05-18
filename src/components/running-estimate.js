@@ -2,7 +2,7 @@ import { formatCurrency } from '../utils/calculations.js';
 
 export const renderRunningEstimate = (totals) => {
   return `
-    <div class="bg-surface-container-lowest border border-border-muted rounded-xl shadow-sm p-6 sticky top-[100px]">
+    <div class="bg-surface-container-lowest border border-border-muted rounded-xl shadow-sm p-6 lg:sticky lg:top-[100px] w-full min-w-0">
       <h3 class="text-headline-sm font-bold text-on-surface mb-6 flex items-center gap-2">
         <span class="material-symbols-outlined text-primary">receipt_long</span>
         Running Estimate

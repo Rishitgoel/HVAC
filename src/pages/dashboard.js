@@ -6,7 +6,7 @@ import { escapeHtml } from '../utils/helpers.js';
 
 export const render = () => `
   ${renderSidebar('#dashboard')}
-  <main class="flex-1 flex flex-col overflow-y-auto relative bg-background w-full">
+  <main class="flex-1 flex flex-col overflow-y-auto relative bg-background w-full min-w-0">
     <!-- Header -->
     <div class="w-full bg-surface-container-lowest border-b border-border-muted sticky top-0 z-10 shadow-sm flex items-center px-4 py-4 md:px-8 md:py-6">
       <button id="mobile-menu-btn" class="md:hidden mr-4 text-on-surface"><span class="material-symbols-outlined">menu</span></button>
@@ -107,7 +107,7 @@ export const mount = async () => {
               <p class="text-body-sm text-on-surface-variant">${escapeHtml(p.clientName)}</p>
             </div>
             ${(p.ownerUid === user.uid || userIsAdmin) ? `
-            <button class="delete-proj-btn text-outline hover:text-error transition-colors absolute top-6 right-6 opacity-0 group-hover:opacity-100 focus:opacity-100 p-1" data-id="${p.id}" title="Delete Project">
+            <button class="delete-proj-btn text-outline hover:text-error transition-colors absolute top-6 right-6 opacity-100 md:opacity-0 group-hover:opacity-100 focus:opacity-100 p-1" data-id="${p.id}" title="Delete Project">
               <span class="material-symbols-outlined text-[20px]">delete</span>
             </button>` : ''}
           </div>

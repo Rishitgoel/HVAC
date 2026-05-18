@@ -15,7 +15,7 @@ let totals = null;
 
 export const render = () => `
   ${renderSidebar()}
-  <main class="flex-1 flex flex-col overflow-y-auto relative bg-background w-full">
+  <main class="flex-1 flex flex-col overflow-y-auto relative bg-background w-full min-w-0">
     <div class="w-full bg-surface-container-lowest border-b border-border-muted sticky top-0 z-10 shadow-sm print:hidden">
       <div class="max-w-[1200px] mx-auto px-4 py-4 md:px-8 md:py-6">
         <div class="flex items-center mb-4 md:mb-6">
@@ -37,7 +37,7 @@ export const render = () => `
       <!-- Summary Card -->
       <div id="pdf-content" class="bg-surface-container-lowest border border-border-muted rounded-xl p-6 md:p-10 shadow-sm relative">
         <!-- Logo for PDF (hidden normally, or shown styling differently) -->
-        <div class="flex justify-between items-start mb-8 pb-6 border-b border-border-muted">
+        <div class="flex flex-col sm:flex-row justify-between items-start gap-4 mb-8 pb-6 border-b border-border-muted">
           <div class="flex flex-col gap-1">
             <div class="flex items-center gap-3 mb-2 print:gap-2">
               <img src="/logo.svg" alt="Nabhas Aircon" class="h-10 object-contain self-start">
@@ -46,7 +46,7 @@ export const render = () => `
             <h1 class="text-headline-sm font-bold text-on-surface">HVAC Quotation</h1>
             <p class="text-body-sm text-on-surface-variant" id="quote-date">Date: ...</p>
           </div>
-          <div class="flex flex-col items-end text-right">
+          <div class="flex flex-col items-start sm:items-end text-left sm:text-right">
             <h3 class="text-label-md font-bold text-on-surface" id="client-name-display">...</h3>
             <p class="text-body-sm text-on-surface-variant max-w-[200px]" id="project-title-display">...</p>
             <p class="text-xs text-outline mt-1 font-data-mono" id="sheet-id-display">Ref: ...</p>
@@ -54,12 +54,12 @@ export const render = () => `
           </div>
         </div>
 
-        <div class="flex items-center justify-between bg-surface-container-low p-4 rounded-lg mb-8 border border-border-muted">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between bg-surface-container-low p-4 rounded-lg mb-8 border border-border-muted gap-2">
           <div class="flex flex-col">
             <span class="text-label-sm text-on-surface-variant">Requirement</span>
             <span class="text-headline-sm font-bold text-primary" id="cfm-display">... CFM</span>
           </div>
-          <div class="flex flex-col items-end">
+          <div class="flex flex-col sm:items-end">
             <span class="text-label-sm text-on-surface-variant">Location</span>
             <span class="text-body-md font-medium text-on-surface" id="room-display">...</span>
           </div>
@@ -78,15 +78,15 @@ export const render = () => `
         </table>
 
         <div class="flex flex-col items-end gap-2 border-t-2 border-border-muted pt-4 mb-12">
-          <div class="flex justify-between w-[250px] text-body-md text-on-surface-variant">
+          <div class="flex justify-between w-full max-w-[250px] text-body-md text-on-surface-variant">
             <span>Subtotal</span>
             <span class="font-data-mono" id="subtotal-display">...</span>
           </div>
-          <div class="flex justify-between w-[250px] text-label-sm text-on-surface-variant">
+          <div class="flex justify-between w-full max-w-[250px] text-label-sm text-on-surface-variant">
             <span id="tax-label">Tax (18%)</span>
             <span class="font-data-mono" id="tax-display">...</span>
           </div>
-          <div class="flex justify-between w-[250px] text-headline-sm font-bold text-primary mt-2">
+          <div class="flex justify-between w-full max-w-[250px] text-headline-sm font-bold text-primary mt-2">
             <span>Total</span>
             <span class="font-data-mono" id="total-display">...</span>
           </div>

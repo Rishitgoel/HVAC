@@ -9,7 +9,7 @@ let sheetData = null;
 
 export const render = () => `
   ${renderSidebar()}
-  <main class="flex-1 flex flex-col overflow-y-auto relative bg-background w-full">
+  <main class="flex-1 flex flex-col overflow-y-auto relative bg-background w-full min-w-0">
     <!-- Header & Stepper -->
     <div class="w-full bg-surface-container-lowest border-b border-border-muted sticky top-0 z-10 shadow-sm">
       <div class="max-w-[1200px] mx-auto px-4 py-4 md:px-8 md:py-6">

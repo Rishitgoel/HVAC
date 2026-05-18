@@ -79,7 +79,7 @@ export const renderSidebar = (currentHash) => {
   }
 
   return `
-    <aside class="h-screen sticky top-0 left-0 w-72 bg-surface-container-lowest border-r border-border-muted flex flex-col py-base gap-2 flex-shrink-0 z-20 transition-transform duration-300 md:translate-x-0 -translate-x-full absolute md:relative" id="app-sidebar">
+    <aside class="fixed inset-y-0 left-0 w-72 bg-surface-container-lowest border-r border-border-muted flex flex-col py-base gap-2 flex-shrink-0 z-30 transition-transform duration-300 md:translate-x-0 -translate-x-full md:sticky md:top-0 md:h-screen" id="app-sidebar">
       <!-- Header -->
       <div class="px-6 py-4 flex flex-col gap-2">
         <div class="flex items-center justify-between">
@@ -116,7 +116,7 @@ export const renderSidebar = (currentHash) => {
       </div>
     </aside>
     <!-- Mobile overlay -->
-    <div id="sidebar-overlay" class="fixed inset-0 bg-on-surface/50 z-10 hidden md:hidden"></div>
+    <div id="sidebar-overlay" class="fixed inset-0 bg-on-surface/50 z-20 hidden md:hidden"></div>
   `;
 };
 
