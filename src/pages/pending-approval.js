@@ -1,8 +1,10 @@
-import { getUserStatus, signOut } from '../utils/auth.js';
+import { getUserStatus, signOut, getCurrentUser, resendVerificationEmail } from '../utils/auth.js';
 
 export const render = () => {
   const status = getUserStatus();
   const isRejected = status === 'rejected';
+  const user = getCurrentUser();
+  const isEmailUnverified = user && !user.emailVerified;
 
   return `
   <div class="flex-1 flex flex-col justify-center items-center p-4 bg-background w-full h-full min-h-screen">
@@ -40,6 +42,24 @@ export const render = () => {
                 <span>You will be notified once your access is approved.</span>
               </div>
             </div>
+
+            ${isEmailUnverified ? `
+            <div class="mt-4 p-4 bg-primary-container text-on-primary-container rounded-lg border border-primary/20 text-left w-full shadow-sm">
+              <div class="flex items-start gap-3">
+                <span class="material-symbols-outlined text-primary mt-0.5">mark_email_unread</span>
+                <div class="flex-1">
+                  <h4 class="font-bold text-sm mb-1">Verify Your Email Address</h4>
+                  <p class="text-xs text-on-primary-container/90 mb-3 leading-relaxed">
+                    We've sent a verification link to your email. Verifying your email prevents account conflicts if you use Google Sign-In later.
+                  </p>
+                  <button id="resend-verification-btn" class="text-xs font-bold text-primary hover:underline flex items-center gap-1 bg-surface/50 px-3 py-1.5 rounded-md border border-primary/20 hover:bg-surface transition-colors">
+                    <span>Resend verification email</span>
+                  </button>
+                  <div id="verification-toast" class="hidden text-xs text-primary font-bold mt-2 bg-surface px-3 py-1.5 rounded-md border border-primary/20">Verification email sent! Please check your inbox.</div>
+                </div>
+              </div>
+            </div>
+            ` : ''}
           </div>
         `}
 
@@ -73,4 +93,21 @@ export const mount = () => {
     // Full reload to re-trigger onAuthChange which re-fetches the user's status
     window.location.reload();
   });
+
+  const resendBtn = document.getElementById('resend-verification-btn');
+  if (resendBtn) {
+    resendBtn.addEventListener('click', async () => {
+      resendBtn.disabled = true;
+      const toast = document.getElementById('verification-toast');
+      try {
+        await resendVerificationEmail();
+        toast.textContent = 'Verification email sent! Please check your inbox (and spam folder).';
+        toast.classList.remove('hidden');
+      } catch (err) {
+        toast.textContent = 'Error sending verification email. Please try again later.';
+        toast.classList.remove('hidden');
+        resendBtn.disabled = false;
+      }
+    });
+  }
 };

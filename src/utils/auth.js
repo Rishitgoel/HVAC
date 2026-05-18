@@ -6,7 +6,9 @@ import {
   onAuthStateChanged,
   GoogleAuthProvider,
   signInWithPopup,
-  linkWithCredential
+  linkWithCredential,
+  sendPasswordResetEmail,
+  sendEmailVerification
 } from 'firebase/auth';
 import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore';
 
@@ -34,8 +36,27 @@ export const signUp = async (email, password, name) => {
     createdAt: serverTimestamp()
   });
   
+  // Send email verification
+  try {
+    await sendEmailVerification(user);
+  } catch (err) {
+    console.error("Error sending verification email:", err);
+  }
+  
   await fetchUserRole(user.uid);
   return user;
+};
+
+export const resetPassword = async (email) => {
+  await sendPasswordResetEmail(auth, email);
+};
+
+export const resendVerificationEmail = async () => {
+  if (currentUser) {
+    await sendEmailVerification(currentUser);
+  } else {
+    throw new Error('No user is currently logged in.');
+  }
 };
 
 export const signInWithGoogle = async () => {
@@ -141,6 +162,9 @@ export const getAuthErrorMessage = (error) => {
   if (code === 'auth/invalid-email' || message.includes('invalid-email')) {
     return 'Please enter a valid email address.';
   }
+  if (code === 'auth/missing-email' || message.includes('missing-email')) {
+    return 'Please enter your email address.';
+  }
   if (code === 'auth/email-already-in-use' || message.includes('email-already-in-use')) {
     return 'An account already exists with this email address. Please sign in.';
   }
@@ -167,6 +191,9 @@ export const getAuthErrorMessage = (error) => {
   }
   if (code === 'auth/cancelled-popup-request' || message.includes('cancelled-popup-request')) {
     return 'Sign-in operation was cancelled. Please try again.';
+  }
+  if (code === 'auth/unauthorized-domain' || message.includes('unauthorized-domain')) {
+    return 'This domain (nabhas.web.app) is not authorized for OAuth operations. Please add it to the Authorized Domains list in the Firebase Console under Authentication > Settings > Authorized domains.';
   }
 
   if (message) {

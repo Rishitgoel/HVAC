@@ -83,6 +83,11 @@ const router = async () => {
   try {
     const module = await pageImporter();
     
+    // Clear any previous import retry flag on successful load
+    if (sessionStorage.getItem('vite_import_retry')) {
+      sessionStorage.removeItem('vite_import_retry');
+    }
+
     if (currentModule && currentModule.unmount) {
       currentModule.unmount();
     }
@@ -94,7 +99,25 @@ const router = async () => {
     currentModule = module;
   } catch (err) {
     console.error("Routing error:", err);
-    appDiv.innerHTML = `<div class="p-8 text-error font-headline-md">Error loading page: ${getErrorMessage(err)}</div>`;
+    
+    // Check if the error is a dynamic import failure (common after new deployments)
+    const isImportError = err.message.includes('Failed to fetch dynamically imported module') || 
+                          err.message.includes('importing module') ||
+                          err.name === 'TypeError';
+
+    if (isImportError && !sessionStorage.getItem('vite_import_retry')) {
+      console.warn("Dynamic import failed (likely due to a new deployment). Auto-reloading page to fetch latest assets...");
+      sessionStorage.setItem('vite_import_retry', 'true');
+      window.location.reload();
+      return;
+    }
+
+    appDiv.innerHTML = `
+      <div class="p-8 text-center">
+        <div class="text-error font-headline-md mb-4">Error loading page: ${getErrorMessage(err)}</div>
+        <button onclick="window.location.reload()" class="btn btn-primary px-4 py-2 rounded-full">Refresh Page</button>
+      </div>
+    `;
   }
 };
 
